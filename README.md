@@ -2,20 +2,20 @@
 
 #### Version 1.0.4
 
-## Updates 1.7.22 using bootstrap 5
+#### Updates 1.7.22 using bootstrap 5
 
 - 1.7.22 remove jspaths.bootstrap, jspaths.popper, jspaths.tether, jspaths.jquery on compile JS
 
-## Updates package
+#### Updates package
 
 - $npm install --save-dev gulp gulp-postcss gulp-sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
 - npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
 
-## optional
+#### optional
 
 - npm install --save-dev jquery popper.js tether
 
-## Process
+#### Process
 
 - $gulp compile-scss
 - $gulp compile-js
@@ -23,7 +23,7 @@
 - $gulp compile-img
 - $gulp compile-bootstrap
 
-# =========== Archived =================
+##### =========== Archived =================
 
 # Theme Template
 
