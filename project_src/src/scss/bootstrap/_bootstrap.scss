@@ -1,0 +1,36 @@
+
+/* ============================
+  Bootstrap 
+============================ */ 
+
+/* import bootstrap all */
+
+@import "node_modules/bootstrap/scss/bootstrap";
+
+/* import only what you need */
+
+/* Theming : https://getbootstrap.com/docs/4.3/getting-started/theming/ */
+
+/* ============================
+  Bootstrap Custom
+============================ */ 
+
+// REMOVE if you don't need it!
+
+// Option B: Include parts of Bootstrap
+
+// Required
+
+// @import "../node_modules/bootstrap/scss/functions";
+// @import "../node_modules/bootstrap/scss/variables";
+// @import "../node_modules/bootstrap/scss/mixins";
+
+// Optional
+
+// @import "../node_modules/bootstrap/scss/reboot";
+// @import "../node_modules/bootstrap/scss/type";
+// @import "../node_modules/bootstrap/scss/images";
+// @import "../node_modules/bootstrap/scss/code";
+// @import "../node_modules/bootstrap/scss/grid";
+
+// ADD IT HERE ... 
