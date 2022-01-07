@@ -1,3 +1,28 @@
+# Theme Template V3
+
+### Updates 1.7.22
+
+- 1.7.22 remove jspaths.bootstrap, jspaths.popper, jspaths.tether, jspaths.jquery
+
+### Updates package
+
+- $npm install --save-dev gulp gulp-postcss gulp-sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
+- npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
+
+### optional
+
+- npm install --save-dev jquery popper.js tether
+
+## Process
+
+- $gulp compile-scss
+- $gulp compile-js
+- $gulp compile-html
+- $gulp compile-img
+- $gulp compile-bootstrap
+
+# =========== Archived =================
+
 # Theme Template
 
 Theme template using panini to divide and sub-divide each html document to a more clean coding.

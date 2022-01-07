@@ -1,3 +1,34 @@
+/**
+ * 
+ * Requirement 
+ * $npm install --save-dev ...
+ *  - gulp gulp-postcss 
+ *  - gulp-sass 
+ *  - postcss gulp-postcss 
+ *  - autoprefixer 
+ *  - cssnano  
+ *  - gulp-sourcemaps  
+ *  - browser-sync 
+ *  - gulp-environments     
+ *  - gulp-uglify
+ *  - panini
+ *  - rimraf
+ *  - gulp-html 
+ * 
+ *    This is primary uses for bootstrap design for front-end
+ * 
+ *  - bootstrap
+ * 
+ *    Optional
+ * 
+ *  - jquery 
+ *  - popper.js
+ *  - tether
+ *  - bulma
+ *  - @fortawesome/fontawesome-free    
+ *  
+ */
+
 var gulp = require("gulp"),
     // gulp-sass
     sass = require("gulp-sass"),
@@ -50,7 +81,7 @@ var jsdes = "build/js/inc";
 // gulp information
 gulp.task('hello', function() {
   console.log('========================');
-  console.log('Gulp File RR Version v0.0.0');
+  console.log('Gulp File RR Version v1.0.0');
   console.log('========================');
 });
 
@@ -168,7 +199,7 @@ JS to complile
 gulp.task ('compile-js', function () {
   return gulp
     // js paths source
-    .src([jspaths.bootstrap, jspaths.popper, jspaths.tether, jspaths.jquery])
+    .src([jspaths.bootstrap])
     //uglify
     .pipe(production(uglify()))
     // write to destination
