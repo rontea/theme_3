@@ -15,13 +15,36 @@
 
 - npm install --save-dev jquery popper.js tether
 
-#### Process
+
+- $gulp compile-bootstrap
+
+#### Added 1.7.22
+
+- $gulp compile-bs-min
+
+##### Process reminder
 
 - $gulp compile-scss
 - $gulp compile-js
 - $gulp compile-html
 - $gulp compile-img
-- $gulp compile-bootstrap
+
+ ## theme folder
+    ```
+    . drupal main folder /themes
+    ├── contrib
+    ├── custom                  # custom folder
+    │   ├── xxx                 # Project folder
+    │       ├── css             # Project folder
+    │       ├── js              # Project folder
+    │       ├── images          # Project folder
+    │       └── design          # Design folder of this project
+    |       └── templates       # Project folder
+    |       └── config          # Project folder 
+    └──
+   ```
+    
+    ***Design folder will host all the document
 
 ##### =========== Archived =================
 
