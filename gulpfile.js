@@ -427,6 +427,10 @@ gulp.task('default', gulp.parallel('hello','js-compile','bootstrap-optionaljs','
 /* Compile without the bootstrap, to use bootstrap in includes under scss */
 gulp.task('compile-nobs', gulp.parallel('hello','js-compile','bootstrap-optionaljs', 'compile-scss','compile-html','compile-img','watch'));
 
+/* Compile Bs no additional JS */
+
+gulp.task('compile-bs-min', gulp.parallel('hello','js-compile', 'compile-scss','compile-html','compile-img','watch'));
+
 /* using bulma on inc */
 gulp.task('watch-bulma-min', gulp.parallel('hello','js-compile','compile-bulma', 'compile-scss','compile-html','compile-img','watch'));
 
