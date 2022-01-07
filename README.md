@@ -11,12 +11,9 @@
 - $npm install --save-dev gulp gulp-postcss gulp-sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
 - npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
 
-#### optional
+#### Optional package
 
 - npm install --save-dev jquery popper.js tether
-
-
-- $gulp compile-bootstrap
 
 #### Added 1.7.22
 
@@ -30,7 +27,7 @@
 - $gulp compile-img
 
  ## theme folder
-    ```
+   ```
     . drupal main folder /themes
     ├── contrib
     ├── custom                  # custom folder
@@ -43,8 +40,9 @@
     |       └── config          # Project folder 
     └──
    ```
-    
     ***Design folder will host all the document
+
+##
 
 ##### =========== Archived =================
 
