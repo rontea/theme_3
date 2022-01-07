@@ -1,6 +1,6 @@
 # Theme Template V3
 
-## Version 1.0.4
+#### Version 1.0.4
 
 ## Updates 1.7.22 using bootstrap 5
 
