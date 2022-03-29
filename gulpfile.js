@@ -66,7 +66,7 @@ var production = environments.production;
 /* JS paths*/
 var jspaths = {
     bootstrap: "node_modules/bootstrap/dist/js/bootstrap.min.js",
-    popper : "node_modules/popper.js/dist/umd/popper.js",
+    popper : "node_modules/@popperjs/core/dist/umd/popper.min.js",
     tether: "node_modules/tether/dist/js/tether.min.js",
     jquery: "node_modules/jquery/dist/jquery.min.js",
     fontawesome: "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
@@ -247,6 +247,10 @@ var paths = {
       src: "node_modules/bootstrap/scss/bootstrap.scss",
       dest: "build/css/inc"
     },
+    bootstrapIcon: {
+      src: "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
+      dest: "build/css/inc"
+    },
     styles: {
       src: "src/scss/**/*.scss",
       dest: "build/css/"
@@ -273,6 +277,19 @@ gulp.task('compile-bootstrap', function (){
     .pipe(gulp.dest(paths.bootstrap.dest))
     .pipe(browserSync.stream());
 });
+
+/*
+Bootstrap to complie
+*/
+gulp.task('compile-bootstrapIcon', function (){
+  return gulp
+    .src(paths.bootstrapIcon.src)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(gulp.dest(paths.bootstrap.dest))
+    .pipe(browserSync.stream());
+});
+
 
 /*
 Prism to complie
@@ -429,7 +446,7 @@ gulp.task('compile-nobs', gulp.parallel('hello','js-compile','bootstrap-optional
 
 /* Compile Bs no additional JS */
 
-gulp.task('compile-bs-min', gulp.parallel('hello','js-compile', 'compile-scss','compile-html','compile-img','watch'));
+gulp.task('compile-bs-min', gulp.parallel('hello', 'compile-scss', 'compile-bootstrap', 'compile-bootstrapjs', 'compile-popper', 'compile-scss','compile-html','compile-img','watch'));
 
 /* using bulma on inc */
 gulp.task('watch-bulma-min', gulp.parallel('hello','js-compile','compile-bulma', 'compile-scss','compile-html','compile-img','watch'));

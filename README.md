@@ -9,11 +9,15 @@
 #### Updates package
 
 - $npm install --save-dev gulp gulp-postcss gulp-sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
-- npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
+- $npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
 
-#### Optional package
+#### Optional package (popper need by bootstrap)
 
-- npm install --save-dev jquery popper.js tether
+- $npm install --save-dev jquery @popperjs/core tether
+
+#### Optional package (bootstrap icon)
+
+- $npm i bootstrap-icons
 
 #### Added 1.7.22
 
