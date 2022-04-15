@@ -1,7 +1,7 @@
 // include fs-extra package
 var fs = require("fs-extra");
  
-var source = './node_modules/theme_2_v1/project_src'
+var source = './node_modules/theme_3_v1/project_src'
 var destination = './'
  
 // copy source folder to destination
