@@ -1,6 +1,24 @@
 # Theme Template V3
 
-#### Version 1.0.4
+#### Version 1.0.4a
+
+#### intallation
+- npm init
+  - npm install gulp-cli -g
+  - npm install --save-dev fs-extra
+  - npm install --save-dev theme_3_v1
+  - node node_modules/theme_3_v1/init-package.js
+  - Design Folder execute:
+      content for the work enviroment will be copied
+  ```
+
+#### Check update
+  - $npm outdated 
+  - $npm update or $npm  <packagename>@latest
+
+#### Updates 4.15.22 update sass
+- 1.0.4a1 update the dir of theme_2_v1 to theme_3_v1
+- 1.0.4a2 added sass
 
 #### Updates 1.7.22 using bootstrap 5
 
@@ -8,7 +26,7 @@
 
 #### Updates package
 
-- $npm install --save-dev gulp gulp-postcss gulp-sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
+- $npm install --save-dev gulp gulp-postcss gulp-sass sass postcss gulp-postcss autoprefixer cssnano gulp-sourcemaps browser-sync gulp-environments gulp-uglify panini rimraf gulp-html 
 - $npm install --save-dev gulp gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify gulp-environments autoprefixer cssnano browser-sync bootstrap panini rimraf gulp-html
 
 #### Optional package (popper need by bootstrap)

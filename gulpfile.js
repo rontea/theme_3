@@ -27,11 +27,13 @@
  *  - bulma
  *  - @fortawesome/fontawesome-free    
  *  
+ * 
+ *  - gulp-sass no longer contain sass install $npm install -g sass and $npm --save-dev sass
  */
 
 var gulp = require("gulp"),
-    // gulp-sass
-    sass = require("gulp-sass"),
+    // gulp-sass require sass
+    sass = require("gulp-sass")(require('sass')),
     // gulp-postcss
     postcss = require("gulp-postcss"),
     //autoprefixer
