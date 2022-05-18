@@ -1,6 +1,6 @@
 # Theme Template V3
 
-#### Version 1.0.4d
+#### Version 1.0.4e
 
 #### intallation 
 - npm init
@@ -64,7 +64,9 @@
    ```
     ***Design folder will host all the document
 
-##
+## Version
+
+  - Version 1.0.4e fix issue on project_src folder with updated items
 
 ##### =========== Archived =================
 
