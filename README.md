@@ -1,8 +1,8 @@
 # Theme Template V3
 
-#### Version 1.0.4a
+#### Version 1.0.4d
 
-#### intallation
+#### intallation 
 - npm init
   - npm install gulp-cli -g
   - npm install --save-dev fs-extra
