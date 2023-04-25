@@ -12,7 +12,7 @@
  *  - gulp-environments     
  *  - gulp-uglify
  *  - panini
- *  - rimraf
+ *  - fs-extra
  *  - gulp-html 
  * 
  *    This is primary uses for bootstrap design for front-end
@@ -30,30 +30,31 @@
  * 
  *  - gulp-sass no longer contain sass install $npm install -g sass and $npm --save-dev sass
  */
+// gulp
+const gulp = require("gulp");
+// gulp-sass require sass
+const sass = require("gulp-sass")(require('sass'));
+// gulp-postcss
+const postcss = require("gulp-postcss");
+//autoprefixer
+const autoprefixer = require("autoprefixer");
+//cssnano
+const cssnano = require("cssnano");
+// gulp-sourcemaps
+const sourcemaps = require("gulp-sourcemaps");
+//browser-sync
+const browserSync = require("browser-sync").create();
+// gulp-enviroments
+const environments = require('gulp-environments');
+// gulp-uglify use in js
+const uglify = require('gulp-uglify');
+// panini
+const panini = require('panini');
+//clean
+const fse = require('fs-extra');
+//gulp-html
+const validator = require('gulp-html');
 
-var gulp = require("gulp"),
-    // gulp-sass require sass
-    sass = require("gulp-sass")(require('sass')),
-    // gulp-postcss
-    postcss = require("gulp-postcss"),
-    //autoprefixer
-    autoprefixer = require("autoprefixer"),
-    //cssnano
-    cssnano = require("cssnano"),
-    // gulp-sourcemaps
-    sourcemaps = require("gulp-sourcemaps"),
-    //browser-sync
-    browserSync = require("browser-sync").create(),
-    // gulp-enviroments
-    environments = require('gulp-environments'),
-    // gulp-uglify use in js
-    uglify = require('gulp-uglify'),
-    // panini
-    panini = require('panini'),
-    // clean
-    rimraf = require('rimraf'),
-    //gulp-html
-    validator = require('gulp-html');
 
 
 // main directory
@@ -87,10 +88,12 @@ gulp.task('hello', function() {
   console.log('========================');
 });
 
-// Erases the dist folder contents
-gulp.task('clean', function(cb) {
-  rimraf('./build/*', cb);
+
+gulp.task('clean', function () {
+  return fse.remove('./build');
+
 });
+
 
 /*
 Setting enviroments (has an issue)
