@@ -8,7 +8,7 @@ Theme Name: Dupela
 Theme URI: http://www.dupela.com
 Author: Ronryan Teano
 Author URI: http://www.dupela.com
-Description: Dupela Theme 2016
+Description: Dupela Theme 2023
 Version: 1.2
 License:
 License URI: none

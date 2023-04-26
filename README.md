@@ -2,12 +2,15 @@
 
 #### Version 1.0.4e
 
+- Simple and easy to use theme template creator for small scale project
+
 #### intallation 
 - npm init
   - npm install gulp-cli -g
   - npm install --save-dev fs-extra
   - npm install --save-dev theme_3_v1
   - node node_modules/theme_3_v1/init-package.js
+  - npm install
   - Design Folder execute:
       content for the work enviroment will be copied
   ```
@@ -15,6 +18,36 @@
 #### Check update
   - $npm outdated 
   - $npm update or $npm  <packagename>@latest
+
+### Getting Started
+
+  - $gulp compile-html
+  - $gulp compile-scss
+  - $gulp compile-js
+  - $gulp compile-img
+  - $gulp watch
+
+## Build Folder
+  - This folder will be created once compile has been made
+
+   ```
+    . /build
+    ├── css                     # CSS includes
+    ├── img                     # images
+    │── js                      # JS
+    │
+      Pages       
+   ```
+- Src : Edit CSS/SASS , JS , Images
+- html : organize your html codes using ["panini"](https://www.npmjs.com/package/panini)
+  - layout (html): default html initial
+  - pages (body): resides the index.html and other pages
+  - partials : chuck or blocks of your page
+    - Panini Syntax ["Link"](https://get.foundation/sites/docs/panini.html)
+
+
+
+##### =========== Archived =================
 
 #### Updates 4.15.22 update sass
 - 1.0.4a1 update the dir of theme_2_v1 to theme_3_v1
