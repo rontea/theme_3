@@ -4,7 +4,7 @@
 
 - Simple and easy to use theme template creator for small scale project
 
-#### intallation 
+#### installation 
 - npm init
   - npm install gulp-cli -g
   - npm install --save-dev fs-extra
