@@ -46,23 +46,23 @@
 
 ### Commands Available
 
-## $gulp 'cmd'
+#### $gulp 'cmd'
 
-# cmd
+#### cmd
 
 - hello
 - clean
-# JS
+#### JS
   - compile-js
   - compile-jquery
   - compile-popper
   - compile-tether
   - compile-bootstrapjs
   - compile-prismjs
-# Fontawesome
+#### Fontawesome
   - addon-fontawesome
   - addon-fontawesome-font
-# CSS
+#### CSS
   - compile-bootstrap
   - compile-bootstrapIcon
   - compile-prismcss
@@ -71,10 +71,10 @@
 
 - Under SCSS > Styles uncomment the css framework that you want to use or include it
 
-# html
+#### html
   - compile-html 
 
-# watch real time update
+#### watch real time update
   - watch
 
 - see more function on gulp.js
