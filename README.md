@@ -1,6 +1,6 @@
 # Theme Template V3
 
-#### Version 1.0.4e
+#### Version 1.0.4f
 
 - Simple and easy to use theme template creator for small scale project
 
@@ -45,7 +45,8 @@
     - Panini Syntax ["Link"](https://get.foundation/sites/docs/panini.html)
 
 ### Commands Available
-
+```
+```
 #### $gulp 'cmd'
 
 #### cmd
@@ -79,7 +80,8 @@
 
 - see more function on gulp.js
 
-
+```
+```
 
 
 ##### =========== Archived =================
