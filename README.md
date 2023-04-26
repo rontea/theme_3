@@ -41,8 +41,44 @@
 - html : organize your html codes using ["panini"](https://www.npmjs.com/package/panini)
   - layout (html): default html initial
   - pages (body): resides the index.html and other pages
-  - partials : chuck or blocks of your page
+  - partials : blocks of your page
     - Panini Syntax ["Link"](https://get.foundation/sites/docs/panini.html)
+
+### Commands Available
+
+## $gulp 'cmd'
+
+# cmd
+
+- hello
+- clean
+# JS
+  - compile-js
+  - compile-jquery
+  - compile-popper
+  - compile-tether
+  - compile-bootstrapjs
+  - compile-prismjs
+# Fontawesome
+  - addon-fontawesome
+  - addon-fontawesome-font
+# CSS
+  - compile-bootstrap
+  - compile-bootstrapIcon
+  - compile-prismcss
+  - compile-bulma
+  - compile-scss 
+
+- Under SCSS > Styles uncomment the css framework that you want to use or include it
+
+# html
+  - compile-html 
+
+# watch real time update
+  - watch
+
+- see more function on gulp.js
+
 
 
 
