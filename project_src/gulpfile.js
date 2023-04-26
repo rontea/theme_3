@@ -174,6 +174,11 @@ gulp.task ('compile-bootstrapjs', function () {
     .pipe(gulp.dest(jsdes))
     .pipe(browserSync.stream());
 });
+/*
+compile bootstrap-icon
+*/
+
+
 
 /* 
 compile js prism
@@ -190,13 +195,14 @@ gulp.task ('compile-prismjs', function () {
     .pipe(browserSync.stream());
 });
 
+
 /* Compile Bootstrap for Optinal Javascript 
 
-jQuery first, then Popper.js, then Bootstrap JS 
+Removed Jquery - Bootstrap 5 only uses Popper.js, then Bootstrap JS 
 
 */
 
-gulp.task ('bootstrap-optionaljs', gulp.parallel('compile-jquery','compile-popper','compile-bootstrapjs'));
+gulp.task ('bootstrap-optionaljs', gulp.parallel('compile-popper','compile-bootstrapjs'));
 
 /*
 JS to complile
@@ -235,9 +241,9 @@ var webfont = "node_modules/@fortawesome/fontawesome-free/webfonts/**/*";
 */
 gulp.task ('addon-fontawesome-font', function () {
   return gulp
-    // 
+    // get the webfont
     .src([webfont])
-    // 
+    // need the webfont
     .pipe(gulp.dest("build/webfonts"));
     
 });
@@ -446,7 +452,7 @@ gulp.task('watch', function () {
 // start the process default
 gulp.task('default', gulp.parallel('hello','js-compile','bootstrap-optionaljs','compile-bootstrap','compile-scss','compile-html','compile-img','watch'));
 
-/* Compile without the bootstrap, to use bootstrap in includes under scss */
+/* Compile without the bootstrap, to use bootstrap in includes under scss this will only have the style containing all */
 gulp.task('compile-nobs', gulp.parallel('hello','js-compile','bootstrap-optionaljs', 'compile-scss','compile-html','compile-img','watch'));
 
 /* Compile Bs no additional JS */
