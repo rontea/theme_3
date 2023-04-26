@@ -12,8 +12,7 @@
   - node node_modules/theme_3_v1/init-package.js
   - npm install
   - Design Folder execute:
-      content for the work enviroment will be copied
-  ```
+      - content for the work enviroment will be copied
 
 #### Check update
   - $npm outdated 
