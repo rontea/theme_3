@@ -45,31 +45,37 @@
     - Panini Syntax ["Link"](https://get.foundation/sites/docs/panini.html)
 
 ### Commands Available
-```
-```
+
 #### $gulp 'cmd'
+```
+  $gulp compile-js
+```
 
 #### cmd
-
 - hello
 - clean
 #### JS
+```
   - compile-js
   - compile-jquery
   - compile-popper
   - compile-tether
   - compile-bootstrapjs
   - compile-prismjs
+```
 #### Fontawesome
+```
   - addon-fontawesome
   - addon-fontawesome-font
+```
 #### CSS
+```
   - compile-bootstrap
   - compile-bootstrapIcon
   - compile-prismcss
   - compile-bulma
   - compile-scss 
-
+```
 - Under SCSS > Styles uncomment the css framework that you want to use or include it
 
 #### html
@@ -80,8 +86,8 @@
 
 - see more function on gulp.js
 
-```
-```
+
+
 
 
 ##### =========== Archived =================
