@@ -1,4 +1,4 @@
-# theme_V3 Template
+# theme_3 Template
 
 #### Version 1.0.4f
 
