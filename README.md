@@ -4,6 +4,10 @@
 
 - Simple and easy to use theme template creator for small scale project
 
+#### NPM
+- npm i theme_3_v1 
+  -[npm](https://www.npmjs.com/package/theme_3_v1)
+
 #### installation 
 - npm init
   - npm install gulp-cli -g
@@ -17,6 +21,13 @@
 #### Check update
   - $npm outdated 
   - $npm update or $npm  <packagename>@latest
+
+#### Dependencies
+  - $npm install @popperjs/core bootstrap-icons fs-extra iconv-lite
+
+#### Dev Dependencies
+  - $npm install @fortawesome/fontawesome-free autoprefixer bootstrap browser-sync bulma cssnano gulp gulp-environments gulp-html gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify jquery panini sass tether
+
 
 ### Getting Started
 
