@@ -28,7 +28,54 @@ License URI:
 Text Domain: Dupela
 */
 
-.body-sample {
+.wrap {
   width: 100%;
   color: #CCCCCC;
+
+}
+
+footer {
+    
+  clear: both;
+  margin-top: 2px;
+
+  &.footer-backgroundColor {
+    background-color: #000000;
+  }
+
+  &.footer-dimension {
+    width:100%;
+    height: 100px;
+  }
+
+}
+
+.big-letter {
+  font-size: 10rem;
+}
+
+.font-family-list {
+  font-weight: 500;
+  padding-left: 10px;
+  
+}
+
+.styleguide-header {
+  font-weight: 500;
+  text-align: left;
+  font-variant: normal;
+}
+
+.rounded-demo {
+  max-width: 6rem;
+  max-height: 6rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin-left: 10px;
+  margin-bottom: 10px;
+
+  &:nth-child(0) {
+    margin: none;
+  }
 }

@@ -17,12 +17,14 @@
   },
   "homepage": "https://github.com/rontea/theme_3#readme",
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
-    "autoprefixer": "^10.4.14",
-    "bootstrap": "^5.2.3",
-    "browser-sync": "^2.29.1",
     "bulma": "^0.9.4",
-    "cssnano": "^6.0.0",
+    "jquery": "^3.6.4"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.7",
+    "bootstrap-icons": "^1.10.4",
+    "fs-extra": "^11.1.1",
+    "iconv-lite": "^0.6.3",
     "gulp": "^4.0.2",
     "gulp-environments": "^1.0.1",
     "gulp-html": "^6.0.0",
@@ -30,15 +32,13 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "jquery": "^3.6.4",
     "panini": "^1.7.2",
     "sass": "^1.62.0",
-    "tether": "^2.0.0"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.7",
-    "bootstrap-icons": "^1.10.4",
-    "fs-extra": "^11.1.1",
-    "iconv-lite": "^0.6.3"
+    "tether": "^2.0.0",
+    "autoprefixer": "^10.4.14",
+    "bootstrap": "^5.2.3",
+    "browser-sync": "^2.29.1",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "cssnano": "^6.0.0"
   }
 }
