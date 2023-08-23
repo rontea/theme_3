@@ -1,6 +1,6 @@
 # theme_3 Template
 
-#### Version 1.2.0 Beta
+#### Version 1.2.0 In-Development
 
 - Simple and easy to use theme template creator for small scale project
 
