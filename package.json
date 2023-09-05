@@ -1,7 +1,7 @@
 {
   "name": "theme_3_v1",
-  "version": "1.2.0",
-  "description": "Theme 2 explore the new approach",
+  "version": "1.2.0-beta",
+  "description": "them_3_v1 @beta version",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
