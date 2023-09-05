@@ -35,6 +35,22 @@ $link-color-visited: $warning;
   .big-letter {
     font-size: 10em;
   }
+
+  .big-sub-letter{
+    font-size: 2em;
+  }
+
+  .h-sub {
+    font-size: .75em;
+    padding-top:none;
+    margin-top: none;
+  }
+
+  .h-sub-text {
+    font-size: 1em;
+    
+  }
+
   
   .font-family-list {
     font-weight: 500;
@@ -65,11 +81,6 @@ $link-color-visited: $warning;
       border-radius: 50%;
      
     }
-
-    .col {
-      
-    }
-      
     
   }
   
@@ -81,15 +92,16 @@ $link-color-visited: $warning;
 
 
 
-
+/* Text List and Links */
 
   .text-list {
 
-    .text-list-circle {
+    &.text-link .text-list-circle {
       border-radius: 50%;
       width: 40px;
       height: 40px;
       margin-top: 4px;
+      
 
       &.bg-normal {
         background-color:  $link-color;
@@ -106,8 +118,6 @@ $link-color-visited: $warning;
       &.bg-hover {
         background-color: $link-color-hover;
       }
-
-
     }
 
     a {
@@ -141,9 +151,6 @@ $link-color-visited: $warning;
         }
 
       }
-      
-
-
     }
    
 
