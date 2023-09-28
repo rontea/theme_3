@@ -449,6 +449,9 @@ gulp.task('watch', function () {
     //watch images
     gulp.watch('src/images/**/*').on('change', gulp.series('compile-img'));
 });
+// start the process without any dependencies
+gulp.task('watch-default', gulp.parallel('hello','js-compile', 'compile-scss','compile-html','compile-img','watch'));
+
 // start the process default
 gulp.task('default', gulp.parallel('hello','js-compile','bootstrap-optionaljs','compile-bootstrap','compile-scss','compile-html','compile-img','watch'));
 
