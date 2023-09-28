@@ -1,4 +1,4 @@
-# theme_3 Template
+# theme_3_V1 Template
 
 #### Version 1.2.0 In-Development
 
@@ -10,27 +10,19 @@
 
 #### installation 
 - npm init
-  - npm install gulp-cli -g
-  - npm install --save-dev fs-extra
-  - npm install --save-dev theme_3_v1
   - node node_modules/theme_3_v1/init-package.js
+  - npm i theme_3_v1@1.2.3-beta
   - npm install
-  - Design Folder execute:
-      - content for the work enviroment will be copied
+  - select option [1]New Project [2] [3] [4]
 
 #### Check update
   - $npm outdated 
   - $npm update or $npm  <packagename>@latest
 
-#### Dependencies
-  - $npm install @popperjs/core bootstrap-icons fs-extra iconv-lite
-
-#### Dev Dependencies
-  - $npm install @fortawesome/fontawesome-free autoprefixer bootstrap browser-sync bulma cssnano gulp gulp-environments gulp-html gulp-postcss gulp-sass gulp-sourcemaps gulp-uglify jquery panini sass tether
-
 
 ### Getting Started
 
+  - $gulp
   - $gulp compile-html
   - $gulp compile-scss
   - $gulp compile-js
