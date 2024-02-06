@@ -266,6 +266,10 @@ var paths = {
       src: "src/scss/**/*.scss",
       dest: "build/css/"
     },
+    stylesmin: {
+      src: "src/scss/**/*.scss",
+      dest: "build/css/"
+    },
     bulma: {
       src: "node_modules/bulma/bulma.sass",
       dest: "build/css/inc"
@@ -344,7 +348,7 @@ gulp.task('compile-scss', function () {
     //sass error log
     .pipe(sass().on('error', sass.logError))
     // Use postcss with autoprefixer and compress the compiled file using cssnano
-    .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] }), cssnano()])))
     // Now add/write the sourcemaps
     .pipe(development(sourcemaps.write()))
     // sass destination
@@ -352,6 +356,36 @@ gulp.task('compile-scss', function () {
     // Add browsersync stream pipe after compilation
     .pipe(browserSync.stream());
 });
+
+/* SASS Prefix Stand Alone */
+
+gulp.task('compile-prefixscss', function () {
+  return gulp
+    // sass location
+    .src(paths.styles.src)
+    //sass error log
+    .pipe(sass().on('error', sass.logError))
+    // Use postcss with autoprefixer for 5 browser
+    .pipe(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] })]))
+    // sass destination
+    .pipe(gulp.dest(paths.styles.dest))
+});
+
+/* SASS Compress then autoprefix */
+
+gulp.task('compile-compscss', function () {
+  return gulp
+    // sass location
+    .src(paths.styles.src)
+    // compress sass
+    //sass error log
+    .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
+    //auto prefix
+    .pipe(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] })]))
+    // sass destination
+    .pipe(gulp.dest(paths.styles.dest))
+});
+
 
 /* panini links */
 var pages = {
