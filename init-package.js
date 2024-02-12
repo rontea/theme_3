@@ -3,10 +3,17 @@
 const fs = require('fs-extra');
 const path = require('path');
 const readline = require('readline');
+const log = require('./func/tvw-log.js');
+const getTime = require('./func/tvw-time.js');
+const { time } = require('console');
 
 const source = path.resolve(__dirname, '..', '..', 'node_modules', 'theme_3_v1');
 const sourceSymLink = path.resolve(__dirname, '..', '..', 'node_modules', 'theme_3_v1');
 const destination = path.resolve(__dirname, '..', '..');
+
+
+
+const timelog = getTime();
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -14,16 +21,7 @@ const rl = readline.createInterface({
 });
 
 
-/** Function Display Menu */
 
-function displayMenu() {
-  console.log('=== Menu ===');
-  console.log('1. New Project');
-  console.log('2. Create Gulp Link');
-  console.log('3. Update');
-  console.log('4. Remove Gulp Link');
-  console.log('5. Exit');
-}
 
 /** Check DIR */
 
@@ -47,28 +45,29 @@ function checkFolderContents(directory) {
   fs.readdir(directory, (err, files) => {
     if (err) {
       console.error(`Error reading directory ${directory}: ${err}`);
+      log(err);
       return;
     }
 
     // Check if 'html' and 'src' folders exist in the current directory
     if (files.includes('html') && files.includes('src')) {
-      console.log(`Both 'html' and 'src' folders found in: ${directory}`);
-      console.log(`Begin checking on ${directory}`);
+      console.log(`[${timelog}]Both 'html' and 'src' folders found in: ${directory}`);
+      console.log(`[${timelog}]Begin checking on ${directory}`);
        
           // Compare the files in the source and destination folders
           if (missingInDestination.length > 0) {
-            console.log('Files missing in the destination folder:');
+            console.log(`[${timelog}]Files missing in the destination folder:`);
             missingInDestination.forEach(file => {
               console.log(file);
             });
           } else {
-            console.log('No missing files found.');
+            console.log(`[${timelog}]No missing files found.`);
           }
         
 
     } else {
-      console.log(`'html' or 'src' folder missing in: ${directory}`);
-      console.log(`init copy of ${directory}`);
+      console.log(`[${timelog}]'html' or 'src' folder missing in: ${directory}`);
+      console.log(`[${timelog}]init copy of ${directory}`);
       copyDirectories();
     }
 
@@ -85,16 +84,18 @@ function createNewProject() {
   fs.readdir(destination, (err, files) => {
     if (err) {
       console.error(`Error reading directory ${destination}: ${err}`);
+      log(err);
       return;
     }
 
     if (files.includes('html') && files.includes('src')) { 
-      console.log(`Both 'html' and 'src' folders found in: ${destination}.`);
-      console.log('Insted use update option');
+      console.log(`[${timelog}]Both 'html' and 'src' folders found in: ${destination}.`);
+      console.log(`[${timelog}]Instead use update option`);
+      log('folder already available');
     }else {
-      console.log(`'html' or 'src' folder missing in: ${destination}`);
-      console.log(`init copy of ${destination}`);
-      console.log(`*** Make sure you install Gulp globally for it to work by installing $npm install gulp --global`);
+      console.log(`[${timelog}]'html' or 'src' folder missing in: ${destination}`);
+      console.log(`[${timelog}]init copy of ${destination}`);
+      console.log(`[${timelog}]*** Make sure you install Gulp globally for it to work by installing $npm install gulp --global`);
       copyDirectories();
       createSymLink();
     }
@@ -112,9 +113,9 @@ function copyDirectories() {
   
         fs.copy(sourceDir, destinationDir, (err) => {
           if (err) {
-            console.error(`Error copying directory '${directoryName}':`, err);
+            console.error(`[${timelog}]Error copying directory '${directoryName}':`, err);
           } else {
-            console.log(`Directory '${directoryName}' copied successfully.`);
+            console.log(`[${timelog}]Directory '${directoryName}' copied successfully.`);
           }
         });
       
@@ -136,16 +137,13 @@ console.log(sourceFilePath);
 /** Create symlink */
 
 function createSymLink(){
-    /**
-     * Symlink
-     */
   
     const sourcePath = path.join(sourceSymLink , 'gulpfile.js');
     const symlinkPath = path.join(destination, 'gulpfile.js');
   
    
     console.log('Creating Gulp Symlink');
-    console.log('**Path Information');
+    console.log('Path Information');
     console.log('Destination: ' + destination);
     console.log('Symlink: ' + symlinkPath);
     console.log('Source: ' + sourcePath);
@@ -154,18 +152,21 @@ function createSymLink(){
     if (!fs.existsSync(symlinkPath)) {
       fs.symlink(sourcePath, symlinkPath, 'file', (err) => {
         if (err) {
-          console.log('*** Error Return Shortcut Already Exist.');
-          console.error('Error Creating Symlink to Gulp:', err);
+          console.log(`[${timelog}] Error Return Shortcut Already Exist.`);
+          console.error(`[${timelog}] Error Creating Symlink to Gulp:, ${err}`);
+          log(err);
         } else {
-          console.log('Symlink Created Successfully.');
+          console.log(`[${timelog}] Symlink Created Successfully.`);
+          log('symlink created')
         }
       });
     } else {
-      console.log('*** Link was not copied!! Gulp already exists!!.');
+      console.log(`[${timelog}]*** Link was not Copied!! Gulp Link Already Exists!!.`);
+      log('existing link link was not created');
     }
 }
 
-/** remove Symlink */
+/** Remove Symlink */
 
 function removeSymLink() {
 
@@ -176,61 +177,83 @@ function removeSymLink() {
        
       fs.unlink(symlinkPath, (err) => {
           if (err) {
-            console.error(`*** Error removing link to *Gulp: ${err}`);
+            console.error(`[${timelog}] ${err}`);
+            log(err);
           } else {
-            console.log('*Gulp Symlink removed successfully.');
+            console.log(`[${timelog}]*Gulp Symlink Removed Successfully.`);
+            log('remove symlink');
           }
       });
         
     }else {
-        console.log('*** Link was not removed *Gulp link has not been created yet.');
+        console.log(`[${timelog}]*** Link was not Removed as Gulp Link is Not Available`);
+        log('missing gulp link');
     }
    
 
 }
 
+/** Function Display Menu */
+
+function displayMenu() {
+  console.log('=== Menu ===');
+  console.log('1. New Project');
+  console.log('2. Create Gulp Link');
+  console.log('3. Remove Gulp Link');
+  console.log('4. Update');
+  console.log('5. Exit');
+}
+
+
+/** Promt Options */
 function handleOption(option) {
     switch (option) {
         case '1':
-            console.log('You selected to create *New Project');
+            console.log(`[${timelog}]You selected to create *New Project`);
             createNewProject();
 
             rl.close();
             break;
 
         case '2':
-            console.log('Creating Gulp Link');
+            console.log(`[${timelog}]Creating Gulp Link`);
             createSymLink();
-            console.log('**Done');
+            
             rl.close();
             break;
 
         case '3':
-            console.log('***Currently not available');
+      
+            console.log(`[${timelog}]Removing Gulp Link`);
+            removeSymLink() 
+            
+            rl.close();
             break;
 
         case '4':
-            console.log('Removing Gulp Link ');
-            removeSymLink() 
-            console.log('**Done');
+
+            console.log(`[${timelog}]Option Not Available Yet`);
+           
             rl.close();
             break;
        
         case '5':
-            console.log('Thank you!');
+            console.log(`[${timelog}]Exit Thank you!`);
+            log('exit');
             rl.close();
             break;
         default:
-            console.log('***Invalid option. Please select a valid option.');
+            console.log(`[${timelog}]***Invalid option. Please select a valid option.`);
+            log('invalid option')
             rl.close();
             break;
     }
   }
+
+  /** Get Choice with the questions */
   
   function getMenuChoice() {
-
-    rl.question('Enter the number of your choice: ',  handleOption);
-
+    rl.question('Enter the option of your choice: ',  handleOption);
 
   }
 

@@ -114,6 +114,20 @@ gulp.task ( 'js-compile', function (){
     .pipe(browserSync.stream());
 });
 
+/*
+JS to complile
+*/
+gulp.task ('compile-js', function () {
+  return gulp
+    // js paths source
+    .src(jspaths.main + '/**/*.js')
+    //uglify
+    .pipe(production(uglify()))
+    // write to destination
+    .pipe(gulp.dest(jspaths.mainDesc))
+    .pipe(browserSync.stream());
+});
+
 /* 
 compile js jquery
 */
@@ -204,19 +218,7 @@ Removed Jquery - Bootstrap 5 only uses Popper.js, then Bootstrap JS
 
 gulp.task ('bootstrap-optionaljs', gulp.parallel('compile-popper','compile-bootstrapjs'));
 
-/*
-JS to complile
-*/
-gulp.task ('compile-js', function () {
-  return gulp
-    // js paths source
-    .src([jspaths.bootstrap])
-    //uglify
-    .pipe(production(uglify()))
-    // write to destination
-    .pipe(gulp.dest(jsdes))
-    .pipe(browserSync.stream());
-});
+
 
 /*
   Font Awesome JS
@@ -304,7 +306,6 @@ gulp.task('compile-bootstrapIcon', function (){
     .pipe(gulp.dest(paths.bootstrap.dest))
     .pipe(browserSync.stream());
 });
-
 
 /*
 Prism to complie

@@ -21,8 +21,6 @@ const rl = readline.createInterface({
 });
 
 
-
-
 /** Check DIR */
 
 function checkFolderContents(directory) {
@@ -131,6 +129,7 @@ const sourceFilePath = source + filename;
 const destinationFilePath = destination + filename;
 
 console.log(sourceFilePath);
+console.log(destinationFilePath);
 
 }
 
