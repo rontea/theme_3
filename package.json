@@ -1,6 +1,6 @@
 {
   "name": "theme_3_v1",
-  "version": "1.2.4b-beta",
+  "version": "1.2.4c-beta",
   "description": "them_3_v1 @beta version",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/rontea/theme_3#readme",
   "devDependencies": {
-    "bulma": "^0.9.4",
+    "bulma": "^1.0.0",
     "jquery": "^3.7.1"
   },
   "dependencies": {
@@ -38,7 +38,7 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "iconv-lite": "^0.6.3",
-    "latest-version": "^8.0.0",
+    "latest-version": "^9.0.0",
     "panini": "^1.7.2",
     "sass": "^1.70.0",
     "tether": "^2.0.0"

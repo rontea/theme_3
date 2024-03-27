@@ -84,7 +84,7 @@ var jsdes = "build/js/inc";
 // gulp information
 gulp.task('hello', function() {
   console.log('========================');
-  console.log('Gulp File RR Version v1.0.0');
+  console.log('Gulp File RR Version v2.0.0');
   console.log('========================');
 });
 
@@ -284,7 +284,7 @@ var paths = {
 /* Bootstrap */
 
 /*
-Bootstrap to complie
+Bootstrap to compile
 */
 gulp.task('compile-bootstrap', function (){
   return gulp
@@ -296,7 +296,7 @@ gulp.task('compile-bootstrap', function (){
 });
 
 /*
-Bootstrap to complie
+BootstrapIcon to compile
 */
 gulp.task('compile-bootstrapIcon', function (){
   return gulp
@@ -308,7 +308,7 @@ gulp.task('compile-bootstrapIcon', function (){
 });
 
 /*
-Prism to complie
+Prism to compile
 */
 gulp.task('compile-prismcss', function (){
   return gulp
@@ -319,7 +319,7 @@ gulp.task('compile-prismcss', function (){
     .pipe(browserSync.stream());
 });
 
-// Compile prism 
+// Compile Prism
 gulp.task('addon-prism', gulp.parallel('compile-prismcss','compile-prismjs'));
 
 /* Bulma */
@@ -358,7 +358,7 @@ gulp.task('compile-scss', function () {
     .pipe(browserSync.stream());
 });
 
-/* SASS Prefix Stand Alone */
+/* SASS Prefix Standalone */
 
 gulp.task('compile-prefixscss', function () {
   return gulp

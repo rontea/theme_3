@@ -27,7 +27,7 @@
   - $gulp compile-scss
   - $gulp compile-js
   - $gulp compile-img
-  - $gulp watch
+  - $gulp watch-default
 
 ## Build Folder
   - This folder will be created once compile has been made

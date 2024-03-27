@@ -3,35 +3,41 @@
 
 /* Import List */
 
-/**  Note that bulma and bootstrap 
-    do not work if compile simultaneously. 
+/* ====================================
+   Import List
+   ==================================== */
+
+
+/**
+* Note: Bulma and Bootstrap do not work 
+* properly when compiled simultaneously.
 */
 
-// @import "google/google_font";
-
-/* Import Boitstap CSS */
-@import "bootstrap/bootstrap";
-
-// @import "bulma/bulma";
-// @import "fontawesome/fontawesome";
+/**
+ * Import List Please Clean This is not needed
+ */
+//@import "google/google_font";
+//@import "bootstrap/bootstrap";
+//@import "bulma/bulma";
+//@import "fontawesome/fontawesome";
 //@import "bootstrap/bootstrap-icon";
 
 
-/* Global CSS V 0.0.1 */
+/* Global CSS V 0.0.0 */
 
 /*
 Theme Name: Rontea
 Theme URI: https://live-rontea.pantheonsite.io/node/54
 Author: Ronryan Teano
 Author URI: https://live-rontea.pantheonsite.io/
-Description: Dupela Theme 2023
+Description: Theme_3 2024
 Version: 0.0
 License:
 License URI: 
 Text Domain: 
 */
 
-
+/** Test */
 @import "theme_3/theme_3-styles";
 
 
