@@ -85,7 +85,20 @@
   - compile-html 
 
 #### watch real time update
-  - watch
+  - watch-default
+
+#### Add Prefix CSS
+  - compile-prefixscss [last 5 version]
+
+#### Compress CSS
+  - compile-compscss
+
+### Pipe to Production
+  - testing
+
+### Uglify/Compress JS
+  - no yet available
+
 
 - see more function on gulp.js
 
