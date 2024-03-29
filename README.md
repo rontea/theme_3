@@ -81,14 +81,15 @@
 ```
 - Under SCSS > Styles uncomment the css framework that you want to use or include it
 
-#### html
+#### HTML
   - compile-html 
 
 #### watch real time update
   - watch-default
 
 #### Add Prefix CSS
-  - compile-prefixscss [last 5 version]
+  - compile-prefixscss [last 5 version default]
+  - gulp compile-compscss --num-version=2 [set to last 2 version]
 
 #### Compress CSS
   - compile-compscss

@@ -54,8 +54,16 @@ const panini = require('panini');
 const fse = require('fs-extra');
 //gulp-html
 const validator = require('gulp-html');
+// yargs
+const yargs = require('yargs');
 
-
+/** Yargs Option */
+const options = yargs.option('numVersions', {
+  alias: 'n',
+  describe: 'Number of browser versions to support',
+  type: 'number',
+  default: 5
+}).argv;
 
 // main directory
 var main = "./";
@@ -264,6 +272,10 @@ var paths = {
       src: "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
       dest: "build/css/inc"
     },
+    bootstrapIconWoff2: {
+      src:"node_modules/bootstrap-icons/font/fonts/**",
+      dest: "build/css/inc/fonts"
+    },
     styles: {
       src: "src/scss/**/*.scss",
       dest: "build/css/"
@@ -278,9 +290,28 @@ var paths = {
     },
     prism: {
       src: "src/css/prism.css",
-      dest: "build/css/inc",
+      dest: "build/css/inc"
+    },
+    fontawesome: {
+      src: "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
+      dest: "build/css/inc"
     }
 };
+/* Fontawesome */
+
+/*
+Fontawesome to compile
+*/
+gulp.task('compile-fontawesomeCss', function (){
+  return gulp
+    .src(paths.fontawesome.src)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
+    .pipe(gulp.dest(paths.fontawesome.dest))
+    .pipe(browserSync.stream());
+});
+
 /* Bootstrap */
 
 /*
@@ -291,6 +322,7 @@ gulp.task('compile-bootstrap', function (){
     .src(paths.bootstrap.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     .pipe(gulp.dest(paths.bootstrap.dest))
     .pipe(browserSync.stream());
 });
@@ -303,7 +335,20 @@ gulp.task('compile-bootstrapIcon', function (){
     .src(paths.bootstrapIcon.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     .pipe(gulp.dest(paths.bootstrap.dest))
+    .pipe(browserSync.stream());
+});
+
+
+
+/*
+BootstrapIcon Reference compile
+*/
+gulp.task('compile-btsr', function (){
+  return gulp
+    .src(paths.bootstrapIconWoff2.src)
+    .pipe(gulp.dest(paths.bootstrapIconWoff2.dest))
     .pipe(browserSync.stream());
 });
 
@@ -315,6 +360,7 @@ gulp.task('compile-prismcss', function (){
     .src(paths.prism.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     .pipe(gulp.dest(paths.prism.dest))
     .pipe(browserSync.stream());
 });
@@ -333,6 +379,7 @@ gulp.task('compile-bulma', function (){
     .src(paths.bulma.src)
     .pipe(sass().on('error', sass.logError))
     .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     .pipe(gulp.dest(paths.bulma.dest))
     .pipe(browserSync.stream());
 });
@@ -349,7 +396,10 @@ gulp.task('compile-scss', function () {
     //sass error log
     .pipe(sass().on('error', sass.logError))
     // Use postcss with autoprefixer and compress the compiled file using cssnano
-    .pipe(production(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] }), cssnano()])))
+    .pipe(production(postcss([autoprefixer({ 
+      overrideBrowserslist: [`last ${options['num-versions']} versions`] }), 
+      cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     // Now add/write the sourcemaps
     .pipe(development(sourcemaps.write()))
     // sass destination
@@ -367,7 +417,8 @@ gulp.task('compile-prefixscss', function () {
     //sass error log
     .pipe(sass().on('error', sass.logError))
     // Use postcss with autoprefixer for 5 browser
-    .pipe(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] })]))
+    .pipe(postcss([autoprefixer({ 
+      overrideBrowserslist: [`last ${options['num-versions']} versions`] })]))
     // sass destination
     .pipe(gulp.dest(paths.styles.dest))
 });
@@ -382,7 +433,8 @@ gulp.task('compile-compscss', function () {
     //sass error log
     .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
     //auto prefix
-    .pipe(postcss([autoprefixer({ overrideBrowserslist: ['last 5 versions'] })]))
+    .pipe(postcss([autoprefixer({ 
+      overrideBrowserslist: [`last ${options['num-versions']} versions`] })]))
     // sass destination
     .pipe(gulp.dest(paths.styles.dest))
 });

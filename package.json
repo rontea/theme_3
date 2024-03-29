@@ -1,6 +1,6 @@
 {
   "name": "theme_3_v1",
-  "version": "1.2.4c-beta",
+  "version": "1.2.5-beta",
   "description": "them_3_v1 @beta version",
   "main": "index.js",
   "scripts": {
@@ -41,6 +41,7 @@
     "latest-version": "^9.0.0",
     "panini": "^1.7.2",
     "sass": "^1.70.0",
-    "tether": "^2.0.0"
+    "tether": "^2.0.0",
+    "yargs": "^17.7.2"
   }
 }
