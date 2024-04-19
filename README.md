@@ -1,6 +1,6 @@
 # theme_3_V1 Template
 
-#### Version 1.2.0 In-Development
+#### Version 1.2.5d 
 
 - Simple and easy to use theme template creator for small scale project
 
@@ -11,7 +11,7 @@
 #### installation 
 - npm init
   - node node_modules/theme_3_v1/init-package.js
-  - npm i theme_3_v1@1.2.3-beta
+  - npm i theme_3_v1
   - npm install
   - select option [1]New Project [2] [3] [4]
 

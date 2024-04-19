@@ -1,5 +1,6 @@
 /**
- * 
+ * Author : Rontea
+ * email: dupelawebsite@gmail.com 
  * Requirement 
  * $npm install --save-dev ...
  *  - gulp gulp-postcss 
@@ -56,6 +57,10 @@ const fse = require('fs-extra');
 const validator = require('gulp-html');
 // yargs
 const yargs = require('yargs');
+// fs
+const fs = require('fs');
+// readline
+const readline = require('readline');
 
 /** Yargs Option */
 const options = yargs.option('numVersions', {
@@ -64,6 +69,29 @@ const options = yargs.option('numVersions', {
   type: 'number',
   default: 5
 }).argv;
+
+/** Resources option sections */
+
+const resources = yargs.option('src', {
+  alias: 'rs',
+  describe: 'src destination',
+  type: 'string',
+  default: ''
+})
+.option('dest', {
+  alias: 'rd',
+  describe: 'dest destination',
+  type: 'string',
+  default: '',
+  demandOption: true
+}).argv;
+
+/** RL */
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
 // main directory
 var main = "./";
@@ -81,7 +109,7 @@ var jspaths = {
     tether: "node_modules/tether/dist/js/tether.min.js",
     jquery: "node_modules/jquery/dist/jquery.min.js",
     fontawesome: "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
-    prism: "src/js/prism.js",
+    prism: "node_modules/prismjs/prism.js",
     main: "src/js",
     mainDesc: "build/js"
 };
@@ -200,8 +228,6 @@ gulp.task ('compile-bootstrapjs', function () {
 compile bootstrap-icon
 */
 
-
-
 /* 
 compile js prism
 */
@@ -217,6 +243,71 @@ gulp.task ('compile-prismjs', function () {
     .pipe(browserSync.stream());
 });
 
+/** Resource moved 
+  Usage : gulp mv-rs --src prismjs  --dest samplefolder
+*/
+
+/** Need to Refine this section */
+gulp.task('confirm', checkMove);
+gulp.task('move-files', moveFiles);
+
+gulp.task ('mv-rs', gulp.series('confirm','move-files'));
+
+function checkMove(done) {
+  
+  rl.question('This will override the build items , proceed anyway y/n :',  (answer) => {
+    if(answer.toLowerCase() === 'y') {
+   
+      rl.close();
+      done();
+      
+    // if n or other is selected
+    }else {
+     
+      console.log("Move file cancel");
+      rl.close();
+      done();
+      process.exit(0);
+      
+    }
+   
+  });
+ 
+}
+
+function moveFiles(done) {
+
+  console.log("================================");
+  console.log("Folder Source : /src/resources/--src");
+  console.log("Folder Destination : /build/--dest ");
+  console.log("================================");
+ 
+  // suppy the value by user
+  const srcPath = `src/resources/${resources['src']}/**/*`;
+  const destPath = `build/${resources['dest']}`;
+  
+  // check source path
+  const checkPath = "src/resources/"+resources['src'];
+ 
+  if (!fs.existsSync(checkPath)) {
+    console.log('--src doesnt exist try again with correct source path.');
+    console.log(`Moving folder from ${srcPath} -> ${destPath} FAILED!`);
+   
+    done();
+  }else {
+
+    console.log(`Please Check your build folder to verify move correctly`);
+    console.log(`item move from ${srcPath} -> ${destPath} SUCCESS!`);
+      return gulp.src(srcPath)
+      .pipe(gulp.dest(destPath))
+      .pipe(browserSync.stream());
+  }
+
+
+     // Perform the operation
+
+     
+}
 
 /* Compile Bootstrap for Optinal Javascript 
 
@@ -225,8 +316,6 @@ Removed Jquery - Bootstrap 5 only uses Popper.js, then Bootstrap JS
 */
 
 gulp.task ('bootstrap-optionaljs', gulp.parallel('compile-popper','compile-bootstrapjs'));
-
-
 
 /*
   Font Awesome JS
@@ -280,6 +369,10 @@ var paths = {
       src: "src/scss/**/*.scss",
       dest: "build/css/"
     },
+    stylesInc: {
+      src: "src/css/**/*.css",
+      dest: "build/css/inc"
+    },
     stylesmin: {
       src: "src/scss/**/*.scss",
       dest: "build/css/"
@@ -289,7 +382,7 @@ var paths = {
       dest: "build/css/inc"
     },
     prism: {
-      src: "src/css/prism.css",
+      src: "node_modules/prismjs/themes/prism.min.css",
       dest: "build/css/inc"
     },
     fontawesome: {
@@ -381,6 +474,20 @@ gulp.task('compile-bulma', function (){
     .pipe(production(postcss([autoprefixer(), cssnano()])))
     .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
     .pipe(gulp.dest(paths.bulma.dest))
+    .pipe(browserSync.stream());
+});
+
+/*
+CSS includes
+*/
+
+gulp.task('compile-css', function (){
+  return gulp
+    .src(paths.stylesInc.src)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(production(postcss([autoprefixer(), cssnano()])))
+    .pipe(production(sass({ outputStyle: 'compressed' }).on('error', sass.logError)))
+    .pipe(gulp.dest(paths.stylesInc.dest))
     .pipe(browserSync.stream());
 });
 
