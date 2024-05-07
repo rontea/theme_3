@@ -3,6 +3,7 @@
 #### Version 1.2.5d 
 
 - Simple and easy to use theme template creator for small scale project
+- Temporary documentation [Link](https://live-rontea.pantheonsite.io/node/82)
 
 #### NPM
 - npm i theme_3_v1 
