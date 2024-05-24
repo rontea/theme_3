@@ -1,9 +1,20 @@
 # theme_3_V1 Template
 
-#### Version 1.2.6-a
+#### Version 1.3.0-dev.1 Development for 2.0
 
 - Simple and easy to use theme template creator for small scale project
-- Temporary documentation [Link](https://live-rontea.pantheonsite.io/node/82)
+- Documentation 
+- This build will be created using Gulp version 5.0
+- This build will be for 2.0 
+
+### Change Logs
+- Seperation of tasks under ./func/gulp
+- Configuration file set
+- Recreated the gulpfile.js
+- Build will be set not only to Panini but for Eleventy
+- Camel Case for commands
+- Development for new options
+
 
 #### NPM
 - npm i theme_3_v1 
@@ -24,11 +35,11 @@
 ### Getting Started
 
   - $gulp
-  - $gulp compile-html
-  - $gulp compile-scss
-  - $gulp compile-js
-  - $gulp compile-img
-  - $gulp watch-default
+  - $gulp 
+  - $gulp 
+  - $gulp 
+  - $gulp 
+  - $gulp 
 
 ## Build Folder
   - This folder will be created once compile has been made
@@ -52,48 +63,48 @@
 
 #### $gulp 'cmd'
 ```
-  $gulp compile-js
+  $gulp --tasks
 ```
 
 #### cmd
 - hello
-- clean
+- 
 #### JS
 ```
-  - compile-js
-  - compile-jquery
-  - compile-popper
-  - compile-tether
-  - compile-bootstrapjs
-  - compile-prismjs
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
 ```
 #### Fontawesome
 ```
-  - addon-fontawesome
-  - addon-fontawesome-font
+  - 
+  - 
 ```
 #### CSS
 ```
-  - compile-bootstrap
-  - compile-bootstrapIcon
-  - compile-prismcss
-  - compile-bulma
-  - compile-scss 
+  - 
+  - 
+  - 
+  -
+  - 
 ```
 - Under SCSS > Styles uncomment the css framework that you want to use or include it
 
 #### HTML
-  - compile-html 
+  - compile
 
 #### watch real time update
-  - watch-default
+  - watch
 
 #### Add Prefix CSS
   - compile-prefixscss [last 5 version default]
   - gulp compile-compscss --num-version=2 [set to last 2 version]
 
 #### Compress CSS
-  - compile-compscss
+  - compile
 
 ### Pipe to Production
   - 
@@ -101,7 +112,7 @@
 ### Uglify/Compress JS
   - 
   
-- see more function on gulp.js
+- see more function on $gulp --tasks
 
 ## Link to Coding Standards
 
