@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *  Initial Project Version 0.2.0-dev.1
+ */
+
 const fs = require('fs-extra');
 const path = require('path');
 const readline = require('readline');
@@ -242,6 +246,7 @@ function handleOption(option) {
             log('exit');
             rl.close();
             break;
+
         default:
             console.log(`[${timelog}]***Invalid option. Please select a valid option.`);
             log('invalid option')

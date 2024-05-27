@@ -1,7 +1,7 @@
 'use strict';
 
 const {src , dest } = require('gulp');
-const config  = require('../config.js');
+const config  = require('../config/config.js');
 
 /**
  *  This function will copy the fontawesome SVG icons

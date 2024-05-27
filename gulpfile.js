@@ -1,25 +1,28 @@
 'use strict';
-const {parallel} = require('gulp');
+
+/**
+ *  Gulp Tasks
+ */
+
+const { parallel } = require('gulp');
 const hello = require('./func/gulp/hello.js');
-const { compileJS , compileJquery, compilePopper
-    , compileTether , compileBSJS, fontawesomeJS } = require('./func/gulp/js.js');
-const {clean} = require('./func/gulp/utils.js');
-const fontawesomeFont  = require ('./func/gulp/fontawesome.js')
+const { fontawesomeJS } = require('./func/gulp/js.js');
+const { compile } = require('./func/gulp/compile/compile.js');
+const { clean } = require('./func/gulp/utils.js');
+const fontawesomeFont  = require ('./func/gulp/fontawesome.js');
+
+
+
 
 /** Tasks */
-
 exports.default = hello;
 
 /** CSS Tasks */
 
+exports.compile = compile;
+
 /** JS Tasks */
 
-exports.compileJS = compileJS;
-exports.compileJquery = compileJquery;
-exports.compilePopper = compilePopper;
-exports.compileTether = compileTether;
-exports.compileBSJS = compileBSJS;
-exports.fontawesomeJS = fontawesomeJS;
 
 
 /** Util Tasks */

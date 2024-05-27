@@ -1,9 +1,13 @@
 'use strict';
 
+const config = require('../config/config.js');
 const {src , dest} = require('gulp');
 const environments = require('gulp-environments');
 const uglify = require('gulp-uglify');
-const config = require('../config.js');
+const yargs = require('yargs');
+const { hideBin } = require('yargs/helpers');
+
+const argv = yargs(hideBin(process.argv)).argv;
 
 
 /**
@@ -21,10 +25,29 @@ let production = environments.production;
 
 function compileJS() {
 
-    return src(config.jspaths.main + '/**/*.js')
-    .pipe(production(uglify()))
-    .pipe(dest(config.jspaths.maindest));
+    if(argv.js) {
+        compilePlainJS();
+    } if(argv.jquery) {
+        compileJquery();
+    } else if(argv.popper) {
+        compilePopper();
+    } else if(argv.tether) {
+        compileTether();
+    } else if(argv.bootstrap) {
+        compileBSJS();
+    } else if(argv.fontawesome) {
+        fontawesomeJS();
+    } else {
+        console.log("Did you forgot one of this $compile --type js --js / --popper / --tether / --bootstrap / --fontawesome");
+    }
 }
+
+function compilePlainJS(){
+    return src(config.jspaths.main + '/**/*.js')
+        .pipe(production(uglify()))
+        .pipe(dest(config.jspaths.maindest));
+}
+
 
 /**
  * This function will compile a specific JavaScript

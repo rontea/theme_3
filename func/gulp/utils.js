@@ -1,7 +1,7 @@
 'use strict';
 
 const fse = require('fs-extra');
-const config = require('../config.js');
+const config = require('../config/config.js');
 
 /**
  * This function will remove/delete the build folder.
