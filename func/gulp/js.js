@@ -7,8 +7,6 @@ const uglify = require('gulp-uglify');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 
-const argv = yargs(hideBin(process.argv)).argv;
-
 
 /**
  * # This command runs the 'task' task using Gulp in production mode.
@@ -23,26 +21,45 @@ let production = environments.production;
  * (config.jspaths.main) and its subdirectories. 
  */
 
-function compileJS() {
+function compileJS(cb) 
+{
 
-    if(argv.js) {
+    const argv = yargs(hideBin(process.argv)).argv;
+    
+    if(argv.js) 
+    {
         compilePlainJS();
-    } if(argv.jquery) {
-        compileJquery();
-    } else if(argv.popper) {
-        compilePopper();
-    } else if(argv.tether) {
-        compileTether();
-    } else if(argv.bootstrap) {
-        compileBSJS();
-    } else if(argv.fontawesome) {
-        fontawesomeJS();
-    } else {
-        console.log("Did you forgot one of this $compile --type js --js / --popper / --tether / --bootstrap / --fontawesome");
     }
+    else if(argv.jquery) 
+    {
+        compileJquery();
+    }
+    else if(argv.popper) 
+    {
+        compilePopper();
+    }
+    else if(argv.tether) 
+    {
+        compileTether();
+    }
+    else if(argv.bootstrap) 
+    {
+        compileBSJS();
+    }
+    else if(argv.fontawesome) 
+    {
+        fontawesomeJS();
+    }
+    else 
+    {
+        console.log("Did you forgot one of this $gulp compileJS --js / --popper / --tether / --bootstrap / --fontawesome");
+    }
+
+    cb();
 }
 
-function compilePlainJS(){
+function compilePlainJS()
+{
     return src(config.jspaths.main + '/**/*.js')
         .pipe(production(uglify()))
         .pipe(dest(config.jspaths.maindest));
@@ -54,11 +71,12 @@ function compilePlainJS(){
  * file (jQuery) located at config.jspaths.jquery.
  */
 
-function compileJquery() {
+function compileJquery() 
+{
 
     return src(config.jspaths.jquery)
-    .pipe(production(uglify()))
-    .pipe(dest(config.jsdest));
+        .pipe(production(uglify()))
+        .pipe(dest(config.jsdest));
     
 }
 /**
@@ -66,12 +84,13 @@ function compileJquery() {
  * file (Popper) located at config.jspaths.popper.
  */
 
-function compilePopper() {
+function compilePopper() 
+{
 
     return src(config.jspaths.popper)
-    .pipe(production(uglify()))
-    .pipe(dest(config.jsdest));
-    
+        .pipe(production(uglify()))
+        .pipe(dest(config.jsdest));
+        
 }
 
 /**
@@ -79,11 +98,12 @@ function compilePopper() {
  * file (Tether) located at config.jspaths.tether. 
  */
 
-function compileTether() {
+function compileTether() 
+{
 
     return src(config.jspaths.tether)
-    .pipe(production(uglify()))
-    .pipe(dest(config.jsdest));
+        .pipe(production(uglify()))
+        .pipe(dest(config.jsdest));
     
 }
 
@@ -92,11 +112,12 @@ function compileTether() {
 * (Bootstrap) located at config.jspaths.bootstrap. 
 */
 
-function compileBSJS () {
+function compileBSJS () 
+{
 
     return src(config.jspaths.bootstrap)
-    .pipe(production(uglify()))
-    .pipe(dest(config.jsdest))
+        .pipe(production(uglify()))
+        .pipe(dest(config.jsdest))
 
 }
 
@@ -105,11 +126,12 @@ function compileBSJS () {
  * file (Font Awesome) located at config.jspaths.fontawesome.
  */
 
-function fontawesomeJS () {
+function fontawesomeJS () 
+{
     
     return src(config.jspaths.fontawesome)
-    .pipe(production(uglify()))
-    .pipe(dest(config.jsdest));
+        .pipe(production(uglify()))
+        .pipe(dest(config.jsdest));
 }
 
 module.exports = {compileJS , compileJquery, compilePopper

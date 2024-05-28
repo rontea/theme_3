@@ -1,27 +1,18 @@
-'use strict';
 
-/**
- *  Gulp Tasks
- */
+'use strict';
 
 const { parallel } = require('gulp');
 const hello = require('./func/gulp/hello.js');
 const { fontawesomeJS } = require('./func/gulp/js.js');
-const { compile } = require('./func/gulp/compile/compile.js');
+const { compileCSS } = require('./func/gulp/css.js');
 const { clean } = require('./func/gulp/utils.js');
-const fontawesomeFont  = require ('./func/gulp/fontawesome.js');
+const { fontawesomeFont } = require('./func/gulp/icons.js');
+const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 
-
-
-
-/** Tasks */
-exports.default = hello;
 
 /** CSS Tasks */
 
-exports.compile = compile;
-
-/** JS Tasks */
+exports.compileCSS = compileCSS;
 
 
 
@@ -33,3 +24,10 @@ exports.clean = clean;
 
 exports.fontawesomeFont = fontawesomeFont;
 exports.buildFontawesome = parallel(fontawesomeFont, fontawesomeJS);
+
+/** Tasks */
+exports.default = hello;
+
+const gulpJSTaskManager = new GulpJSTaskManager();
+exports.compileJS = gulpJSTaskManager.compileJS.bind(gulpJSTaskManager);
+exports.watchJS = gulpJSTaskManager.watchJS.bind(gulpJSTaskManager);

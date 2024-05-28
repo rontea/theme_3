@@ -47,5 +47,9 @@ module.exports = {
             webfonts:"node_modules/bootstrap-icons/font/fonts/**",
             build: "build/bootstrap/webfonts"
         } 
-    }
+    },
+    
+    info : {
+        compileJS : "$gulp compileJS --options[] --uglify --dest url",
+    } 
 }
