@@ -1,20 +1,19 @@
 'use strict';
 
 const config = require('../../config/config.js');
-const {src , dest , watch } = require('gulp');
+const { src , dest , watch } = require('gulp');
 const uglify = require('gulp-uglify');
 const argv = require('yargs').argv;
-
-
- 
+const path = require('path');
+const fs = require('fs-extra');
 
 class GulpJSTaskManager 
 {
 
-    constructor() 
+    constructor(options = {}) 
     {
       
-        this.src = [];
+        this.src = options.src || [];
         this.baseDest = config.jspaths.maindest;
         //this.dest = argv.dest || config.jspaths.maindest;
         //this.dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.baseDest; 
@@ -25,14 +24,13 @@ class GulpJSTaskManager
 
     getDestPath(destArgv) {
 
-        if (destArgv === true) 
+        if (destArgv === true || destArgv === undefined)  
         {
-            console.log("Empty Destination or Invalid path opt to ", this.baseDest );
+            console.log("Path Not Provided Default to: ", this.baseDest );
             return this.baseDest;
         }
 
         return `${this.baseDest}/${destArgv}`;
-
     }
 
     checkFlags() 
@@ -95,21 +93,31 @@ class GulpJSTaskManager
         });
     }
 
-    unlinkJS(path){
-        console.log(`File ${path} was removed`);
-    }
-
     watchJS() 
     {
         this.src = config.jspaths.main + '/**/*.js';
         this.dest = config.jspaths.maindest;
         console.log("Start watching ... ");
 
-        //const watcher = watch
+       /** Working on this */
         
-        return watch(this.src) 
-            .on('all' , this.compileJS.bind(this))
-          
+       /**  new file created will overwrite the old one */
+        return watch(this.src, { ignoreInitial: false})
+        .on('change', this.compileJS.bind(this))
+        .on('add', this.compileJS.bind(this))
+        .on('unlink', (file) => {
+            console.log("On Delete : " , file );
+            const relativePath = path.relative(config.jspaths.main, file);
+            const destFile = path.join(this.dest, relativePath);
+           
+            try {
+                fs.remove(destFile);
+                console.log("Removed File Success , Path" , destFile);
+            } catch (err) {
+                console.error("Error removing file: ", err);
+            }
+        });
+        
     }
 }
 

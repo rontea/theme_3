@@ -28,6 +28,14 @@ exports.buildFontawesome = parallel(fontawesomeFont, fontawesomeJS);
 /** Tasks */
 exports.default = hello;
 
-const gulpJSTaskManager = new GulpJSTaskManager();
-exports.compileJS = gulpJSTaskManager.compileJS.bind(gulpJSTaskManager);
-exports.watchJS = gulpJSTaskManager.watchJS.bind(gulpJSTaskManager);
+
+exports.compileJS = () => {
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true});
+    return gulpJSTaskManager.compileJS();
+}
+exports.watchJS = () => { 
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false });
+    return gulpJSTaskManager.watchJS();
+}
+
+
