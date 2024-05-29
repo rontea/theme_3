@@ -23,19 +23,24 @@ exports.clean = clean;
 /** Fontawesome Tasks */
 
 exports.fontawesomeFont = fontawesomeFont;
-exports.buildFontawesome = parallel(fontawesomeFont, fontawesomeJS);
+//exports.buildFontawesome = parallel(fontawesomeFont, fontawesomeJS);
 
 /** Tasks */
 exports.default = hello;
 
 
 exports.compileJS = () => {
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true});
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true });
     return gulpJSTaskManager.compileJS();
 }
 exports.watchJS = () => { 
     const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false });
     return gulpJSTaskManager.watchJS();
+}
+
+exports.buildJS = () => {
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , build: true, key: 'x'});
+    return gulpJSTaskManager.compileJS();
 }
 
 
