@@ -4,7 +4,7 @@
 
 'use strict';
 
-const { production } = require("gulp-environments");
+const autoprefixer = require("autoprefixer");
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -12,19 +12,22 @@ const config = {
         development : {
             csspaths : {
 
-                bootstrap : "node_modules/bootstrap/scss/bootstrap.scss",
-                bootstrapicon : "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
-                styles : "src/scss/**/*.scss",
-                stylesinc : "src/css/**/*.css",
-                stylesmin : "src/scss/**/*.scss",
-                bulma : "node_modules/bulma/bulma.sass",
-                prism : "node_modules/prismjs/themes/prism.min.css",
-                fontawesome : "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss",
-                
-                builds : {
-                    dest : "build/css/",
-                    destinc : "build/css/inc"
+                main: "build/css/",
+                maininc: "build/css/inc",
+                mainmin: "",
+                paths: [
+                    { key : 'css' , path: 'src/css/**/*.css' },
+                    { key : 'scss' , path: 'src/scss/**/*.scss' },
+                    { key : 'bootstrap' , path: 'node_modules/bootstrap/scss/bootstrap.scss' },
+                    { key : 'bootstrapIcon' , path: 'node_modules/bootstrap-icons/font/bootstrap-icons.scss' },
+                    { key : 'fontawesome' , path: 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss' },
+                    { key : 'bulma' , path: 'node_modules/bulma/bulma.scss' },
+                    { key : 'prism' , path: 'node_modules/prismjs/themes/prism.min.css' },
+                ],
+                settings: {
+                    autoprefixer : 2
                 }
+                
             },
     
             jspaths : {
