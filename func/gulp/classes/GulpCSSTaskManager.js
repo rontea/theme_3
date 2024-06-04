@@ -19,26 +19,31 @@ class GulpCSSTaskManager {
         this.checkInvalidArgs = this.checkInvalidArgs();
 
         this.src = options.src || [];
+        this.autoInit = options.autoInit || false;
         this.baseDest = config.csspaths.main;
         this.dest = this.getDestPath(argv.dest);
-        
         this.options = options;
         
-       
-        if (this.options.autoInit !== false && this.checkInvalidArgs) {
+        if (this.autoInit !== false && this.checkInvalidArgs) {
             this.checkFlags();
         }
-
         
     }
 
     getDestPath(destArgv) {
-        if (destArgv === true || destArgv === undefined) {
-            console.log("Path Not Provided Default to: ", this.baseDest);
+        if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
+            
+            if(typeof destArgv !== 'string') {
+                console.log("Path not a valid string , default to: ", this.baseDest);
+            }else {
+                console.log("Path not provided default to: ", this.baseDest);
+            }
+            
             return this.baseDest;
-          }
+          
+        }
       
-          return path.join(this.baseDest, destArgv);
+        return path.join(this.baseDest, destArgv);
 
     }
 

@@ -14,15 +14,20 @@ class GulpJSTaskManager {
    * { autoInit : bool, build : bool, key : string }
    */
   constructor(options = {}) {
+
+    /** List */
+
+    this.checkInvalidArgs = this.checkInvalidArgs();
+
     this.src = options.src || [];
+    this.autoInit = options.autoInit || false;
     this.baseDest = config.jspaths.maindest;
     //this.dest = argv.dest || config.jspaths.maindest;
     //this.dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.baseDest;
     this.dest = this.getDestPath(argv.dest);
-    
     this.options = options;
 
-    if (options.autoInit !== false) {
+    if (this.autoInit !== false && this.checkInvalidArgs) {
       this.checkFlags();
     }
   }
@@ -33,9 +38,16 @@ class GulpJSTaskManager {
    * @returns string
    */
   getDestPath(destArgv) {
-    if (destArgv === true || destArgv === undefined) {
-      console.log("Path Not Provided Default to: ", this.baseDest);
+    if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
+     
+      if(typeof destArgv !== 'string') {
+        console.log("Path not a valid string , default to: ", this.baseDest);
+      }else {
+        console.log("Path not provided default to: ", this.baseDest);
+      }
+
       return this.baseDest;
+    
     }
 
     return path.join(this.baseDest, destArgv);
@@ -60,6 +72,25 @@ class GulpJSTaskManager {
     }
   }
 
+      /**
+     * Check if the commands are correct
+     * @returns boolean
+     */
+      checkInvalidArgs() {
+
+        const validKeys = config.jspaths.paths.map(item => item.key).concat(['dest', 'uglify']);
+        const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
+        
+        if (invalidKeys.length > 0) {
+            console.log("Invalid options provided: ", invalidKeys.join(', '));
+            console.log("Please check the available options: ", validKeys.join(', '));
+            return false;
+        } else {
+            return true;
+        }
+
+    }  
+
   /**
    * This will build the JS to the destination
    * @returns gulp task
@@ -68,8 +99,8 @@ class GulpJSTaskManager {
   compileJS() {
     
     if (this.options.build === true) {
-      const typeBuild = this.options.key;
-      const checkAvailable = false;
+      let typeBuild = this.options.key;
+      let checkAvailable = false;
       console.log("Building invoke for...", typeBuild);
 
       config.jspaths.paths.forEach((item) => {
@@ -90,18 +121,22 @@ class GulpJSTaskManager {
     console.log("Source Path :", this.src);
     console.log("Destination Path :", this.dest);
 
-    if (this.src.length === 0) {
-      console.log("No valid option provided.");
+    if (this.src.length === 0 || this.checkInvalidArgs === false) {
+      console.log("No valid option provided ending process ...");
       return;
     }
 
     let stream = src(this.src);
 
     if (argv.uglify) {
-      console.log("... Uglify completed");
-      stream = stream.pipe(uglify()).on("error", (err) => {
-        console.error("Uglify error :", err.toString());
-      });
+     
+      stream = stream.pipe(uglify()
+        .on('error', (err) => {
+          console.error("Uglify error :", err.toString());
+        })
+        .on('end' , () => { 
+          console.log("... Uglify completed.");
+        }));
     }
 
     return stream.pipe(dest(this.dest)).on("end", () => {

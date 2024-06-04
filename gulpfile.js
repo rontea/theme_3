@@ -44,7 +44,7 @@ exports.compileCSS = () => {
 }
 
 exports.buildCSS = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false, build: true, key: 'x' });
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false, build: true, key: 'css' });
     return gulpCSSTaskManager.compileCSS();
 }
 
