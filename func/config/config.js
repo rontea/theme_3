@@ -12,9 +12,9 @@ const config = {
         development : {
             csspaths : {
 
-                main: "build/css/",
-                maininc: "build/css/inc",
-                mainmin: "",
+                maincss: "src/css/",
+                mainscss: "src/scss/",
+                maindest: "build/css/",
                 paths: [
                     { key : 'css' , path: 'src/css/**/*.css' },
                     { key : 'scss' , path: 'src/scss/**/*.scss' },
@@ -26,7 +26,12 @@ const config = {
                 ],
                 settings: {
                     autoprefixer : 2
+                },
+                watch: {
+                    css: 'src/css/**/*.css',
+                    scss: 'src/scss/**/*.scss'
                 }
+                
                 
             },
     
@@ -44,7 +49,7 @@ const config = {
                 
             },
     
-            jsdest : "build/js/inc",
+            jsinc : "build/js/inc",
     
             builds : {
                 paniniBuild : "./build"

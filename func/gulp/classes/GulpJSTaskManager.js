@@ -33,7 +33,7 @@ class GulpJSTaskManager {
   }
 
   /**
-   * Check path supplied by --dest is not empty
+   * Check path supplied by --dest is not empty and not a number value
    * @param {string} destArgv
    * @returns string
    */
@@ -121,6 +121,7 @@ class GulpJSTaskManager {
     console.log("Source Path :", this.src);
     console.log("Destination Path :", this.dest);
 
+    /** Input and Command Checker */
     if (this.src.length === 0 || this.checkInvalidArgs === false) {
       console.log("No valid option provided ending process ...");
       return;
@@ -140,7 +141,7 @@ class GulpJSTaskManager {
     }
 
     return stream.pipe(dest(this.dest)).on("end", () => {
-      console.log("... Build completed.");
+      console.log("... JS build completed.");
     });
   }
 
@@ -153,7 +154,7 @@ class GulpJSTaskManager {
   watchJS() {
     this.src = config.jspaths.main + "/**/*.js";
     this.dest = config.jspaths.maindest;
-    console.log("Start watching ... ");
+    console.log("Start JS watching ... ");
 
     /** Development ENV where file can be deleted on changes */
 

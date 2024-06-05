@@ -4,18 +4,12 @@
 const { parallel } = require('gulp');
 const hello = require('./func/gulp/hello.js');
 const { clean } = require('./func/gulp/utils.js');
-const { fontawesomeFont } = require('./func/gulp/icons.js');
 const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
 
 
 /** Util Tasks */
-
 exports.clean = clean;
-
-/** Fontawesome Tasks */
-
-exports.fontawesomeFont = fontawesomeFont;
 
 
 /** Tasks */
@@ -48,4 +42,7 @@ exports.buildCSS = () => {
     return gulpCSSTaskManager.compileCSS();
 }
 
-
+exports.watchCSS = () => {
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false});
+    return gulpCSSTaskManager.watchCSS();
+}
