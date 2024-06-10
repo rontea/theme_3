@@ -4,7 +4,6 @@
 
 'use strict';
 
-const autoprefixer = require("autoprefixer");
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -53,6 +52,15 @@ const config = {
     
             builds : {
                 paniniBuild : "./build"
+            },
+
+            htmlpaths: {
+
+                panini: {
+                    src: "./html/",
+                    dest: "./build"
+                }
+               
             },
     
             icons : {

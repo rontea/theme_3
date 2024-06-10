@@ -163,7 +163,7 @@ class GulpJSTaskManager {
       .on("change", this.compileJS.bind(this))
       .on("add", this.compileJS.bind(this))
       .on("unlink", (file) => {
-        console.log("On Delete : ", file);
+        console.log("... On Delete > ", file);
         const relativePath = path.relative(config.jspaths.main, file);
         const destFile = path.join(this.dest, relativePath);
 

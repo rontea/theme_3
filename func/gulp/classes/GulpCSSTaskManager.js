@@ -215,13 +215,13 @@ class GulpCSSTaskManager {
                 let destFile = "";
                 
                 if(file.endsWith('.css')){
-                    console.log("On Delete : ", file);
+                    console.log("... On Delete > ", file);
                     relativePath = path.relative(config.csspaths.maincss, file);
                     destFile = path.join(this.dest, relativePath);
            
                 } else if(file.endsWith('.scss')) {
 
-                    console.log("On Delete : ", file);
+                    console.log("... On Delete > ", file);
                     relativePath = path.relative(config.csspaths.mainscss, file);
                     destFile = path.join(this.dest, relativePath);
                     destFile = destFile.replace(/\.scss$/, '.css');
@@ -236,10 +236,7 @@ class GulpCSSTaskManager {
                 }
 
 
-            }).on('cycleEnd' , () => {
-                console.log("... Cycle Complete ...");
             });
-
     }
 
 }
