@@ -4,13 +4,14 @@ const config = require("../../config/config.js");
 const { src, dest, watch } = require("gulp");
 const uglify = require("gulp-uglify");
 const argv = require("yargs").argv;
+const browserSync = require('browser-sync').create();
 const path = require("path");
 const fs = require("fs-extra");
 
 class GulpJSTaskManager {
   /**
    * Accepts array of options
-   * @param {*} options
+   * @param {options.src : string , options.autoInit : boolean , options.watch : boolean , options.build : boolean , options.key : string} options
    * { autoInit : bool, build : bool, key : string }
    */
   constructor(options = {}) {
@@ -26,6 +27,9 @@ class GulpJSTaskManager {
     //this.dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.baseDest;
     this.dest = this.getDestPath(argv.dest);
     this.options = options;
+
+
+    this.options.watch = this.options.watch || false;
 
     if (this.autoInit !== false && this.checkInvalidArgs) {
       this.checkFlags();
@@ -89,7 +93,48 @@ class GulpJSTaskManager {
             return true;
         }
 
-    }  
+    }
+  
+  /**
+     * This will set the source for the build request
+     * @param {Array || string } typeBuild 
+     */
+
+  buildSet(typeBuild) {
+
+    let checkAvailable = false;
+
+    if(Array.isArray(typeBuild)) {
+
+        typeBuild.forEach(key => {
+            config.jspaths.paths.forEach((item) => {
+         
+                if (item.key === key) {
+                  this.src.push(item.path);
+                  checkAvailable = true;
+                  console.log("Type Build " , key);
+                }
+            });
+        });
+
+    }else {
+        config.jspaths.paths.forEach((item) => {
+         
+            if (item.key === typeBuild) {
+              this.src.push(item.path);
+              checkAvailable = true;
+              console.log("Type Build " , key);
+            }
+        });
+    }
+    
+    if (checkAvailable === false) {
+        console.log(
+          typeBuild,
+          "Not available please check config for available keys ..."
+        );
+    }
+  }
 
   /**
    * This will build the JS to the destination
@@ -100,22 +145,9 @@ class GulpJSTaskManager {
     
     if (this.options.build === true) {
       let typeBuild = this.options.key;
-      let checkAvailable = false;
       console.log("Building invoke for...", typeBuild);
 
-      config.jspaths.paths.forEach((item) => {
-        if (item.key === typeBuild) {
-          this.src.push(item.path);
-          checkAvailable = true;
-        }
-      });
-
-      if (checkAvailable === false) {
-        console.log(
-          typeBuild,
-          ".. not available please check config for available keys"
-        );
-      }
+      this.buildSet(typeBuild);
     }
 
     console.log("Source Path :", this.src);
@@ -140,7 +172,13 @@ class GulpJSTaskManager {
         }));
     }
 
-    return stream.pipe(dest(this.dest)).on("end", () => {
+    stream = stream.pipe(dest(this.dest));
+
+    if(this.options.watch === true) {
+      stream = stream.pipe(browserSync.stream());
+    }
+
+    return stream.on("end", () => {
       console.log("... JS build completed.");
     });
   }

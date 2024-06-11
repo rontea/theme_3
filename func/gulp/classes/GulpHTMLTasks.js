@@ -9,12 +9,18 @@ const fs = require('fs-extra');
 
 class GulpHTMLTasks {
 
+    /**
+     * Accepts array of options
+     * @param {options.src : string, options.dest : string, options.watch: boolean} options 
+     */
     constructor(options = {}) {
+
+        /** List */
 
         this.src = options.src || config.htmlpaths.panini.src;
         this.dest = options.dest || config.htmlpaths.panini.dest;
        
-
+        /** paths */
         this.pages = path.join(this.src, 'pages/**/*.{html,hbs,handlebars}');
         this.partials = path.join(this.src, 'partials/');
         this.layouts = path.join(this.src, 'layouts/');
@@ -22,9 +28,13 @@ class GulpHTMLTasks {
         this.data = path.join(this.src, 'data/');
         
         this.options = options;
-    
+        this.options.watch = this.options.watch || false;
     }
 
+    /**
+     * This will build the HTML of Panini
+     * @returns gulp tasks
+     */
     compileHtml(){
         console.log('Compiling HTML...');
         console.log(this.src);
@@ -42,7 +52,7 @@ class GulpHTMLTasks {
         }));
 
         stream = stream.pipe(dest(this.dest));
-        
+        /** Check fo watch option */
         if(this.options.watch === true) {
             stream = stream.pipe(browserSync.stream());
         }
@@ -52,12 +62,20 @@ class GulpHTMLTasks {
            
         });
     }
-
+    /**
+     * This will reset paninin caching
+     * @param {*} cb 
+     */
     resetPanini(cb) {
         console.log("... Resetting Panini cache.");
         panini.refresh();
         cb();
     }
+
+    /**
+     * This will watch the change on HTML folder for Panini
+     * @returns watch
+     */
 
     watchHtml() {
 
@@ -75,7 +93,7 @@ class GulpHTMLTasks {
                     
                     if(file.startsWith(path.join(this.src, 'pages'))){
                         console.log("... On Delete: > ", file);
-
+                        /** Make sure it only delete on pages and on join remove text 'pages'*/
                         const relativePath = path.relative(path.join(this.src, 'pages'), file);
                         const destFile = path.join(this.dest, relativePath);
                         
@@ -86,7 +104,7 @@ class GulpHTMLTasks {
                             console.error("Error removing file:", err);
                         }
                     }else {
-                        console.log(".... On Delete: > ", file);
+                        console.log(".... On Delete source only: > ", file);
                     }
 
                 });

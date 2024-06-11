@@ -6,7 +6,8 @@ const hello = require('./func/gulp/hello.js');
 const { clean } = require('./func/gulp/utils.js');
 const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
-const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js')
+const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
+const { watch } = require('browser-sync');
 
 
 /** Tasks */
@@ -23,31 +24,31 @@ exports.compileJS = () => {
 
 /** JS Watch */
 exports.watchJS = () => { 
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false });
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , watch: true});
     return gulpJSTaskManager.watchJS();
 }
 
 /** JS Build Task */
 exports.buildJS = () => {
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , build: true, key: 'js'});
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , build: true, key: 'js' });
     return gulpJSTaskManager.compileJS();
 }
 
 /** CSS Tasks */
 exports.compileCSS = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true });
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , watch: false });
     return gulpCSSTaskManager.compileCSS();
 }
 
 /** CSS Build Task */
 exports.buildCSS = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false, build: true, key: 'css' });
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false, build: true, key: 'css'  });
     return gulpCSSTaskManager.compileCSS();
 }
 
 /** CSS and SCSS Watch */
 exports.watchCSS = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false});
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false , build: true});
     return gulpCSSTaskManager.watchCSS();
 }
 

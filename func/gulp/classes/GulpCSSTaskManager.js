@@ -16,7 +16,8 @@ class GulpCSSTaskManager {
 
     /**
      * Accepts array of options
-     * @param {*} options 
+     * @param {options.src : string , options.autoInit : boolean , options.watch : boolean , options.build : boolean , options.key : string} options 
+     * 
      */
     constructor(options = {}) {
 
@@ -30,10 +31,12 @@ class GulpCSSTaskManager {
         this.dest = this.getDestPath(argv.dest);
         this.options = options;
         
+        this.options.watch = this.options.watch || false;
+
         if (this.autoInit !== false && this.checkInvalidArgs) {
             this.checkFlags();
         }
-        
+
     }
 
     /**
@@ -92,6 +95,49 @@ class GulpCSSTaskManager {
         }
 
     }
+
+    /**
+     * This will set the source for the build request
+     * @param {Array || string } typeBuild 
+     */
+
+    buildSet(typeBuild) {
+
+        let checkAvailable = false;
+
+        if(Array.isArray(typeBuild)) {
+
+            typeBuild.forEach(key => {
+                config.csspaths.paths.forEach((item) => {
+             
+                    if (item.key === key) {
+                      this.src.push(item.path);
+                      checkAvailable = true;
+                      console.log("Type Build " , key);
+                    }
+                });
+            });
+
+
+        }else {
+            config.csspaths.paths.forEach((item) => {
+             
+                if (item.key === typeBuild) {
+                  this.src.push(item.path);
+                  checkAvailable = true;
+                  console.log("Type Build " , typeBuild);
+                }
+            });
+        }
+
+        if (checkAvailable === false) {
+            console.log(
+              typeBuild,
+              "Not available please check config for available keys ..."
+            );
+        }
+    }
+
     /**
      * This will build the JS to the destination
      * @returns gulp task
@@ -99,24 +145,14 @@ class GulpCSSTaskManager {
 
     compileCSS() {
 
+        /** Build by key */
         if (this.options.build === true) {
             let typeBuild = this.options.key;
-            let checkAvailable = false;
+           
             console.log("... Building for :", typeBuild);
 
-            config.csspaths.paths.forEach((item) => {
-                if (item.key === typeBuild) {
-                  this.src.push(item.path);
-                  checkAvailable = true;
-                }
-            });
+            this.buildSet(typeBuild);
 
-            if (checkAvailable === false) {
-                console.log(
-                  typeBuild,
-                  "Not available please check config for available keys ..."
-                );
-            }
         }
 
         console.log("Source Path :", this.src);
@@ -161,7 +197,14 @@ class GulpCSSTaskManager {
             }));
         }
 
-        return stream.pipe(dest(this.dest)).on("end", () => {
+        stream = stream.pipe(dest(this.dest));
+
+        /** Check fo watch option */
+        if(this.options.watch === true) {
+            stream = stream.pipe(browserSync.stream());
+        }
+
+        return stream.on("end", () => {
             console.log("... CSS build completed.");
         });
         
