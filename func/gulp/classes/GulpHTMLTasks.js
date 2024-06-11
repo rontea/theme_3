@@ -21,14 +21,23 @@ class GulpHTMLTasks {
         this.dest = options.dest || config.htmlpaths.panini.dest;
        
         /** paths */
-        this.pages = path.join(this.src, 'pages/**/*.{html,hbs,handlebars}');
-        this.partials = path.join(this.src, 'partials/');
-        this.layouts = path.join(this.src, 'layouts/');
-        this.helpers = path.join(this.src, 'helpers/');
-        this.data = path.join(this.src, 'data/');
+        this.pages = path.join(this.src, config.htmlpaths.panini.pages);
+        this.partials = path.join(this.src, config.htmlpaths.panini.partials);
+        this.layouts = path.join(this.src, config.htmlpaths.panini.layouts);
+        this.helpers = path.join(this.src, '');
+        this.data = path.join(this.src, '');
         
         this.options = options;
         this.options.watch = this.options.watch || false;
+    }
+
+    /**
+    * This will return all options
+    * @returns array 
+    */
+
+    getOptions() {
+        return this.options;
     }
 
     /**

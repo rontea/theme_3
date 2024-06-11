@@ -59,11 +59,11 @@ const config = {
                 panini: {
                     src: "./html/",
                     dest: "./build",
-                    pages: "",
-                    partials: "",
-                    layouts: "",
-                    helpers: "",
-                    data: "", 
+                    pages: "pages/**/*.{html,hbs,handlebars}",
+                    partials: "partials/",
+                    layouts: "layouts/",
+                    helpers: "helpers/",
+                    data: "data/", 
                 }
                
             },

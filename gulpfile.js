@@ -8,6 +8,7 @@ const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
 const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
 const { watch } = require('browser-sync');
+const autoprefixer = require('autoprefixer');
 
 
 /** Tasks */
@@ -30,7 +31,8 @@ exports.watchJS = () => {
 
 /** JS Build Task */
 exports.buildJS = () => {
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , build: true, key: 'js' });
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
+            build: true, key: 'js', uglify: true });
     return gulpJSTaskManager.compileJS();
 }
 
@@ -42,7 +44,10 @@ exports.compileCSS = () => {
 
 /** CSS Build Task */
 exports.buildCSS = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false, build: true, key: 'css'  });
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+        autoInit: false, build: true, key: 'css' , 
+        autoprefixer : true });
+
     return gulpCSSTaskManager.compileCSS();
 }
 

@@ -5,10 +5,7 @@ const { src, dest, watch } = require("gulp");
 const argv = require("yargs").argv;
 const path = require("path");
 const sass = require("gulp-sass")(require('sass'));
-const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
-const cssnano = require("cssnano");
-const { check } = require("yargs");
 const fs = require("fs-extra");
 
 
@@ -16,8 +13,9 @@ class GulpCSSTaskManager {
 
     /**
      * Accepts array of options
-     * @param {options.src : string , options.autoInit : boolean , options.watch : boolean , options.build : boolean , options.key : string} options 
-     * 
+     * @param {options.src : string , options.autoInit : boolean , options.watch : boolean,
+     *  options.build : boolean , options.key : string || array strings, options.autopefixer: boolean  
+     *  options.numVersion : int , options.compress : boolean } options
      */
     constructor(options = {}) {
 
@@ -32,12 +30,23 @@ class GulpCSSTaskManager {
         this.options = options;
         
         this.options.watch = this.options.watch || false;
+        this.options.autoprefixer = this.options.autoprefixer || false;
 
         if (this.autoInit !== false && this.checkInvalidArgs) {
             this.checkFlags();
         }
 
     }
+
+    /**
+    * This will return all options
+    * @returns array 
+    */
+
+    getOptions() {
+        return this.options;
+    }
+
 
     /**
      * Check path supplied by --dest is not empty and not a number value
@@ -172,7 +181,7 @@ class GulpCSSTaskManager {
                 console.log("... SASS compile completed.");
             }));
 
-        if(argv.compress) {
+        if(argv.compress || this.options.compress) {
             
             stream = stream.pipe(sass({outputStyle : 'compressed'})
                 .on('error' , sass.logError).on('end' , () => {
@@ -180,14 +189,19 @@ class GulpCSSTaskManager {
                 }));
         }
 
-        if(argv.autoprefixer){
+        if(argv.autoprefixer || this.options.autoprefixer){
 
-            let numVersion = argv.autoprefixer;
+            console.log(argv.autoprefixer);
+            let numVersion = argv.autoprefixer || this.options.numVersion;
+            let temp = numVersion;
+            console.log("Starting Autoprefixer with last version request of " , temp);
 
-            if(numVersion > 0 && numVersion <= 5) {
+            if(numVersion > 0 && numVersion <= 5 ) {
                 numVersion = numVersion;
             }else {
                 numVersion = config.csspaths.settings.autoprefixer;
+                console.log("Only accepts 1-5 > Invalid last version request of " , temp);
+                console.log("Setting default on config.js ", numVersion )
             }
 
             stream = stream.pipe(sass([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])

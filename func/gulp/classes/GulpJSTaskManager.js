@@ -11,7 +11,9 @@ const fs = require("fs-extra");
 class GulpJSTaskManager {
   /**
    * Accepts array of options
-   * @param {options.src : string , options.autoInit : boolean , options.watch : boolean , options.build : boolean , options.key : string} options
+   * @param {options.src : string , options.autoInit : boolean, 
+   *  options.watch : boolean , options.build : boolean , 
+   *  options.key : string || array strings , options.uglify } options
    * { autoInit : bool, build : bool, key : string }
    */
   constructor(options = {}) {
@@ -34,6 +36,15 @@ class GulpJSTaskManager {
     if (this.autoInit !== false && this.checkInvalidArgs) {
       this.checkFlags();
     }
+  }
+  
+  /**
+   * This will return all options
+   * @returns array 
+   */
+
+  getOptions() {
+    return this.options;
   }
 
   /**
@@ -97,7 +108,7 @@ class GulpJSTaskManager {
   
   /**
      * This will set the source for the build request
-     * @param {Array || string } typeBuild 
+     * @param {Array || string } 
      */
 
   buildSet(typeBuild) {
@@ -123,7 +134,7 @@ class GulpJSTaskManager {
             if (item.key === typeBuild) {
               this.src.push(item.path);
               checkAvailable = true;
-              console.log("Type Build " , key);
+              console.log("Type Build " , typeBuild);
             }
         });
     }
@@ -161,7 +172,7 @@ class GulpJSTaskManager {
 
     let stream = src(this.src);
 
-    if (argv.uglify) {
+    if (argv.uglify || this.options.uglify) {
      
       stream = stream.pipe(uglify()
         .on('error', (err) => {
