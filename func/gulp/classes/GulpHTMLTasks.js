@@ -24,8 +24,8 @@ class GulpHTMLTasks {
         this.pages = path.join(this.src, config.htmlpaths.panini.pages);
         this.partials = path.join(this.src, config.htmlpaths.panini.partials);
         this.layouts = path.join(this.src, config.htmlpaths.panini.layouts);
-        this.helpers = path.join(this.src, '');
-        this.data = path.join(this.src, '');
+        this.helpers = path.join(this.src, config.htmlpaths.panini.helpers);
+        this.data = path.join(this.src, config.htmlpaths.panini.data);
         
         this.options = options;
         this.options.watch = this.options.watch || false;
