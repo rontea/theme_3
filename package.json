@@ -30,7 +30,7 @@
     "cssnano": "^7.0.1",
     "dependencies": "^0.0.1",
     "fs-extra": "^11.2.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-environments": "^1.0.1",
     "gulp-html": "^6.0.0",
     "gulp-postcss": "^10.0.0",
