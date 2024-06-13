@@ -9,6 +9,8 @@ const env = process.env.NODE_ENV || 'development';
 
 const config = {
         development : {
+
+            mainbuild : "build", 
             csspaths : {
 
                 maincss: "src/css/",
@@ -66,6 +68,12 @@ const config = {
                     data: "data/", 
                 }
                
+            },
+
+            images: {
+                main: "src/images/**/*",
+                mainsrc:  "src/images/",
+                maindest: "build/img" 
             },
     
             icons : {

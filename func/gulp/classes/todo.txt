@@ -1,0 +1,3 @@
+1. JS , CSS , HTML , Images 
+    > folder creation  and delete folder should delete on build.
+        - currently if a folder is create it will not be created but if file is created on it, it will be created.

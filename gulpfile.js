@@ -7,6 +7,7 @@ const { clean } = require('./func/gulp/utils.js');
 const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
 const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
+const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js')
 const { watch } = require('browser-sync');
 const autoprefixer = require('autoprefixer');
 
@@ -45,8 +46,7 @@ exports.compileCSS = () => {
 /** CSS Build Task */
 exports.buildCSS = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'css' , 
-        autoprefixer : true });
+        autoInit: false, build: true, key: 'css' });
 
     return gulpCSSTaskManager.compileCSS();
 }
@@ -69,4 +69,18 @@ exports.compileHTML = (cb) => {
 exports.watchHTML = () => {
     const gulpHtmlTasks = new GulpHTMLTasks({ watch: true});
     gulpHtmlTasks.watchHtml();
+}
+
+/** Ccmpile Image */
+
+exports.buildImage = (cb) => {
+    const gulpImageTasks = new GulpImageTasks({ watch: false});
+    gulpImageTasks.compileImages();
+    cb();
+}
+
+exports.watchImage = (cb) => {
+    const gulpImageTasks = new GulpImageTasks({ watch: true});
+    gulpImageTasks.watchImages();
+    cb();
 }
