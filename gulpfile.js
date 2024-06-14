@@ -2,21 +2,29 @@
 'use strict';
 
 const { parallel } = require('gulp');
-const hello = require('./func/gulp/hello.js');
-const { clean } = require('./func/gulp/utils.js');
 const GulpJSTaskManager = require('./func/gulp/classes/GulpJSTaskManager.js');
 const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
 const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
-const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js')
-const { watch } = require('browser-sync');
-const autoprefixer = require('autoprefixer');
+const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js');
+const utils = require('./func/gulp/classes/Utils.js');
+const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck.js');
 
 
-/** Tasks */
-exports.default = hello;
 
 /** Util Tasks */
-exports.clean = clean;
+
+exports.default = utils.default.bind();
+
+exports.check = utils.hello.bind();
+
+exports.clean = utils.utilsClean.bind();
+
+/** Manual Check Key */
+exports.keyCheck = (cb) => {
+    gulpKeyCheck.checkJSKey();
+    gulpKeyCheck.checkCSSKey();
+    cb();
+}
 
 /** JS Tasks */
 exports.compileJS = () => {

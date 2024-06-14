@@ -1,0 +1,35 @@
+'use strict';
+const config = require('../../config/config.js');
+
+class GulpKeyCheck {
+
+    static checkJSKey() {
+    
+        console.log("JS Key where $gulp command --key ..");
+        let prefix = "--";  
+        config.jspaths.paths.forEach(item => {
+            console.log( ` ${prefix}${item.key}`);
+        });
+
+        console.log("JS Key + Uglify $gulp command --key --uglify");
+        console.log(`   ${prefix}uglify`);
+
+    }
+
+    static checkCSSKey() {
+
+        console.log("CSS Key where $gulp command --key ..");
+        let prefix = "--"; 
+        config.csspaths.paths.forEach(item => {
+            console.log( ` ${prefix}${item.key}`);
+        });
+
+        console.log("CSS Key + Compress and AutoPrefixer $gulp command --key --compress ..");
+        console.log(`   ${prefix}compress `);
+        console.log(`   ${prefix}autoprefixer (num 1-5) `);
+        
+    }
+
+}
+
+module.exports = GulpKeyCheck;

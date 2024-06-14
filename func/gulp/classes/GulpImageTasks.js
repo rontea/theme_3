@@ -5,6 +5,7 @@ const { src, dest, watch } = require("gulp");
 const browserSync = require('browser-sync').create();
 const path = require("path");
 const fs = require("fs-extra");
+const handler = require("../../gulp/classes/Handler.js");
 
 class GulpImageTasks {
     /**
@@ -66,18 +67,18 @@ class GulpImageTasks {
         return watch(this.src)
         .on('change' , this.compileImages.bind(this))
         .on('add' , this.compileImages.bind(this))
+        .on('addDir' , (dir) => {
+           handler.handlerOnDirAdd(dir,config.images.mainsrc,this.dest);
+        })
         .on('unlink' , (file) => {
-            console.log("... On Delete > ", file);
-            const relativePath = path.relative(config.images.mainsrc, file);
-            const destFile = path.join(this.dest, relativePath);
-
-            try {
-                fs.remove(destFile);
-                console.log("Removed File Success , Path", destFile);
-              } catch (err) {
-                console.error("Error removing file: ", err);
-            }
-
+            handler.handlerOnDeleteFile(file,config.images.mainsrc,this.dest);
+        })
+        .on('unlinkDir' , (dir) => {
+            console.log("... On Dir Delete > ", dir);
+       
+        })
+        .on('error' , (error) => {
+           handler.handlerError(error);
         });
 
     }
