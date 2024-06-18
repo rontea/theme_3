@@ -3,9 +3,8 @@
 const config = require("../../config/config.js");
 const { src, dest, watch } = require("gulp");
 const browserSync = require('browser-sync').create();
-const path = require("path");
-const fs = require("fs-extra");
 const handler = require("../../gulp/classes/Handler.js");
+
 
 class GulpImageTasks {
     /**
@@ -38,10 +37,12 @@ class GulpImageTasks {
 
     compileImages() {
 
+        
+
         console.log("Source Path :", this.src);
         console.log("Destination Path :", this.dest);
-        
-        let stream = src(this.src);
+        /** Encoding : false fixed corrupt images */        
+        let stream = src(this.src , {encoding:false});
 
         stream = stream.pipe(dest(this.dest));
 
@@ -51,6 +52,8 @@ class GulpImageTasks {
 
         return stream.on("end", () => {
             console.log("... Image build completed.");
+        }).on('error' , (error) => {
+            console.log(error);
         });
 
     }
@@ -64,7 +67,7 @@ class GulpImageTasks {
 
         console.log("Start Images watching ... ");
 
-        return watch(this.src)
+        return watch(this.src , { ignoreInitial: false})
         .on('change' , this.compileImages.bind(this))
         .on('add' , this.compileImages.bind(this))
         .on('addDir' , (dir) => {

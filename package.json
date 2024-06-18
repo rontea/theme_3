@@ -35,6 +35,7 @@
     "gulp-cli": "^3.0.0",
     "gulp-environments": "^1.0.1",
     "gulp-html": "^6.0.0",
+    "gulp-imagemin": "^9.1.0",
     "gulp-postcss": "^10.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",

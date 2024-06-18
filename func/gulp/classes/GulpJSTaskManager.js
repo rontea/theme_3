@@ -6,7 +6,6 @@ const uglify = require("gulp-uglify");
 const argv = require("yargs").argv;
 const browserSync = require('browser-sync').create();
 const path = require("path");
-const fs = require("fs-extra");
 const handler = require("../../gulp/classes/Handler.js");
 const { error } = require("console");
 

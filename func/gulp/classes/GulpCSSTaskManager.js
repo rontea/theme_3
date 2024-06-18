@@ -6,7 +6,6 @@ const argv = require("yargs").argv;
 const path = require("path");
 const sass = require("gulp-sass")(require('sass'));
 const autoprefixer = require("autoprefixer");
-const fs = require("fs-extra");
 const handler = require("../../gulp/classes/Handler.js");
 
 

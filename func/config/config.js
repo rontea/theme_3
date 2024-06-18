@@ -73,7 +73,7 @@ const config = {
             images: {
                 main: "src/images/**/*",
                 mainsrc:  "src/images/",
-                maindest: "build/img" 
+                maindest: "build/img/" 
             },
     
             icons : {
