@@ -7,6 +7,8 @@ const argv = require("yargs").argv;
 const browserSync = require('browser-sync').create();
 const path = require("path");
 const fs = require("fs-extra");
+const handler = require("../../gulp/classes/Handler.js");
+const { error } = require("console");
 
 class GulpJSTaskManager {
   /**
@@ -212,16 +214,13 @@ class GulpJSTaskManager {
       .on("change", this.compileJS.bind(this))
       .on("add", this.compileJS.bind(this))
       .on("unlink", (file) => {
-        console.log("... On Delete > ", file);
-        const relativePath = path.relative(config.jspaths.main, file);
-        const destFile = path.join(this.dest, relativePath);
+       
+        handler.handlerOnDeleteFile(file,config.jspaths.main,this.dest);
 
-        try {
-          fs.remove(destFile);
-          console.log("Removed File Success , Path", destFile);
-        } catch (err) {
-          console.error("Error removing file: ", err);
-        }
+      }).on('error' , (error) => {
+        
+        handler.handlerError(error);
+
       });
   }
 }

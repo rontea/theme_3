@@ -79,7 +79,7 @@ exports.watchHTML = () => {
     gulpHtmlTasks.watchHtml();
 }
 
-/** Ccmpile Image */
+/** Compile Image */
 
 exports.buildImage = (cb) => {
     const gulpImageTasks = new GulpImageTasks({ watch: false});

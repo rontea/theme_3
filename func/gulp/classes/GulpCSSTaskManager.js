@@ -7,6 +7,7 @@ const path = require("path");
 const sass = require("gulp-sass")(require('sass'));
 const autoprefixer = require("autoprefixer");
 const fs = require("fs-extra");
+const handler = require("../../gulp/classes/Handler.js");
 
 
 class GulpCSSTaskManager {
@@ -285,14 +286,13 @@ class GulpCSSTaskManager {
           
                 }
                 
-                try {
-                    fs.remove(destFile);
-                    console.log("Removed File Success , Path", destFile);
-                } catch (err) {
-                    console.error("Error removing file: ", err);
-                }
+                handler.handlerSetOnDeleteFile(destFile);
 
-
+            })
+            .on('error' , (error) => {
+        
+                handler.handlerError(error);
+        
             });
     }
 

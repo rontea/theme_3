@@ -25,6 +25,15 @@ class Handler {
         });
     }
 
+    handlerSetOnDeleteFile(destFile){
+        fs.remove(destFile)
+        .then( () => {
+            console.log("Removed File Success , Path", destFile);
+        }).catch(err => {
+            console.error(err);
+        });
+    }
+
     /**
      * Handle the Directory Add
      * @param {string} dir 
@@ -47,6 +56,13 @@ class Handler {
         });
         
     }
+
+    /**
+     * 
+     * @param {string} dir 
+     * @param {string} src 
+     * @param {string} dest 
+     */
 
     handlerOnDirDelete(dir,src,dest) {
 
@@ -71,7 +87,5 @@ class Handler {
 
 const handler = new Handler();
 Object.freeze(handler);
-
-module.exports = handler;
 
 module.exports = handler;
