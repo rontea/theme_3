@@ -96,7 +96,8 @@ class GulpHTMLTasks {
             }
         });
 
-        return watch([this.pages, this.partials , this.layouts , this.helpers, this.data],
+        return watch([this.pages, this.partials , this.layouts , this.helpers, this.data],  
+                { ignoreInitial: false},
                 series(this.resetPanini.bind(this) , this.compileHtml.bind(this)))
                 .on('unlink' , (file) => {
                     

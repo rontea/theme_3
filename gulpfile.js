@@ -7,6 +7,8 @@ const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
 const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js');
 const utils = require('./func/gulp/classes/Utils.js');
 const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck.js');
+const GulpIconTasks = require('./func/gulp/classes/GulpIconTasks.js');
+
 
 /** Utils Tasks */
 
@@ -61,7 +63,7 @@ exports.buildCSS = () => {
 
 exports.buildSCSS = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'scss' });
+        autoInit: false, watch:false, build: true, key: 'scss' });
 
     return gulpCSSTaskManager.compileCSS();
 }
@@ -107,3 +109,50 @@ exports.buildInit = series(this.buildHTML,
 /** Watch */
 exports.watch = parallel(this.watchHTML, this.watchImage,
     this.watchCSS, this.watchJS);
+
+/** Icons */
+
+exports.compileIcon = () => {
+   const gulpIconTasks = new GulpIconTasks({ autoInit: true});
+    gulpIconTasks.compileIconSets();
+}
+
+exports.buildAllFa = (cb) => {
+
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+        autoInit: false, build: true, key: 'fontawesome' });
+
+    const gulpIconTasks = new GulpIconTasks({ autoInit: false, watch: false,
+        build: true, key: 'fontawesome'});
+
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
+        watch: false, build: true, key: 'fontawesome'});
+
+    
+    gulpCSSTaskManager.compileCSS(); 
+    gulpIconTasks.compileIconSets();
+    gulpJSTaskManager.compileJS();
+
+    cb();
+    
+}
+
+exports.buildAllBi = (cb) => {
+
+    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+        autoInit: false, build: true, key: 'bootstrapIcon' });
+
+    const gulpIconTasks = new GulpIconTasks({ autoInit: false, watch: false,
+        build: true, key: 'bootstrap'});
+
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
+        watch: false, build: true, key: ['bootstrap' , 'popper']});
+
+    
+    gulpCSSTaskManager.compileCSS(); 
+    gulpIconTasks.compileIconSets();
+    gulpJSTaskManager.compileJS();
+
+    cb();
+
+}

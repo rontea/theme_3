@@ -88,22 +88,22 @@ class GulpJSTaskManager {
     }
   }
 
-      /**
+    /**
      * Check if the commands are correct
      * @returns boolean
      */
-      checkInvalidArgs() {
+    checkInvalidArgs() {
 
-        const validKeys = config.jspaths.paths.map(item => item.key).concat(['dest', 'uglify']);
-        const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
-        
-        if (invalidKeys.length > 0) {
-            console.log("Invalid options provided: ", invalidKeys.join(', '));
-            console.log("Please check the available options: ", validKeys.join(', '));
-            return false;
-        } else {
-            return true;
-        }
+      const validKeys = config.jspaths.paths.map(item => item.key).concat(['dest', 'uglify']);
+      const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
+      
+      if (invalidKeys.length > 0) {
+          console.log("Invalid options provided: ", invalidKeys.join(', '));
+          console.log("Please check the available options: ", validKeys.join(', '));
+          return false;
+      } else {
+          return true;
+      }
 
     }
   

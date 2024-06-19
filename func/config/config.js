@@ -77,14 +77,13 @@ const config = {
             },
     
             icons : {
-                fontawesome : {
-                    webfonts: "node_modules/@fortawesome/fontawesome-free/webfonts/**/*",
-                    build: "build/fontawesome/webfonts"
-                },
-                bootstrap: {
-                    webfonts:"node_modules/bootstrap-icons/font/fonts/**",
-                    build: "build/bootstrap/webfonts"
-                } 
+                main : [],
+                maindest: "build/css/",
+                prefix: "/fonts",
+                paths : [
+                    { key: 'fontawesome' , path: "node_modules/@fortawesome/fontawesome-free/webfonts/**/*" },
+                    { key: 'bootstrap' , path: "node_modules/bootstrap-icons/font/fonts/**/*" },
+                ] 
             },
             
             info : {
