@@ -10,13 +10,15 @@ const handler = require("../../gulp/classes/Handler.js");
 const { error } = require("console");
 
 class GulpJSTaskManager {
+  
   /**
    * Accepts array of options
    * @param {options.src : string , options.autoInit : boolean, 
    *  options.watch : boolean , options.build : boolean , 
    *  options.key : string || array strings , options.uglify } options
    * { autoInit : bool, build : bool, key : string }
-   */
+  */
+
   constructor(options = {}) {
 
     /** List */
@@ -42,7 +44,7 @@ class GulpJSTaskManager {
   /**
    * This will return all options
    * @returns array 
-   */
+  */
 
   getOptions() {
     return this.options;
@@ -52,7 +54,8 @@ class GulpJSTaskManager {
    * Check path supplied by --dest is not empty and not a number value
    * @param {string} destArgv
    * @returns string
-   */
+  */
+
   getDestPath(destArgv) {
     if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
      
@@ -73,7 +76,7 @@ class GulpJSTaskManager {
    *  Accept argument on CLI , check config.js jspaths for keys
    *  gultTasks task --option --option
    *
-   */
+  */
 
   checkFlags() {
     config.jspaths.paths.forEach((item) => {
@@ -91,7 +94,8 @@ class GulpJSTaskManager {
     /**
      * Check if the commands are correct
      * @returns boolean
-     */
+    */
+
     checkInvalidArgs() {
 
       const validKeys = config.jspaths.paths.map(item => item.key).concat(['dest', 'uglify']);
@@ -107,10 +111,10 @@ class GulpJSTaskManager {
 
     }
   
-  /**
+    /**
      * This will set the source for the build request
      * @param {Array || string } 
-     */
+    */
 
   buildSet(typeBuild) {
 

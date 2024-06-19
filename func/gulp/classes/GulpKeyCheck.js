@@ -3,6 +3,10 @@ const config = require('../../config/config.js');
 
 class GulpKeyCheck {
 
+    /**
+     * Static method that will generate the keys coming from config file for JS.
+    */
+
     static checkJSKey() {
     
         console.log("JS Key where $gulp command --key ..");
@@ -15,6 +19,10 @@ class GulpKeyCheck {
         console.log(`   ${prefix}uglify`);
 
     }
+
+    /**
+     * Static method that will generate the keys coming from config file for CSS.
+    */
 
     static checkCSSKey() {
 

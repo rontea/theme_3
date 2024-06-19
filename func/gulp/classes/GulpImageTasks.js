@@ -10,7 +10,8 @@ class GulpImageTasks {
     /**
      * Accepts array of options
      * @param { options.src: string , options.dest : string , options.watch : boolean} options 
-     */
+    */
+
     constructor(options = {}){
 
         /** List */
@@ -24,7 +25,7 @@ class GulpImageTasks {
     /**
      * This will return all options
      * @returns array
-     */
+    */
 
     getOptions() {
         return this.options;
@@ -33,7 +34,7 @@ class GulpImageTasks {
     /**
      * This will build the Images to the destination
      * @returns gulp task
-     */
+    */
 
     compileImages() {
 
@@ -61,7 +62,7 @@ class GulpImageTasks {
     /**
      * This will watch file changes
      * @returns watch
-     */
+    */
 
     watchImages() {
 

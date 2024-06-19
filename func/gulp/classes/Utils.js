@@ -6,6 +6,11 @@ const fse = require('fs-extra');
 
 class Utils {
 
+    /**
+     * This will diplay tasks on gulpfile.js
+     * @param {*} cb 
+    */
+
     default(cb) {
         
         const taskTree = tree({ deep: true });
@@ -20,6 +25,10 @@ class Utils {
         
     }
 
+    /**
+     * My Project Information
+     * @param {*} cb 
+     */
    
     hello(cb){
 
@@ -29,12 +38,17 @@ class Utils {
         console.log('Command tasks view gulp --tasks');
         console.log('Documentation : ');
         console.log('Website: ');
-        console.log('Git Repo: ')
+        console.log('Git Repo: https://github.com/rontea/theme_3_V1/tree/1.3.0')
         console.log('@ 2024 May')
         console.log('');
         cb();
 
     }
+
+    /**
+     * This will delete the build folder.
+     * @returns remove folder
+     */
 
     utilsClean(){
        
@@ -45,8 +59,11 @@ class Utils {
     }
 }
 
-
+/**
+ *  Use without declaration of class
+ */
 const util = new Utils();
+
 Object.freeze(util);
 
 module.exports = util;

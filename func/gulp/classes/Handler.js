@@ -2,6 +2,10 @@
 const path = require("path");
 const fs = require("fs-extra");
 
+/**
+ * Event Handler
+ */
+
 class Handler {
 
     /**
@@ -9,7 +13,7 @@ class Handler {
      * @param {string} file 
      * @param {string} src 
      * @param {string} dest 
-     */
+    */
 
     handlerOnDeleteFile(file,src,dest) {
 
@@ -24,6 +28,11 @@ class Handler {
             console.error(err);
         });
     }
+
+    /**
+     * Handle the file delete
+     * @param {string} destFile 
+     */
 
     handlerSetOnDeleteFile(destFile){
         fs.remove(destFile)
@@ -58,7 +67,7 @@ class Handler {
     }
 
     /**
-     * 
+     * Handle on DIR delete
      * @param {string} dir 
      * @param {string} src 
      * @param {string} dest 

@@ -7,6 +7,12 @@ const { src, dest } = require("gulp");
 
 class GulpIconTasks {
 
+    /**
+     * Accepts array of options
+     * @param {options.src : string, options.dest : string, 
+     * options.build: boolean , options.key : string} options 
+    */
+
     constructor(options = {}){
 
         this.src = options.src || [];
@@ -21,6 +27,20 @@ class GulpIconTasks {
             this.checkFlags();
         }
     }
+
+    /**
+     * This will return all options
+     * @returns array 
+    */
+
+    getOptions() {
+    return this.options;
+    }
+
+    /**
+     * This will set the source for the build request
+     * @param {Array || string } 
+    */
 
     buildSet(srcTypeBuild) {
         
@@ -54,7 +74,7 @@ class GulpIconTasks {
                 }
             });
         }
-    
+
         if (checkAvailable === false) {
             console.log(
             typeBuild,
@@ -64,6 +84,10 @@ class GulpIconTasks {
 
     }
 
+    /**
+     * This will set the source for the build request
+     * @param {Array || string } 
+    */
 
     compileSet() {
 
@@ -120,7 +144,8 @@ class GulpIconTasks {
     /**
      * Check if the commands are correct
      * @returns boolean
-     */
+    */
+
     checkInvalidArgs() {
 
         const validKeys = config.icons.paths.map(item => item.key).concat(['dest']);
@@ -135,6 +160,12 @@ class GulpIconTasks {
         }
     
     }
+
+    /**
+     * This will build the Icon files to the destination
+     * @returns gulp task
+    */
+
 
     compileIconSets() {
 

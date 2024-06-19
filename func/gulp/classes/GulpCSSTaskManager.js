@@ -16,7 +16,8 @@ class GulpCSSTaskManager {
      * @param {options.src : string , options.autoInit : boolean , options.watch : boolean,
      *  options.build : boolean , options.key : string || array strings, options.autopefixer: boolean  
      *  options.numVersion : int , options.compress : boolean } options
-     */
+    */
+
     constructor(options = {}) {
 
         /** List */
@@ -52,7 +53,7 @@ class GulpCSSTaskManager {
      * Check path supplied by --dest is not empty and not a number value
      * @param {string} destArgv 
      * @returns string
-     */
+    */
 
     getDestPath(destArgv) {
         if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
@@ -69,10 +70,11 @@ class GulpCSSTaskManager {
       
         return path.join(this.baseDest, destArgv);
     }
+
     /**
      *   Accept argument on CLI , check config.js csspaths for keys
      *   gultTasks task --option --option
-     */
+    */
 
     checkFlags() {
         config.csspaths.paths.forEach((item) => {
@@ -86,10 +88,12 @@ class GulpCSSTaskManager {
             console.log("Please check Input for valid key.");
           }
     }
+
     /**
      * Check if the commands are correct
      * @returns boolean
-     */
+    */
+
     checkInvalidArgs() {
 
         const validKeys = config.csspaths.paths.map(item => item.key).concat(['dest', 'compress' , 'autoprefixer']);
@@ -108,7 +112,7 @@ class GulpCSSTaskManager {
     /**
      * This will set the source for the build request
      * @param {Array || string } typeBuild 
-     */
+    */
 
     buildSet(typeBuild) {
 
@@ -150,7 +154,7 @@ class GulpCSSTaskManager {
     /**
      * This will build the JS to the destination
      * @returns gulp task
-     */
+    */
 
     compileCSS() {
 
@@ -227,7 +231,7 @@ class GulpCSSTaskManager {
     /**
      * This will watch the change on css and scss folders
      * @returns watch
-     */
+    */
 
     watchCSS() {
 

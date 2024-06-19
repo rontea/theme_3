@@ -1,4 +1,8 @@
 1. JS , CSS , HTML , Images(semi-done) 
     > folder creation  and delete folder should delete on build.
-        - currently if a folder is create it will not be created but if file is created on it, it will be created.
-        - Images added folder add , however folder delete is not working
+        - Images added with event Dir add working , however Dir event delete is not working
+2. BootstrapIcon 
+    > the icons is not rendering , issue on fonts woff2 and woff
+    > it seems that the assets are not loading on bootstrap-icons.css
+
+3. 

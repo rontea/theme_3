@@ -12,7 +12,8 @@ class GulpHTMLTasks {
     /**
      * Accepts array of options
      * @param {options.src : string, options.dest : string, options.watch: boolean} options 
-     */
+    */
+
     constructor(options = {}) {
 
         /** List */
@@ -32,8 +33,8 @@ class GulpHTMLTasks {
     }
 
     /**
-    * This will return all options
-    * @returns array 
+     * This will return all options
+     * @returns array 
     */
 
     getOptions() {
@@ -43,7 +44,8 @@ class GulpHTMLTasks {
     /**
      * This will build the HTML of Panini
      * @returns gulp tasks
-     */
+    */
+
     compileHtml(){
         console.log('Compiling HTML...');
         console.log(this.src);
@@ -74,7 +76,8 @@ class GulpHTMLTasks {
     /**
      * This will reset paninin caching
      * @param {*} cb 
-     */
+    */
+
     resetPanini(cb) {
         console.log("... Resetting Panini cache.");
         panini.refresh();
@@ -84,7 +87,7 @@ class GulpHTMLTasks {
     /**
      * This will watch the change on HTML folder for Panini
      * @returns watch
-     */
+    */
 
     watchHtml() {
 
