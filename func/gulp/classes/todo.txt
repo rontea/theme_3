@@ -5,4 +5,11 @@
     > the icons is not rendering , issue on fonts woff2 and woff
     > it seems that the assets are not loading on bootstrap-icons.css
 
-3. 
+3. Image Compress and Image size on media query
+    > I'm a website developer
+    > I want the images auto compress and resize.
+    > So that I'm not resizing it or compressing it on image software.
+
+4. Resources section - done
+5. Project creation options on NPX
+6. Update 2 dependencies cssnano and sass

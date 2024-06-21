@@ -8,6 +8,7 @@ const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js');
 const utils = require('./func/gulp/classes/Utils.js');
 const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck.js');
 const GulpIconTasks = require('./func/gulp/classes/GulpIconTasks.js');
+const GulpResourceHandler = require('./func/gulp/classes/GulpResourceHandler.js');
 
 
 /** Utils Tasks */
@@ -117,6 +118,10 @@ exports.compileIcon = () => {
     gulpIconTasks.compileIconSets();
 }
 
+/**
+ * fontawesome icon builder.
+ * @param {*} cb 
+ */
 exports.buildAllFa = (cb) => {
 
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
@@ -137,6 +142,10 @@ exports.buildAllFa = (cb) => {
     
 }
 
+/**
+ * bootstrap icon builder
+ * @param {*} cb 
+ */
 exports.buildAllBi = (cb) => {
 
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
@@ -155,4 +164,11 @@ exports.buildAllBi = (cb) => {
 
     cb();
 
+}
+
+exports.move = (cb) => {
+
+    const gulpResourceHandler = new GulpResourceHandler();
+    
+    cb();
 }

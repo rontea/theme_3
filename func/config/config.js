@@ -85,6 +85,12 @@ const config = {
                     { key: 'bootstrap' , path: "node_modules/bootstrap-icons/font/fonts/**/*" },
                 ] 
             },
+
+            resources : {
+                mainsrc: "src/resources/",
+                destdef: "build/",
+                setlock: true
+            },
             
             info : {
                 compileJS : "$gulp compileJS --options[] --uglify --dest url",

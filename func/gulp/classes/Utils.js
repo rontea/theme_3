@@ -37,9 +37,10 @@ class Utils {
         console.log('===========================');
         console.log('Command tasks view gulp --tasks');
         console.log('Documentation : ');
-        console.log('Website: ');
+        console.log('NPM : https://www.npmjs.com/package/theme_3_v1')
+        console.log('Website: https://live-rontea.pantheonsite.io/');
         console.log('Git Repo: https://github.com/rontea/theme_3_V1/tree/1.3.0')
-        console.log('@ 2024 May')
+        console.log('@ 2024 May RonTea')
         console.log('');
         cb();
 
