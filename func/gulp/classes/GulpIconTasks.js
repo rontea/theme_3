@@ -187,7 +187,7 @@ class GulpIconTasks {
             return;
         }
 
-        let stream = src(this.src , { ignoreInitial: false});
+        let stream = src(this.src, {encoding:false});
 
         stream = stream.pipe(dest(this.dest));
 

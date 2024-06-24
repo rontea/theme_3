@@ -38,8 +38,6 @@ class GulpImageTasks {
 
     compileImages() {
 
-        
-
         console.log("Source Path :", this.src);
         console.log("Destination Path :", this.dest);
         /** Encoding : false fixed corrupt images */        

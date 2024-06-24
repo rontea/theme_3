@@ -1,7 +1,7 @@
 1. JS , CSS , HTML , Images(semi-done) 
     > folder creation  and delete folder should delete on build.
         - Images added with event Dir add working , however Dir event delete is not working
-2. BootstrapIcon 
+2. BootstrapIcon - Done Using Encoding
     > the icons is not rendering , issue on fonts woff2 and woff
     > it seems that the assets are not loading on bootstrap-icons.css
 
@@ -10,6 +10,6 @@
     > I want the images auto compress and resize.
     > So that I'm not resizing it or compressing it on image software.
 
-4. Resources section - done
+4. Resources section - Done
 5. Project creation options on NPX
 6. Update 2 dependencies cssnano and sass
