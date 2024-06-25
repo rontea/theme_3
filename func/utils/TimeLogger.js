@@ -6,10 +6,10 @@ const { time } = require('console');
 
 class TimeLogger {
 
-    constructor() {
+    constructor(options = {}) {
 
-        this.logDir  = "./logs";
-        this.logFile = "./logs/log.log"; 
+        this.logDir  = options.dir || "./logs";
+        this.logFile = options.file || "./logs/log.log"; 
     }
     /**
      * Write to file specified in logFile and create DIR specified in logDir
@@ -36,7 +36,7 @@ class TimeLogger {
 
 
         }catch(err) {
-            console.log(err);
+            console.log("writeLog error ", err);
         }
 
     }
@@ -56,7 +56,7 @@ class TimeLogger {
                 }
             });
         }catch(err) {
-            console.log(err);
+            console.log("mkDir error ", err);
         }
        
     }
