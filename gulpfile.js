@@ -9,6 +9,7 @@ const utils = require('./func/gulp/classes/Utils.js');
 const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck.js');
 const GulpIconTasks = require('./func/gulp/classes/GulpIconTasks.js');
 const GulpResourceHandler = require('./func/gulp/classes/GulpResourceHandler.js');
+const { test } = require('../func/utils/utils.js');
 
 
 /** Utils Tasks */
