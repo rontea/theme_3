@@ -11,5 +11,6 @@
     > So that I'm not resizing it or compressing it on image software.
 
 4. Resources section - Done
-5. Project creation options on NPX
+5. Project creation options 
+    > issue on copy where test folder cannot copy html and src folders
 6. Update 2 dependencies cssnano and sass

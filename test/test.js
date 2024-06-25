@@ -3,6 +3,7 @@
 const timeLogger = require('../func/utils/TimeLogger');
 const MenuBuilder = require('../scripts/MenuHandler');
 const SymLink = require('../scripts/SymLink');
+const ProjectMaker = require('../scripts/ProjectMaker');
 const urlPathMaker = require('../func/utils/utils');
 
 /*
@@ -20,20 +21,31 @@ const menuBuilder = new MenuBuilder( {title : "=== Menu ===" , footer: "========
 
 const optionCallbacks = {
     '1': () => {
-        console.log("sample");
+
+        let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
+        let src = urlPathMaker.twhUrlPathMaker();
+
+        const projectMaker = new ProjectMaker({src : src, dest : dest, dir: [ 'html' , 'src']});
+        projectMaker.displayInfo();
+        projectMaker.createNewProject();
+        
+
     },
     '2': () => {
 
-        let url = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
-        let url2 = urlPathMaker.twhUrlPathMaker();
-        const symlink = new SymLink({ src : url2 , dest: url});
+        let src = urlPathMaker.twhUrlPathMaker();
+        let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
+        
+        const symlink = new SymLink({ src : src , dest: dest});
         symlink.displayInfo();
         symlink.createSymLink();
     },
     '3': () => {
-        let url = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
-        let url2 = urlPathMaker.twhUrlPathMaker();
-        const symlink = new SymLink({ src : url2 , dest: url});
+        
+        let src = urlPathMaker.twhUrlPathMaker();
+        let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
+
+        const symlink = new SymLink({ src : src , dest: dest });
         symlink.displayInfo();
         symlink.removeSymLink();
     },
