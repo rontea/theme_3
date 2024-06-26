@@ -4,7 +4,13 @@ const timeLogger = require('../func/utils/TimeLogger');
 const MenuBuilder = require('../scripts/MenuHandler');
 const SymLink = require('../scripts/SymLink');
 const ProjectMaker = require('../scripts/ProjectMaker');
+const FileLister = require('../scripts/FileLister');
 const urlPathMaker = require('../func/utils/utils');
+
+
+const fileLister = new FileLister( ["../theme_3_v1/src" , "test/src"] );
+fileLister.compareDirs();
+
 
 /*
 console.log(timeLogger.getTime());
@@ -14,9 +20,15 @@ console.log(`📁`);
 console.log(`⚠️`);
 */
 
+/*
 
-const menuBuilder = new MenuBuilder( {title : "=== Menu ===" , footer: "========"} ,  
-    [ "New Project", "Create Gulp Link" , "Remove Gulp Link" ,"Exit"] );
+const menuBuilder = new MenuBuilder( 
+    {title : "=== Menu ===" , footer: "========"} ,  
+        ["New Project", 
+        "Create Gulp Link" , 
+        "Remove Gulp Link" ,
+        "Exit"]
+    );
 
 
 const optionCallbacks = {
@@ -57,3 +69,5 @@ const optionCallbacks = {
 
 menuBuilder.displayMenu();
 menuBuilder.setHandleOptions(optionCallbacks,"Option Not Available.");
+
+*/

@@ -3,8 +3,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const readline = require('readline');
-const log = require('./func/tvw-log.js');
-const getTime = require('./func/tvw-time.js');
+const log = require('../tvw-log.js');
+const getTime = require('../tvw-time.js');
 const { time } = require('console');
 
 const source = path.resolve(__dirname, '..', '..', 'node_modules', 'theme_3_v1');
