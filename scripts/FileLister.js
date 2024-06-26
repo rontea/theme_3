@@ -20,6 +20,7 @@ class FileLister {
   }
 
   getFilesAndDirs(dir) {
+    
     try {
       const items = fs.readdirSync(dir);
       const results = {};
@@ -37,6 +38,7 @@ class FileLister {
       });
 
       return results;
+
     } catch (err) {
       console.log("Get Files and Directory :", err);
     }
@@ -59,7 +61,7 @@ class FileLister {
   }
 
   compareDirectories(dirA, dirB, depth = 0) {
-    
+
     const prefix = "-".repeat(depth * 2);
 
     const contentsA = this.getFilesAndDirs(dirA);

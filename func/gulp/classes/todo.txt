@@ -2,8 +2,8 @@
     > folder creation  and delete folder should delete on build.
         - Images added with event Dir add working , however Dir event delete is not working
 2. BootstrapIcon - Done Using Encoding
-    > the icons is not rendering , issue on fonts woff2 and woff
-    > it seems that the assets are not loading on bootstrap-icons.css
+    > the icons is not rendering , issue on fonts woff2 and woff - done
+    > it seems that the assets are not loading on bootstrap-icons.css - done
 
 3. Image Compress and Image size on media query
     > I'm a website developer
@@ -12,5 +12,10 @@
 
 4. Resources section - Done
 5. Project creation options 
-    > issue on copy where test folder cannot copy html and src folders
+    > issue on copy where test folder cannot 
+        copy html and src folders -fix using gulp src and dest
+    > Update options
+        > file compare - completed
+        > file copy missing items 
+
 6. Update 2 dependencies cssnano and sass
