@@ -114,9 +114,10 @@ exports.watch = parallel(this.watchHTML, this.watchImage,
 
 /** Icons */
 
-exports.compileIcon = () => {
+exports.compileIcon = (cb) => {
    const gulpIconTasks = new GulpIconTasks({ autoInit: true});
     gulpIconTasks.compileIconSets();
+    cb();
 }
 
 /**
@@ -150,18 +151,19 @@ exports.buildAllFa = (cb) => {
 exports.buildAllBi = (cb) => {
 
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'bootstrapIcon' });
+        autoInit: false, build: true, key: 'bootstrapIcon'  });
 
     const gulpIconTasks = new GulpIconTasks({ autoInit: false, watch: false,
         build: true, key: 'bootstrap'});
-
+    
+    /*
     const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
-        watch: false, build: true, key: ['bootstrap' , 'popper']});
+        watch: false, build: true, key: ['bootstrap' , 'popper']}); */
 
     
     gulpCSSTaskManager.compileCSS(); 
     gulpIconTasks.compileIconSets();
-    gulpJSTaskManager.compileJS();
+    //gulpJSTaskManager.compileJS();
 
     cb();
 

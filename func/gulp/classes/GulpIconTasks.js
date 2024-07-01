@@ -91,7 +91,10 @@ class GulpIconTasks {
 
     compileSet() {
 
-        if(Array.isArray(this.baseDest)){
+        /*** ISSUE issue on when dest is provided and when dest is not provided
+            Issue on 1 key with multi dest 
+        */
+        if(Array.isArray(this.baseDest) ){
             
             this.baseDest.forEach(destination => {
 
@@ -99,11 +102,11 @@ class GulpIconTasks {
 
                 if(destination === true) {
 
-                    tempDest = config.icons.maindest + prefix;
+                    tempDest = config.icons.maindest + config.icons.destprefix;
                     console.log("Destination is blank , this has been set" , 
                         tempDest);
                 }else {
-                    
+                    console.log("x");
                     tempDest = config.icons.maindest + destination;
                 }
 
@@ -114,7 +117,7 @@ class GulpIconTasks {
             this.build = true;
 
         }else {
-            
+            this.baseDest = config.icons.destprefix + this.baseDest;
             this.build = false;
 
         }
@@ -131,9 +134,10 @@ class GulpIconTasks {
             if(argv[item.key]) {
                 
               this.src.push(item.path);
-
+              /** Issue on this multi section */
               if(!this.build) {
-                let tempDest = this.baseDest + item.key + config.icons.prefix;
+                let tempDest = this.baseDest + config.icons.prefix;
+                console.log("not build");
                 this.dest.push(tempDest);
               }
               

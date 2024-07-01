@@ -80,6 +80,7 @@ const config = {
                 main : [],
                 maindest: "build/css/",
                 prefix: "/fonts",
+                destprefix: "build/css",
                 paths : [
                     { key: 'fontawesome' , path: "node_modules/@fortawesome/fontawesome-free/webfonts/**/*" },
                     { key: 'bootstrap' , path: "node_modules/bootstrap-icons/font/fonts/**/*" },

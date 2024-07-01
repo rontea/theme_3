@@ -9,7 +9,8 @@ const urlPathMaker = require('../func/utils/utils');
 
 
 const fileLister = new FileLister( ["../theme_3_v1/src" , "test/src"] );
-fileLister.compareDirs();
+//fileLister.compareDirs();
+fileLister.createListTree();
 
 
 /*

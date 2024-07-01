@@ -19,7 +19,7 @@ class FileLister {
     }
   }
 
-  getFilesAndDirs(dir) {
+  #getFilesAndDirs(dir) {
     
     try {
       const items = fs.readdirSync(dir);
@@ -31,7 +31,7 @@ class FileLister {
         const stats = fs.statSync(itemPath);
 
         if (stats.isDirectory()) {
-          results[item] = this.getFilesAndDirs(itemPath);
+          results[item] = this.#getFilesAndDirs(itemPath);
         } else {
           results[item] = "file";
         }
@@ -57,15 +57,15 @@ class FileLister {
 
     console.log(`Comparing directories:\n${dirA}\n${dirB}\n`);
 
-    this.compareDirectories(dirA, dirB);
+    this.#compareDirectories(dirA, dirB);
   }
 
-  compareDirectories(dirA, dirB, depth = 0) {
+  #compareDirectories(dirA, dirB, depth = 0) {
 
     const prefix = "-".repeat(depth * 2);
 
-    const contentsA = this.getFilesAndDirs(dirA);
-    const contentsB = this.getFilesAndDirs(dirB);
+    const contentsA = this.#getFilesAndDirs(dirA);
+    const contentsB = this.#getFilesAndDirs(dirB);
 
     const iconTypes = {
       folderA: "❌ (A)",
@@ -124,6 +124,45 @@ class FileLister {
   }
 
   listFileDirectory() {}
+
+  createListTree(index = 0) {
+
+    const dir = this.dirs[index] || this.dirs;
+
+    console.log(dir);
+
+    this.#listTreeDirectory(dir);
+
+  }
+
+  #listTreeDirectory(dir, depth = 0) {
+
+    try{
+      
+      const prefix = '│   '.repeat(depth);
+
+      const items = fs.readdirSync(dir);
+
+      items.forEach((item, index) => {
+
+          const itemPath = path.join(dir, item);
+          const stats = fs.statSync(itemPath);
+          const isLast = index === items.length - 1;
+          const connector = isLast ? '└── ' : '├── ';
+  
+          if (stats.isDirectory()) {
+              console.log(`${prefix}${connector}${item}/`);
+              this.#listTreeDirectory(itemPath, depth + 1);
+          } else {
+              console.log(`${prefix}${connector}${item}`);
+          }
+      });
+
+    }catch(err){
+      console.log("Error in Tree dir creation : ", err);
+    }
+
+  }
 }
 
 module.exports = FileLister;
