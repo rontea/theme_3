@@ -19,3 +19,13 @@
         > file copy missing items 
 
 6. Update 2 dependencies cssnano and sass
+
+7. Multi move on dest is now available on icons - done
+
+8. Documentation update for missing one
+
+9. Init process creation
+
+10. Move main to 1.0 latest version
+
+11. Move 2.0 Dev to main
