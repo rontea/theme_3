@@ -114,9 +114,9 @@ exports.watch = parallel(this.watchHTML, this.watchImage,
 
 /** Icons */
 
-exports.compileIcon = (cb) => {
-   const gulpIconTasks = new GulpIconTasks({ autoInit: true});
-    gulpIconTasks.compileIconSets();
+exports.compileIcons = (cb) => {
+   const gulpIconTasks = new GulpIconTasks({ autoInit: true , build : false});
+    gulpIconTasks.compileMultiDest();
     cb();
 }
 

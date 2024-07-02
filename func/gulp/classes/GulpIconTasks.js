@@ -15,16 +15,17 @@ class GulpIconTasks {
 
     constructor(options = {}){
 
+        /** List */
         this.src = options.src || [];
         this.autoInit = options.autoInit || false;
-        this.baseDest = argv.dest || config.icons.maindest;
-        this.dest = options.dest || [];
-
+        this.baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
+        this.dest = [] || options.dest;
         this.options = options;
 
-        if (this.autoInit !== false && this.checkInvalidArgs()) {
-            this.compileSet();
-            this.checkFlags();
+        this.options.build = false || options.build; 
+
+        if (this.autoInit !== false && this.checkInvalidArgs) {
+            this.#compileSet();
         }
     }
 
@@ -34,7 +35,71 @@ class GulpIconTasks {
     */
 
     getOptions() {
-    return this.options;
+        return this.options;
+    }
+
+    /**
+     * This will set the source and destination for the build request.
+     * In this code the max source is being check for max destination to be equal.
+     * This will accept multiple source --key --key --dest x --dest y
+     * @return dummy
+    */
+
+     #compileSet() {
+
+        let max = 0;
+
+        config.icons.paths.forEach( (item,index )=> {
+            
+            if (argv[item.key]) {
+               
+                 this.src.push(item.path);
+                 max = max + index;
+                
+            }
+
+        });
+
+        console.log("Number of item in queue: ", max);
+
+        let tempDest = "";
+
+        this.baseDest.forEach( (destination, index)  => {
+
+            if(this.baseDest.length > 0){
+
+                if(destination === true || destination === undefined){
+                    
+                    tempDest = config.icons.maindest + config.icons.prefix; 
+                    console.log("Creating default " , tempDest);
+
+                }else{
+                    
+                    tempDest = config.icons.maindest + destination + config.icons.prefix; 
+                    console.log("Creating destination " , tempDest);
+                }
+            
+            }else{
+                
+                tempDest = config.icons.maindest + config.icons.prefix; 
+                console.log("Creating Default on single item " , tempDest);
+                
+            }
+        
+            
+            if(index <= max) {
+            
+                this.dest.push(tempDest);
+            
+            }else {
+
+                return this.dest;
+
+            }
+
+        });
+        
+        console.log("Destination paths created:", this.dest);
     }
 
     /**
@@ -42,7 +107,7 @@ class GulpIconTasks {
      * @param {Array || string } 
     */
 
-    buildSet(srcTypeBuild) {
+    #buildSet(srcTypeBuild) {
         
         let checkAvailable = false;
         let tempDest = "";
@@ -85,67 +150,6 @@ class GulpIconTasks {
     }
 
     /**
-     * This will set the source for the build request
-     * @param {Array || string } 
-    */
-
-    compileSet() {
-
-        /*** ISSUE issue on when dest is provided and when dest is not provided
-            Issue on 1 key with multi dest 
-        */
-        if(Array.isArray(this.baseDest) ){
-            
-            this.baseDest.forEach(destination => {
-
-                let tempDest = "";
-
-                if(destination === true) {
-
-                    tempDest = config.icons.maindest + config.icons.destprefix;
-                    console.log("Destination is blank , this has been set" , 
-                        tempDest);
-                }else {
-                    console.log("x");
-                    tempDest = config.icons.maindest + destination;
-                }
-
-                this.dest.push(tempDest);
-
-            });
-
-            this.build = true;
-
-        }else {
-            this.baseDest = config.icons.destprefix + this.baseDest;
-            this.build = false;
-
-        }
-    }
-
-  /**
-   *  Accept argument on CLI , check config.js iconpaths for keys
-   *  gultTasks task --option --option
-   *
-   */
-    checkFlags() {
-
-        config.icons.paths.forEach((item) => {
-            if(argv[item.key]) {
-                
-              this.src.push(item.path);
-              /** Issue on this multi section */
-              if(!this.build) {
-                let tempDest = this.baseDest + config.icons.prefix;
-                console.log("not build");
-                this.dest.push(tempDest);
-              }
-              
-            }
-        });
-    }
-
-    /**
      * Check if the commands are correct
      * @returns boolean
     */
@@ -166,6 +170,36 @@ class GulpIconTasks {
     }
 
     /**
+     * This will compile the key on each source as the gulp dest do not handle arrays
+     * Only the src on gulp handles array but not dest
+     * @returns dummy
+     */
+
+    compileMultiDest() {
+
+        if (this.src.length === 0 || this.checkInvalidArgs === false) {
+            console.log("No valid option provided ending process ...");
+            return "error";
+        }
+
+        if(Array.isArray(this.dest)){
+
+            this.src.forEach((item , index)=> {
+                
+               
+                    console.log("Source Path :", item);
+                    console.log("Destination Path :", this.dest[index]);
+                    
+                    src(this.src, {encoding:false}).pipe(dest(this.dest[index]));
+                   
+                
+            });
+
+        }
+
+    }
+
+    /**
      * This will build the Icon files to the destination
      * @returns gulp task
     */
@@ -179,7 +213,7 @@ class GulpIconTasks {
             
             console.log("Building invoke for...", typeBuild);
       
-            this.buildSet(typeBuild);
+            this.#buildSet(typeBuild);
         }
 
         console.log("Source Path :", this.src);
@@ -190,6 +224,7 @@ class GulpIconTasks {
             console.log("No valid option provided ending process ...");
             return;
         }
+
 
         let stream = src(this.src, {encoding:false});
 
