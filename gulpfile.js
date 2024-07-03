@@ -6,7 +6,7 @@ const GulpCSSTaskManager = require('./func/gulp/classes/GulpCSSTaskManager.js');
 const GulpHTMLTasks = require('./func/gulp/classes/GulpHTMLTasks.js');
 const GulpImageTasks = require('./func/gulp/classes/GulpImageTasks.js');
 const utils = require('./func/gulp/classes/Utils.js');
-const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck.js');
+const gulpKeyCheck = require('./func/gulp/classes/GulpKeyCheck');
 const GulpIconTasks = require('./func/gulp/classes/GulpIconTasks.js');
 const GulpResourceHandler = require('./func/gulp/classes/GulpResourceHandler.js');
 
@@ -14,16 +14,16 @@ const GulpResourceHandler = require('./func/gulp/classes/GulpResourceHandler.js'
 
 /** Utils Tasks */
 
-exports.default = utils.default.bind();
+exports.default = utils.defaultSync.bind();
 
-exports.check = utils.hello.bind();
+exports.check = utils.helloSync.bind();
 
-exports.clean = utils.utilsClean.bind();
+exports.clean = utils.utilsCleanSync.bind();
 
 /** Manually Check Keys */
 exports.keyCheck = (cb) => {
-    gulpKeyCheck.checkJSKey();
-    gulpKeyCheck.checkCSSKey();
+    gulpKeyCheck.checkJSKeySync();
+    gulpKeyCheck.checkCSSKeySync();
     cb();
 }
 
@@ -48,11 +48,13 @@ exports.buildJS = () => {
 }
 
 /** CSS Tasks */
-exports.compileCSS = () => {
+exports.compileCSS = (cb) => {
      /** Compile with options */
     const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , 
         watch: false });
-    return gulpCSSTaskManager.compileCSS();
+    gulpCSSTaskManager.compileCSS();
+    
+    cb();
 }
 
 /** CSS Build Task */
@@ -73,7 +75,7 @@ exports.buildSCSS = () => {
 /** CSS and SCSS Watch */
 exports.watchCSS = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false , build: true});
-    return gulpCSSTaskManager.watchCSS();
+    gulpCSSTaskManager.watchCSS();
 }
 
 /** Build HTML */

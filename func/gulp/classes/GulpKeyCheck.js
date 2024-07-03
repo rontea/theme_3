@@ -7,7 +7,7 @@ class GulpKeyCheck {
      * Static method that will generate the keys coming from config file for JS.
     */
 
-    static checkJSKey() {
+    static async checkJSKeySync() {
     
         console.log("JS Key where $gulp command --key ..");
         let prefix = "--";  
@@ -24,7 +24,7 @@ class GulpKeyCheck {
      * Static method that will generate the keys coming from config file for CSS.
     */
 
-    static checkCSSKey() {
+    static async checkCSSKeySync() {
 
         console.log("CSS Key where $gulp command --key ..");
         let prefix = "--"; 

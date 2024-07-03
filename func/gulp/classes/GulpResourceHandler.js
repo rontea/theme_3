@@ -25,11 +25,22 @@ class GulpResourceHandler {
         this.srcDef = config.resources.mainsrc;
         this.destDef = config.resources.destdef;
 
+        if(this.#invalidArgChecker()) {
+            return;
+        }
+
         /** Lock */
         if(this.setLock) {
             
             this.src = this.srcDef + this.src;
-            this.dest = this.destDef + this.dest;
+
+            if(this.dest === true){
+                
+                this.dest = this.destDef;
+                console.log("Empty denstation default to:" , this.dest);
+            }else {
+                this.dest = this.destDef + this.dest;
+            }
 
             console.log("Note : Option Lock for folder source:" , this.src);
             console.log("Note : Option Lock for folder destination:" , this.dest);
@@ -43,6 +54,24 @@ class GulpResourceHandler {
 
         this.moveFilesSync();
     }
+    
+    /**
+     * This method checks for invalid arguments
+     * @returns boolean
+    */
+
+    #invalidArgChecker() {
+        const validArgs = ['src', 'dest'];
+        const invalidArgs = Object.keys(argv).filter(arg => !validArgs.includes(arg) && arg !== '_' && arg !== '$0');
+        
+        if (invalidArgs.length > 0) {
+            console.log("Invalid options provided:", invalidArgs.join(', '));
+            console.log("Please use valid options:", validArgs.join(', '));
+            return true;
+        }
+        return false;
+    }
+
     /**
      * This will check for confirmation from user.
      * @returns boolean
@@ -91,7 +120,9 @@ class GulpResourceHandler {
                 filePath = path.posix.join(filePath, "/**/*");
             }
             
-            console.log(filePath);
+            console.log("File Path :", filePath);
+
+    
 
             const isDir = this.isDirectorySync(this.src);
 
@@ -99,43 +130,45 @@ class GulpResourceHandler {
            
             console.log("List : " , files);
             
-        /** Checki Src exist */
-        if (!fs.existsSync(this.src)) {
-            console.log('--src doesnt exist try again with correct source path.');
-            console.log(`Moving folder from ${this.src} -> ${this.dest} FAILED!`);
-            return;
-        }
+            /** Checking Src exist */
+            if (!fs.existsSync(this.src)) {
+                console.log('--src doesnt exist try again with correct source path.');
+                console.log(`Moving folder from ${this.src} -> ${this.dest} FAILED!`);
+                return;
+            }
 
-        /** Wait first for user confirmation Before Moving */
-        const userConfirmed = await this.checkMoveSync();
+            /** Wait first for user confirmation Before Moving */
+            const userConfirmed = await this.checkMoveSync();
 
-        if (!userConfirmed) {
-            console.log("Move Cancelled.");
-            return;
-        }
+            if (!userConfirmed) {
+                console.log("Move Cancelled.");
+                return;
+            }
 
-        console.log("Processing Move ...");
-        
-        let stream = "";
-
-        if(isDir) {
-            stream = src(this.src + "/**/*");
+            console.log("Processing Move ...");
             
-        }else {
-            stream = src(this.src);
-        }
-        
-        stream = stream.pipe(dest(this.dest));
-        
-        return stream.on('end', () => {
-            console.log("Move Completed ...");
-        })
-        .on('error' , (error) => {
-            console.log(error);
-        });
+            let stream = "";
+
+            if(isDir) {
+                stream = src(this.src + "/**/*");
+                
+            }else {
+                stream = src(this.src);
+            }
+            
+            stream = stream.pipe(dest(this.dest));
+            
+            return stream.on('end', () => {
+                console.log("Move Completed ...");
+            })
+            .on('error' , (error) => {
+                console.log(error);
+            });
         
         }catch (err) {
             console.log(err);
+
+           
         }
 
     }
@@ -152,7 +185,12 @@ class GulpResourceHandler {
             return stats.isDirectory();
         } catch (err) {
             // If an error occurs, log it and return false
-            console.error('Error checking path:', err);
+           
+            if(err.code === "ENOENT") {
+                console.log("Error on path , please check the paths.");
+            }else {
+                console.error('Error checking path:', err);
+            }
             return false;
         }
     }

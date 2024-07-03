@@ -11,7 +11,7 @@ class Utils {
      * @param {*} cb 
     */
 
-    default(cb) {
+    async defaultSync(cb) {
         
         const taskTree = tree({ deep: true });
         
@@ -30,7 +30,7 @@ class Utils {
      * @param {*} cb 
      */
    
-    hello(cb){
+    async helloSync(cb){
 
         console.log('============================');
         console.log('Gulp File RR Version v2.0.0 ');
@@ -51,7 +51,7 @@ class Utils {
      * @returns remove folder
      */
 
-    utilsClean(){
+    async utilsCleanSync(){
        
         const buildFolder = config.mainbuild;
         console.log("... Clean folder ", buildFolder);

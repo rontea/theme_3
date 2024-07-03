@@ -6,7 +6,8 @@ const argv = require("yargs").argv;
 const path = require("path");
 const sass = require("gulp-sass")(require('sass'));
 const autoprefixer = require("autoprefixer");
-const handler = require("../../gulp/classes/Handler.js");
+const handler = require("../../gulp/classes/Handler");
+const postcss = require("gulp-postcss");
 
 
 class GulpCSSTaskManager {
@@ -18,23 +19,38 @@ class GulpCSSTaskManager {
      *  options.numVersion : int , options.compress : boolean } options
     */
 
+    #src;
+
+    #autoInit;
+
+    #baseDest;
+
+    #dest;
+
+    #options;
+
+    #numVersion;
+
+
     constructor(options = {}) {
 
         /** List */
-
-        this.checkInvalidArgs = this.checkInvalidArgs();
-
-        this.src = options.src || [];
-        this.autoInit = options.autoInit || false;
-        this.baseDest = config.csspaths.maindest;
-        this.dest = this.getDestPath(argv.dest);
-        this.options = options;
+        this.#src = options.src || [];
+        this.#autoInit = options.autoInit || false;
+        this.#baseDest = config.csspaths.maindest;
+        this.#dest = this.#getDestPath(argv.dest);
+        this.#options = options;
         
-        this.options.watch = this.options.watch || false;
-        this.options.autoprefixer = this.options.autoprefixer || false;
+        this.#options.watch = options.watch || false;
+        this.#options.autoprefixer = options.autoprefixer || false;
+        this.#numVersion = argv.autoprefixer || options.numVersion || 0;
 
-        if (this.autoInit !== false && this.checkInvalidArgs) {
-            this.checkFlags();
+        if(this.#numVersion === true){
+            this.#numVersion = 2;
+        }
+
+        if (this.#autoInit !== false && this.#checkInvalidArgs) {
+            this.#checkFlags();
         }
 
     }
@@ -45,7 +61,7 @@ class GulpCSSTaskManager {
     */
 
     getOptions() {
-        return this.options;
+        return this.#options;
     }
 
 
@@ -55,20 +71,20 @@ class GulpCSSTaskManager {
      * @returns string
     */
 
-    getDestPath(destArgv) {
+    #getDestPath(destArgv) {
         if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
             
             if(typeof destArgv !== 'string') {
-                console.log("Path not a valid string , default to: ", this.baseDest);
+                console.log("Path not a valid string , default to: ", this.#baseDest);
             }else {
-                console.log("Path not provided default to: ", this.baseDest);
+                console.log("Path not provided default to: ", this.#baseDest);
             }
             
-            return this.baseDest;
+            return this.#baseDest;
           
         }
       
-        return path.join(this.baseDest, destArgv);
+        return path.join(this.#baseDest, destArgv);
     }
 
     /**
@@ -76,14 +92,14 @@ class GulpCSSTaskManager {
      *   gultTasks task --option --option
     */
 
-    checkFlags() {
+    #checkFlags() {
         config.csspaths.paths.forEach((item) => {
             if (argv[item.key]) {
-              this.src.push(item.path);
+              this.#src.push(item.path);
             }
           });
       
-          if (this.src.length === 0) {
+          if (this.#src.length === 0) {
             console.log("Option not available compiling CSS ...");
             console.log("Please check Input for valid key.");
           }
@@ -94,7 +110,7 @@ class GulpCSSTaskManager {
      * @returns boolean
     */
 
-    checkInvalidArgs() {
+    #checkInvalidArgs() {
 
         const validKeys = config.csspaths.paths.map(item => item.key).concat(['dest', 'compress' , 'autoprefixer']);
         const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
@@ -114,7 +130,7 @@ class GulpCSSTaskManager {
      * @param {Array || string } typeBuild 
     */
 
-    buildSet(typeBuild) {
+    #buildSet(typeBuild) {
 
         let checkAvailable = false;
 
@@ -124,7 +140,7 @@ class GulpCSSTaskManager {
                 config.csspaths.paths.forEach((item) => {
              
                     if (item.key === key) {
-                      this.src.push(item.path);
+                      this.#src.push(item.path);
                       checkAvailable = true;
                       console.log("Type Build " , key);
                     }
@@ -136,7 +152,7 @@ class GulpCSSTaskManager {
             config.csspaths.paths.forEach((item) => {
              
                 if (item.key === typeBuild) {
-                  this.src.push(item.path);
+                  this.#src.push(item.path);
                   checkAvailable = true;
                   console.log("Type Build " , typeBuild);
                 }
@@ -156,28 +172,28 @@ class GulpCSSTaskManager {
      * @returns gulp task
     */
 
-    compileCSS() {
+    async compileCSS() {
 
         /** Build by key */
-        if (this.options.build === true) {
-            let typeBuild = this.options.key;
+        if (this.#options.build === true) {
+            let typeBuild = this.#options.key;
            
             console.log("... Building for :", typeBuild);
 
-            this.buildSet(typeBuild);
+            this.#buildSet(typeBuild);
 
         }
 
-        console.log("Source Path :", this.src);
-        console.log("Destination Path :", this.dest);
+        console.log("Source Path :", this.#src);
+        console.log("Destination Path :", this.#dest);
 
         /** Input and Command Checker */
-        if (this.src.length === 0 || this.checkInvalidArgs === false) {
+        if (this.#src.length === 0 || this.#checkInvalidArgs === false) {
             console.log("No valid option provided ending process ...");
             return;
         }
 
-        let stream = src(this.src);
+        let stream = src(this.#src);
 
         stream = stream.pipe(sass()
             .on('error' , sass.logError)
@@ -185,7 +201,7 @@ class GulpCSSTaskManager {
                 console.log("... SASS compile completed.");
             }));
 
-        if(argv.compress || this.options.compress) {
+        if(argv.compress || this.#options.compress) {
             
             stream = stream.pipe(sass({outputStyle : 'compressed'})
                 .on('error' , sass.logError).on('end' , () => {
@@ -193,32 +209,29 @@ class GulpCSSTaskManager {
                 }));
         }
 
-        if(argv.autoprefixer || this.options.autoprefixer){
+        if(argv.autoprefixer || this.#options.autoprefixer){
 
-            console.log(argv.autoprefixer);
-            let numVersion = argv.autoprefixer || this.options.numVersion;
-            let temp = numVersion;
-            console.log("Starting Autoprefixer with last version request of " , temp);
+            console.log("Autoprefixer value: " , this.#numVersion);
+            let numVersion = 0;
+            numVersion = this.#numVersion;
+           
+            console.log("Starting Autoprefixer with last version request of " , this.#numVersion);
+            
+            numVersion = await this.#isValidValue(numVersion);
 
-            if(numVersion > 0 && numVersion <= 5 ) {
-                numVersion = numVersion;
-            }else {
-                numVersion = config.csspaths.settings.autoprefixer;
-                console.log("Only accepts 1-5 > Invalid last version request of " , temp);
-                console.log("Setting default on config.js ", numVersion )
-            }
-
-            stream = stream.pipe(sass([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])
-            .on('error' , sass.logError)
+            stream =  stream.pipe(postcss([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])) 
+            .on('error' , err => {
+                console.log(err);
+            })
             .on('end', () => {
                 console.log("... Autoprefixer completed last: " , numVersion);
-            }));
+            });
         }
 
-        stream = stream.pipe(dest(this.dest));
+        stream = stream.pipe(dest(this.#dest));
 
         /** Check fo watch option */
-        if(this.options.watch === true) {
+        if(this.#options.watch === true) {
             stream = stream.pipe(browserSync.stream());
         }
 
@@ -228,18 +241,33 @@ class GulpCSSTaskManager {
         
     }
 
+    async #isValidValue(numVersion) {
+
+        if(numVersion > 0 && numVersion <= 5) {
+            console.log("Setting Value of :" , numVersion);
+            numVersion = numVersion;
+        }else {
+            
+            numVersion = config.csspaths.settings.autoprefixer;
+            console.log(`Only accepts 1-${config.csspaths.settings.limit} > Invalid last version request of ` , this.#numVersion);
+            console.log("Setting default on config.js ", numVersion )
+        }
+
+        return numVersion;
+    }
+
     /**
      * This will watch the change on css and scss folders
      * @returns watch
     */
 
-    watchCSS() {
+    async watchCSS() {
 
         
         let cssPath = config.csspaths.watch.css;
         let sassPath = config.csspaths.watch.scss;
 
-        this.dest = config.csspaths.maindest;
+        this.#dest = config.csspaths.maindest;
 
         console.log("Start CSS watching ... ");
 
@@ -249,11 +277,11 @@ class GulpCSSTaskManager {
                 
                 if(file.endsWith('.css')) {
                     console.log("... Build run CSS");
-                    this.src = cssPath;
+                    this.#src = cssPath;
                     this.compileCSS();
                 }else if(file.endsWith('.scss')){
                     console.log("... Build run SASS");
-                    this.src = sassPath;
+                    this.#src = sassPath;
                     this.compileCSS();
                 }
                 
@@ -262,11 +290,11 @@ class GulpCSSTaskManager {
 
                 if(file.endsWith('.css')) {
                     console.log("... Build run CSS");
-                    this.src = cssPath;
+                    this.#src = cssPath;
                     this.compileCSS();
                 }else if(file.endsWith('.scss')){
                     console.log("... Build run SASS");
-                    this.src = sassPath;
+                    this.#src = sassPath;
                     this.compileCSS();
                 }
 
@@ -278,13 +306,13 @@ class GulpCSSTaskManager {
                 if(file.endsWith('.css')){
                     console.log("... On Delete > ", file);
                     relativePath = path.relative(config.csspaths.maincss, file);
-                    destFile = path.join(this.dest, relativePath);
+                    destFile = path.join(this.#dest, relativePath);
            
                 } else if(file.endsWith('.scss')) {
 
                     console.log("... On Delete > ", file);
                     relativePath = path.relative(config.csspaths.mainscss, file);
-                    destFile = path.join(this.dest, relativePath);
+                    destFile = path.join(this.#dest, relativePath);
                     destFile = destFile.replace(/\.scss$/, '.css');
           
                 }

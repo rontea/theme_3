@@ -26,7 +26,8 @@ const config = {
                     { key : 'prism' , path: 'node_modules/prismjs/themes/prism.min.css' },
                 ],
                 settings: {
-                    autoprefixer : 2
+                    autoprefixer : 2,
+                    limit: 5
                 },
                 watch: {
                     css: 'src/css/**/*.css',
