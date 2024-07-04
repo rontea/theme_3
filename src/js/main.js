@@ -10,3 +10,9 @@ $(document).ready(function (){
 });
 
 */
+
+function command() {
+  console.log("test function");
+}
+
+command();
