@@ -77,22 +77,16 @@ class GulpIconTasks {
  
     /** still working on 1 on 1 mapping */
      #compileSet() {
-
-        let count = 0;
-        let temp = []
        
         config.icons.paths.forEach( (item,index )=> {
             
-            
             if (argv[item.key]) {
-               
-            
                this.#src.push(item.path);
             }
               
         });
 
-      
+        console.log("Destination of Path is based on config mapping");
     }
 
     /**
@@ -163,7 +157,7 @@ class GulpIconTasks {
                 
                 
                 this.#pathHandler.setDestArgv(this.#baseDest[index]);
-                tempDest = this.#pathHandler.getDestPath();
+                tempDest = this.#pathHandler.getDestPath() +  this.#prefixDest;
                
                 console.log("Source Path :", item);
                 console.log("Destination Path :", tempDest);
