@@ -7,6 +7,8 @@ const {glob} = require('glob');
 const fs = require('fs');
 const {dest , src } = require('gulp');
 const path = require('path');
+const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
+const { exit } = require("process");
 
 class GulpResourceHandler {
 
@@ -14,69 +16,78 @@ class GulpResourceHandler {
      * 
      * @param {options.src : string , options.dest: string 
      *  options.setLock : boolean  } options 
-     */
+    */
+
+    #src;
+
+    #dest;
+
+    #setLock;
+
+    #srcDef;
+
+    #destDef;
+
+    #options;
+
+    #invalidArgsHandler;
+
     constructor (options = {}) {
 
         /** List */
-        this.src = options.src || argv.src;
-        this.dest = options.dest || argv.dest;
-        this.setLock = config.resources.setlock || options.setLock;
+        this.#src = options.src || argv.src;
+        this.#dest = options.dest || argv.dest;
 
-        this.srcDef = config.resources.mainsrc;
-        this.destDef = config.resources.destdef;
+        this.#invalidArgsHandler = new InvalidArgsHandler(argv,"",['src', 'dest']);
+        this.#setLock = config.resources.setlock || options.setLock;
 
-        if(this.#invalidArgChecker()) {
-            return;
-        }
+        this.#srcDef = config.resources.mainsrc;
+        this.#destDef = config.resources.destdef;
+
+        this.#options = options;
 
         /** Lock */
-        if(this.setLock) {
+        if(this.#setLock) {
             
-            this.src = this.srcDef + this.src;
+            this.#src = this.#srcDef + this.#src;
 
-            if(this.dest === true){
+            if(this.#dest === true){
                 
-                this.dest = this.destDef;
-                console.log("Empty denstation default to:" , this.dest);
+                this.#dest = this.#destDef;
+                console.log("Empty denstation default to:" , this.#dest);
             }else {
-                this.dest = this.destDef + this.dest;
+                this.#dest = this.#destDef + this.#dest;
             }
 
-            console.log("Note : Option Lock for folder source:" , this.src);
-            console.log("Note : Option Lock for folder destination:" , this.dest);
+            console.log("Note : Option Lock for folder source:" , this.#src);
+            console.log("Note : Option Lock for folder destination:" , this.#dest);
         
         /** Move All */    
         }else {
-            this.src = '/' + this.src;
-            this.dest = "build/" + this.dest;
+            this.#src = '/' + this.#src;
+            this.#dest = "build/" + this.#dest;
             console.log("Note : Option Unlock for folder move item anyware.");
         }
 
-        this.moveFilesSync();
+        if(this.#invalidArgsHandler.checkInvalidArgs()) {
+            this.#moveFilesSync();
+        }
     }
-    
+
     /**
-     * This method checks for invalid arguments
-     * @returns boolean
+    * This will return all options
+    * @returns array 
     */
 
-    #invalidArgChecker() {
-        const validArgs = ['src', 'dest'];
-        const invalidArgs = Object.keys(argv).filter(arg => !validArgs.includes(arg) && arg !== '_' && arg !== '$0');
-        
-        if (invalidArgs.length > 0) {
-            console.log("Invalid options provided:", invalidArgs.join(', '));
-            console.log("Please use valid options:", validArgs.join(', '));
-            return true;
-        }
-        return false;
+    getOptions() {
+        return this.#options;
     }
-
+    
     /**
      * This will check for confirmation from user.
      * @returns boolean
      */
-     async checkMoveSync() {
+     async #checkMoveSync() {
 
         return new Promise((resolve,reject) => {
 
@@ -85,7 +96,7 @@ class GulpResourceHandler {
                 output: process.stdout
             });
     
-            rl.question(`Are you sure to move "${this.src}" to "${this.dest}" "y/n"? : `,
+            rl.question(`Are you sure to move "${this.#src}" to "${this.#dest}" "y/n"? : `,
                 (answer) => {
                     rl.close();
                     if(answer.toLowerCase() === 'y') {
@@ -110,35 +121,33 @@ class GulpResourceHandler {
      * @returns gulp 
      */
 
-    async moveFilesSync() {
+    async #moveFilesSync() {
 
-        let filePath = this.src;
+        let filePath = this.#src;
 
         try {
            
-            if(this.isDirectorySync(filePath)) {
+            if(this.#isDirectorySync(filePath)) {
                 filePath = path.posix.join(filePath, "/**/*");
             }
             
             console.log("File Path :", filePath);
 
-    
-
-            const isDir = this.isDirectorySync(this.src);
+            const isDir = this.#isDirectorySync(this.#src);
 
             const files = await glob(filePath);
            
             console.log("List : " , files);
             
             /** Checking Src exist */
-            if (!fs.existsSync(this.src)) {
+            if (!fs.existsSync(this.#src)) {
                 console.log('--src doesnt exist try again with correct source path.');
-                console.log(`Moving folder from ${this.src} -> ${this.dest} FAILED!`);
+                console.log(`Moving folder from ${this.#src} -> ${this.#dest} FAILED!`);
                 return;
             }
 
             /** Wait first for user confirmation Before Moving */
-            const userConfirmed = await this.checkMoveSync();
+            const userConfirmed = await this.#checkMoveSync();
 
             if (!userConfirmed) {
                 console.log("Move Cancelled.");
@@ -150,13 +159,13 @@ class GulpResourceHandler {
             let stream = "";
 
             if(isDir) {
-                stream = src(this.src + "/**/*");
+                stream = src(this.#src + "/**/*");
                 
             }else {
-                stream = src(this.src);
+                stream = src(this.#src);
             }
             
-            stream = stream.pipe(dest(this.dest));
+            stream = stream.pipe(dest(this.#dest));
             
             return stream.on('end', () => {
                 console.log("Move Completed ...");
@@ -167,8 +176,6 @@ class GulpResourceHandler {
         
         }catch (err) {
             console.log(err);
-
-           
         }
 
     }
@@ -179,7 +186,7 @@ class GulpResourceHandler {
      * @returns boolean
     */
 
-    isDirectorySync(filePath) {
+    #isDirectorySync(filePath) {
         try {
             const stats = fs.statSync(filePath);
             return stats.isDirectory();

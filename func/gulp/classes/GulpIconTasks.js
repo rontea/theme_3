@@ -3,6 +3,8 @@
 const config = require("../../config/config.js");
 const { argv } = require("yargs");
 const { src, dest } = require("gulp");
+const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
+const PathHandler = require("./handler/PathHandler");
 
 
 class GulpIconTasks {
@@ -13,18 +15,45 @@ class GulpIconTasks {
      * options.build: boolean , options.key : string} options 
     */
 
+    #src;
+
+    #autoInit;
+
+    #baseDest;
+
+    #dest;
+
+    #options;
+
+    #invalidArgsHandler;
+
+    #defaultDest;
+
+    #pathHandler;
+
+    #prefixDest;
+
     constructor(options = {}){
 
         /** List */
-        this.src = options.src || [];
-        this.autoInit = options.autoInit || false;
-        this.baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
-        this.dest = [] || options.dest;
-        this.options = options;
+        this.#options = options;
 
-        this.options.build = false || options.build; 
+        this.#src = options.src || [];
+        this.#autoInit = options.autoInit || false;
+        this.#baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
+        this.#dest = [] || options.dest;
+        this.#options.build = false || options.build;
 
-        if (this.autoInit !== false && this.checkInvalidArgs) {
+        this.#defaultDest = config.icons.maindest;
+  
+        this.#pathHandler = new PathHandler('',this.#defaultDest);
+
+        this.#invalidArgsHandler = new 
+        InvalidArgsHandler(argv, config.icons.paths,
+            ['dest']);
+
+        if (this.#autoInit !== false && this.#invalidArgsHandler.checkInvalidArgs()) {
+            this.#prefixDest = config.icons.prefix;
             this.#compileSet();
         }
     }
@@ -35,7 +64,7 @@ class GulpIconTasks {
     */
 
     getOptions() {
-        return this.options;
+        return this.#options;
     }
 
     /**
@@ -45,61 +74,25 @@ class GulpIconTasks {
      * @return dummy
     */
 
+ 
+    /** still working on 1 on 1 mapping */
      #compileSet() {
 
-        let max = 0;
-
+        let count = 0;
+        let temp = []
+       
         config.icons.paths.forEach( (item,index )=> {
+            
             
             if (argv[item.key]) {
                
-                 this.src.push(item.path);
-                 max = max + index;
-                
+            
+               this.#src.push(item.path);
             }
-
+              
         });
 
-        console.log("Number of item in queue: ", max);
-
-        let tempDest = "";
-
-        this.baseDest.forEach( (destination, index)  => {
-
-            if(this.baseDest.length > 0){
-
-                if(destination === true || destination === undefined){
-                    
-                    tempDest = config.icons.maindest + config.icons.prefix; 
-                    console.log("Creating default " , tempDest);
-
-                }else{
-                    
-                    tempDest = config.icons.maindest + destination + config.icons.prefix; 
-                    console.log("Creating destination " , tempDest);
-                }
-            
-            }else{
-                
-                tempDest = config.icons.maindest + config.icons.prefix; 
-                console.log("Creating Default on single item " , tempDest);
-                
-            }
-        
-            
-            if(index <= max) {
-            
-                this.dest.push(tempDest);
-            
-            }else {
-
-                return this.dest;
-
-            }
-
-        });
-        
-        console.log("Destination paths created:", this.dest);
+      
     }
 
     /**
@@ -117,9 +110,9 @@ class GulpIconTasks {
                 config.icons.paths.forEach((item) => {
             
                     if (item.key === key) {
-                        this.src.push(item.path);
+                        this.#src.push(item.path);
                         tempDest = config.icons.maindest + config.icons.prefix;
-                        this.dest.push(tempDest);
+                        this.#dest.push(tempDest);
                         checkAvailable = true;
                         console.log("Type Build " , key);
                     }
@@ -131,9 +124,9 @@ class GulpIconTasks {
             config.icons.paths.forEach((item) => {
             
                 if (item.key === srcTypeBuild) {
-                    this.src.push(item.path);
+                    this.#src.push(item.path);
                     tempDest = config.icons.maindest + config.icons.prefix;
-                    this.dest.push(tempDest);
+                    this.#dest.push(tempDest);
                     checkAvailable = true;
                     console.log("Type Build " , srcTypeBuild);
                 }
@@ -150,26 +143,6 @@ class GulpIconTasks {
     }
 
     /**
-     * Check if the commands are correct
-     * @returns boolean
-    */
-
-    checkInvalidArgs() {
-
-        const validKeys = config.icons.paths.map(item => item.key).concat(['dest']);
-        const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
-        
-        if (invalidKeys.length > 0) {
-            console.log("Invalid options provided: ", invalidKeys.join(', '));
-            console.log("Please check the available options: ", validKeys.join(', '));
-            return false;
-        } else {
-            return true;
-        }
-    
-    }
-
-    /**
      * This will compile the key on each source as the gulp dest do not handle arrays
      * Only the src on gulp handles array but not dest
      * @returns dummy
@@ -177,22 +150,26 @@ class GulpIconTasks {
 
     compileMultiDest() {
 
-        if (this.src.length === 0 || this.checkInvalidArgs === false) {
+        if (this.#src.length === 0 ||  this.#invalidArgsHandler.checkInvalidArgs() === false) {
             console.log("No valid option provided ending process ...");
             return "error";
         }
 
-        if(Array.isArray(this.dest)){
+        let tempDest = "";
 
-            this.src.forEach((item , index)=> {
+        if(Array.isArray(this.#dest)){
+
+            this.#src.forEach((item , index)=> {
                 
+                
+                this.#pathHandler.setDestArgv(this.#baseDest[index]);
+                tempDest = this.#pathHandler.getDestPath();
                
-                    console.log("Source Path :", item);
-                    console.log("Destination Path :", this.dest[index]);
+                console.log("Source Path :", item);
+                console.log("Destination Path :", tempDest);
                     
-                    src(this.src, {encoding:false}).pipe(dest(this.dest[index]));
+                src(item, {encoding:false}).pipe(dest(tempDest));
                    
-                
             });
 
         }
@@ -207,28 +184,28 @@ class GulpIconTasks {
 
     compileIconSets() {
 
-        if (this.options.build === true) {
+        if (this.#options.build === true) {
             
-            let typeBuild = this.options.key;
+            let typeBuild = this.#options.key;
             
             console.log("Building invoke for...", typeBuild);
       
             this.#buildSet(typeBuild);
         }
 
-        console.log("Source Path :", this.src);
-        console.log("Destination Path :", this.dest);
+        console.log("Source Path :", this.#src);
+        console.log("Destination Path :", this.#dest);
 
             /** Input and Command Checker */
-        if (this.src.length === 0 || this.checkInvalidArgs === false) {
+        if (this.#src.length === 0 || this.checkInvalidArgs === false) {
             console.log("No valid option provided ending process ...");
             return;
         }
 
 
-        let stream = src(this.src, {encoding:false});
+        let stream = src(this.#src, {encoding:false});
 
-        stream = stream.pipe(dest(this.dest));
+        stream = stream.pipe(dest(this.#dest));
 
         return stream.on('end' , () => {
             console.log("... Build completed.");

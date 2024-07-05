@@ -55,6 +55,7 @@
     |       └── templates       # Project folder
     |       └── config          # Project folder 
     └──
+    
    ```
     ***Design folder will host all the document
 

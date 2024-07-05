@@ -3,7 +3,7 @@
 const config = require("../../config/config.js");
 const { src, dest, watch } = require("gulp");
 const browserSync = require('browser-sync').create();
-const handler = require("../../gulp/classes/Handler.js");
+const handler = require("./handler/Handler.js");
 
 
 class GulpImageTasks {
@@ -12,14 +12,20 @@ class GulpImageTasks {
      * @param { options.src: string , options.dest : string , options.watch : boolean} options 
     */
 
+    #src;
+
+    #dest;
+
+    #options;
+
     constructor(options = {}){
 
         /** List */
-        this.src = options.src || config.images.main;
-        this.dest = options.dest || config.images.maindest;
+        this.#src = options.src || config.images.main;
+        this.#dest = options.dest || config.images.maindest;
 
-        this.options = options;
-        this.options.watch =  false || this.options.watch;
+        this.#options = options;
+        this.#options.watch =  false || options.watch;
     }
 
     /**
@@ -28,7 +34,7 @@ class GulpImageTasks {
     */
 
     getOptions() {
-        return this.options;
+        return this.#options;
     }
 
     /**
@@ -36,16 +42,16 @@ class GulpImageTasks {
      * @returns gulp task
     */
 
-    compileImages() {
+    async compileImagesSync() {
 
-        console.log("Source Path :", this.src);
-        console.log("Destination Path :", this.dest);
+        console.log("Source Path :", this.#src);
+        console.log("Destination Path :", this.#dest);
         /** Encoding : false fixed corrupt images */        
-        let stream = src(this.src , {encoding:false});
+        let stream = src(this.#src , {encoding:false});
 
-        stream = stream.pipe(dest(this.dest));
+        stream = stream.pipe(dest(this.#dest));
 
-        if(this.options.watch) {
+        if(this.#options.watch) {
             stream = stream.pipe(browserSync.stream());
         }
 
@@ -62,18 +68,18 @@ class GulpImageTasks {
      * @returns watch
     */
 
-    watchImages() {
+    async watchImagesSync() {
 
         console.log("Start Images watching ... ");
 
-        return watch(this.src , { ignoreInitial: false})
-        .on('change' , this.compileImages.bind(this))
-        .on('add' , this.compileImages.bind(this))
+        return watch(this.#src , { ignoreInitial: false})
+        .on('change' , this.compileImagesSync.bind(this))
+        .on('add' , this.compileImagesSync.bind(this))
         .on('addDir' , (dir) => {
-           handler.handlerOnDirAdd(dir,config.images.mainsrc,this.dest);
+           handler.handlerOnDirAdd(dir,config.images.mainsrc,this.#dest);
         })
         .on('unlink' , (file) => {
-            handler.handlerOnDeleteFile(file,config.images.mainsrc,this.dest);
+            handler.handlerOnDeleteFile(file,config.images.mainsrc,this.#dest);
         })
         .on('unlinkDir' , (dir) => {
             console.log("... On Dir Delete > ", dir);

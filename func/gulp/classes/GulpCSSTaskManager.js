@@ -6,8 +6,10 @@ const argv = require("yargs").argv;
 const path = require("path");
 const sass = require("gulp-sass")(require('sass'));
 const autoprefixer = require("autoprefixer");
-const handler = require("../../gulp/classes/Handler");
+const handler = require("./handler/Handler.js");
 const postcss = require("gulp-postcss");
+const PathHandler = require("./handler/PathHandler");
+const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 
 
 class GulpCSSTaskManager {
@@ -31,6 +33,9 @@ class GulpCSSTaskManager {
 
     #numVersion;
 
+    #invalidArgsHandler;
+
+    #pathHandler;
 
     constructor(options = {}) {
 
@@ -38,18 +43,27 @@ class GulpCSSTaskManager {
         this.#src = options.src || [];
         this.#autoInit = options.autoInit || false;
         this.#baseDest = config.csspaths.maindest;
-        this.#dest = this.#getDestPath(argv.dest);
+
+
+        this.#pathHandler = new PathHandler(argv.dest,this.#baseDest);
+
+        this.#dest = this.#pathHandler.getDestPath();
         this.#options = options;
         
         this.#options.watch = options.watch || false;
         this.#options.autoprefixer = options.autoprefixer || false;
         this.#numVersion = argv.autoprefixer || options.numVersion || 0;
 
+        this.#invalidArgsHandler = new 
+            InvalidArgsHandler(argv,config.csspaths.paths,
+                ['dest', 'compress' , 'autoprefixer']);
+
         if(this.#numVersion === true){
             this.#numVersion = 2;
         }
 
-        if (this.#autoInit !== false && this.#checkInvalidArgs) {
+        if (this.#autoInit !== false && 
+                this.#invalidArgsHandler.checkInvalidArgs()) {
             this.#checkFlags();
         }
 
@@ -62,29 +76,6 @@ class GulpCSSTaskManager {
 
     getOptions() {
         return this.#options;
-    }
-
-
-    /**
-     * Check path supplied by --dest is not empty and not a number value
-     * @param {string} destArgv 
-     * @returns string
-    */
-
-    #getDestPath(destArgv) {
-        if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
-            
-            if(typeof destArgv !== 'string') {
-                console.log("Path not a valid string , default to: ", this.#baseDest);
-            }else {
-                console.log("Path not provided default to: ", this.#baseDest);
-            }
-            
-            return this.#baseDest;
-          
-        }
-      
-        return path.join(this.#baseDest, destArgv);
     }
 
     /**
@@ -103,26 +94,6 @@ class GulpCSSTaskManager {
             console.log("Option not available compiling CSS ...");
             console.log("Please check Input for valid key.");
           }
-    }
-
-    /**
-     * Check if the commands are correct
-     * @returns boolean
-    */
-
-    #checkInvalidArgs() {
-
-        const validKeys = config.csspaths.paths.map(item => item.key).concat(['dest', 'compress' , 'autoprefixer']);
-        const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
-        
-        if (invalidKeys.length > 0) {
-            console.log("Invalid options provided: ", invalidKeys.join(', '));
-            console.log("Please check the available options: ", validKeys.join(', '));
-            return false;
-        } else {
-            return true;
-        }
-
     }
 
     /**
@@ -172,7 +143,7 @@ class GulpCSSTaskManager {
      * @returns gulp task
     */
 
-    async compileCSS() {
+    async compileCssSync() {
 
         /** Build by key */
         if (this.#options.build === true) {
@@ -188,7 +159,10 @@ class GulpCSSTaskManager {
         console.log("Destination Path :", this.#dest);
 
         /** Input and Command Checker */
-        if (this.#src.length === 0 || this.#checkInvalidArgs === false) {
+        if (this.#src.length === 0 || 
+            this.#invalidArgsHandler.checkInvalidArgs() === false) 
+        {
+            
             console.log("No valid option provided ending process ...");
             return;
         }
@@ -278,11 +252,11 @@ class GulpCSSTaskManager {
                 if(file.endsWith('.css')) {
                     console.log("... Build run CSS");
                     this.#src = cssPath;
-                    this.compileCSS();
+                    this.compileCssSync();
                 }else if(file.endsWith('.scss')){
                     console.log("... Build run SASS");
                     this.#src = sassPath;
-                    this.compileCSS();
+                    this.compileCssSync();
                 }
                 
                 
@@ -291,11 +265,11 @@ class GulpCSSTaskManager {
                 if(file.endsWith('.css')) {
                     console.log("... Build run CSS");
                     this.#src = cssPath;
-                    this.compileCSS();
+                    this.compileCssSync();
                 }else if(file.endsWith('.scss')){
                     console.log("... Build run SASS");
                     this.#src = sassPath;
-                    this.compileCSS();
+                    this.compileCssSync();
                 }
 
             }).on('unlink' , (file) => {

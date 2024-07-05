@@ -27,6 +27,15 @@ exports.keyCheck = (cb) => {
     cb();
 }
 
+/** will need to move to options */
+exports.keyJS = (cb) => {
+    gulpKeyCheck.checkJSKeySync();
+}
+
+exports.KeyCSS = (cb) => {
+    gulpKeyCheck.checkCSSKeySync();
+}
+
 
 
 /** CSS Tasks */
@@ -34,7 +43,7 @@ exports.compileCSS = (cb) => {
      /** Compile with options */
     const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , 
         watch: false });
-    gulpCSSTaskManager.compileCSS();
+    gulpCSSTaskManager.compileCssSync();
     
     cb();
 }
@@ -44,14 +53,14 @@ exports.buildCSS = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
         autoInit: false, build: true, key: 'css' });
 
-    return gulpCSSTaskManager.compileCSS();
+    return gulpCSSTaskManager.compileCssSync();
 }
 
 exports.buildSCSS = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ 
         autoInit: false, watch:false, build: true, key: 'scss' });
 
-    return gulpCSSTaskManager.compileCSS();
+    return gulpCSSTaskManager.compileCssSync();
 }
 
 /** CSS and SCSS Watch */
@@ -64,46 +73,46 @@ exports.watchCSS = () => {
 exports.compileJS = () => {
     /** Compile with options */
     const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true });
-    return gulpJSTaskManager.compileJS();
+    return gulpJSTaskManager.compileJsSync();
 }
 
 /** JS Watch */
 exports.watchJS = () => { 
     const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , watch: true});
-    return gulpJSTaskManager.watchJS();
+    return gulpJSTaskManager.watchJsSync();
 }
 
 /** JS Build Task */
 exports.buildJS = () => {
     const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
             build: true, key: 'js'});
-    return gulpJSTaskManager.compileJS();
+    return gulpJSTaskManager.compileJsSync();
 }
 
 /** Build HTML */
 exports.buildHTML = (cb) => {
 
     const gulpHtmlTasks = new GulpHTMLTasks({ watch: false});
-    gulpHtmlTasks.compileHtml();    
+    gulpHtmlTasks.compileHtmlSync();    
     cb();
 }
 
 /** Watch HTML */
 exports.watchHTML = () => {
     const gulpHtmlTasks = new GulpHTMLTasks({ watch: true});
-    gulpHtmlTasks.watchHtml();
+    gulpHtmlTasks.watchHtmlSync();
 }
 
 /** Build Images */
 exports.buildImages = (cb) => {
     const gulpImageTasks = new GulpImageTasks({ watch: false});
-    gulpImageTasks.compileImages();
+    gulpImageTasks.compileImagesSync();
     cb();
 }
 /** Watch Image */
 exports.watchImage = (cb) => {
     const gulpImageTasks = new GulpImageTasks({ watch: true});
-    gulpImageTasks.watchImages();
+    gulpImageTasks.watchImagesSync();
     cb();
 }
 
@@ -140,9 +149,9 @@ exports.buildAllFa = (cb) => {
         watch: false, build: true, key: 'fontawesome'});
 
     
-    gulpCSSTaskManager.compileCSS(); 
+    gulpCSSTaskManager.compileCssSync(); 
     gulpIconTasks.compileIconSets();
-    gulpJSTaskManager.compileJS();
+    gulpJSTaskManager.compileJsSync();
 
     cb();
     
@@ -165,9 +174,9 @@ exports.buildAllBi = (cb) => {
         watch: false, build: true, key: ['bootstrap' , 'popper']}); */
 
     
-    gulpCSSTaskManager.compileCSS(); 
+    gulpCSSTaskManager.compileCssSync(); 
     gulpIconTasks.compileIconSets();
-    //gulpJSTaskManager.compileJS();
+    //gulpJSTaskManager.compileJsSync();
 
     cb();
 

@@ -6,7 +6,9 @@ const uglify = require("gulp-uglify");
 const argv = require("yargs").argv;
 const browserSync = require('browser-sync').create();
 const path = require("path");
-const handler = require("../../gulp/classes/Handler");
+const handler = require("./handler/Handler");
+const PathHandler = require("./handler/PathHandler");
+const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 
 class GulpJSTaskManager {
   
@@ -28,6 +30,8 @@ class GulpJSTaskManager {
 
   #options;
 
+  #invalidArgsHandler;
+
   constructor(options = {}) {
 
     /** List */
@@ -37,13 +41,19 @@ class GulpJSTaskManager {
     this.#baseDest = config.jspaths.maindest;
     //this.#dest = argv.dest || config.jspaths.maindest;
     //this.#dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.#baseDest;
-    this.#dest = this.#getDestPath(argv.dest);
+    
+    const pathHandler = new PathHandler(argv.dest,this.#baseDest);
+    
+    this.#dest = pathHandler.getDestPath();
     this.#options = options;
-
 
     this.#options.watch = options.watch || false;
 
-    if (this.#autoInit !== false && this.#checkInvalidArgs) {
+    this.#invalidArgsHandler = new 
+      InvalidArgsHandler(argv,config.jspaths.paths,
+        ['dest', 'uglify']);
+
+    if (this.#autoInit !== false && this.#invalidArgsHandler.checkInvalidArgs()) {
       this.#checkFlags();
     }
   }
@@ -55,28 +65,6 @@ class GulpJSTaskManager {
 
   getOptions() {
     return this.#options;
-  }
-
-  /**
-   * Check path supplied by --dest is not empty and not a number value
-   * @param {string} destArgv
-   * @returns string
-  */
-
-  #getDestPath(destArgv) {
-    if (destArgv === true || destArgv === undefined || typeof destArgv !== 'string') {
-     
-      if(typeof destArgv !== 'string') {
-        console.log("Path not a valid string , default to: ", this.#baseDest);
-      }else {
-        console.log("Path not provided default to: ", this.#baseDest);
-      }
-
-      return this.#baseDest;
-    
-    }
-
-    return path.join(this.#baseDest, destArgv);
   }
 
   /**
@@ -93,30 +81,9 @@ class GulpJSTaskManager {
     });
 
     if (this.#src.length === 0) {
-      console.log("Option not available compiling JS ...");
-      console.log("Please check ", config.info.compileJS);
+      console.log("Option not available");
     }
   }
-
-    /**
-     * Check if the commands are correct
-     * @returns boolean
-    */
-
-    #checkInvalidArgs() {
-
-      const validKeys = config.jspaths.paths.map(item => item.key).concat(['dest', 'uglify']);
-      const invalidKeys = Object.keys(argv).filter(key => key !== '_' && key !== '$0' && !validKeys.includes(key));
-      
-      if (invalidKeys.length > 0) {
-          console.log("Invalid options provided: ", invalidKeys.join(', '));
-          console.log("Please check the available options: ", validKeys.join(', '));
-          return false;
-      } else {
-          return true;
-      }
-
-    }
   
     /**
      * This will set the source for the build request
@@ -164,7 +131,7 @@ class GulpJSTaskManager {
    * @returns gulp task
    */
 
-  async compileJS() {
+  async compileJsSync() {
     
     if (this.#options.build === true) {
       let typeBuild = this.#options.key;
@@ -177,7 +144,7 @@ class GulpJSTaskManager {
     console.log("Destination Path :", this.#dest);
 
     /** Input and Command Checker */
-    if (this.#src.length === 0 || this.#checkInvalidArgs === false) {
+    if (this.#src.length === 0 || this.#invalidArgsHandler.checkInvalidArgs() === false) {
       console.log("No valid option provided ending process ...");
       return;
     }
@@ -212,7 +179,7 @@ class GulpJSTaskManager {
    * @returns gulp watch
    */
 
-  watchJS() {
+  watchJsSync() {
     this.#src = config.jspaths.main + "/**/*.js";
     this.#dest = config.jspaths.maindest;
     console.log("Start JS watching ... ");
@@ -221,8 +188,8 @@ class GulpJSTaskManager {
 
     /**  new file created will overwrite the old one */
     return watch(this.#src, { ignoreInitial: false })
-      .on("change", this.compileJS.bind(this))
-      .on("add", this.compileJS.bind(this))
+      .on("change", this.compileJsSync.bind(this))
+      .on("add", this.compileJsSync.bind(this))
       .on("unlink", (file) => {
        
         handler.handlerOnDeleteFile(file,config.jspaths.main,this.#dest);
