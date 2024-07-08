@@ -78,15 +78,20 @@ class GulpIconTasks {
     /** still working on 1 on 1 mapping */
      #compileSet() {
        
-        config.icons.paths.forEach( (item,index )=> {
+        config.icons.paths.forEach( (item)=> {
             
             if (argv[item.key]) {
-               this.#src.push(item.path);
+                /** Get argv index */
+                let argvArray = Object.keys(argv).map(key => ({ key, value: argv[key]}));
+                let index = argvArray.findIndex(argv => argv.key === item.key);
+                this.#src[index] = item.path; 
             }
               
         });
-
-        console.log("Destination of Path is based on config mapping");
+        /** Clean array empty index */
+        this.#src = this.#src.filter(item => !(Array.isArray(item) && item.length === 0));
+        console.log("Destination Mapping for each :" , this.#src);
+    
     }
 
     /**
