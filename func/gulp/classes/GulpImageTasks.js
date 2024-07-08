@@ -1,6 +1,6 @@
 'use strict'
 
-const config = require("../../config/config.js");
+const config = require("../../config/configLoader.js");
 const { src, dest, watch } = require("gulp");
 const browserSync = require('browser-sync').create();
 const handler = require("./handler/Handler.js");

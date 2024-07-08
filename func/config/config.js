@@ -8,9 +8,16 @@
 const env = process.env.NODE_ENV || 'development';
 
 const config = {
+   
         development : {
 
+            settings: {
+                mainfolder: "node_modules",
+                projectfolder: "theme_3",
+            } ,
+
             mainbuild : "build", 
+            
             csspaths : {
 
                 maincss: "src/css/",

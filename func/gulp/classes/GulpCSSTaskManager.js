@@ -1,6 +1,6 @@
 "use strict";
 
-const config = require("../../config/config.js");
+const config = require("../../config/configLoader.js");
 const { src, dest, watch } = require("gulp");
 const argv = require("yargs").argv;
 const path = require("path");

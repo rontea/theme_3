@@ -1,7 +1,7 @@
 'use strict';
 
 const { tree } = require('gulp');
-const config = require('../../config/config.js');
+const config = require('../../config/configLoader.js');
 const fse = require('fs-extra');
 
 class Utils {

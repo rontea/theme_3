@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require("../../config/config.js");
+const config = require("../../config/configLoader");
 const argv = require("yargs").argv;
 const readline = require('readline');
 const {glob} = require('glob');
