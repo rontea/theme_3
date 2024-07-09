@@ -1,5 +1,7 @@
 # theme_3_V1 Template
 
+#### Main has been moved to Version Development Version for 2.0.0
+
 #### Version 1.2.6-a
 
 - Simple and easy to use theme template creator for small scale project
