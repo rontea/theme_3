@@ -6,6 +6,16 @@ const fse = require('fs-extra');
 
 class Utils {
 
+    async gulpCheckerDefaultSync() {
+        const taskTree = tree({ deep: true });
+        
+        console.log("List of Tasks :");
+        
+        taskTree.nodes.forEach(node => {
+            console.log(`$gulp ${node.label} `);
+        });
+    }
+
     /**
      * This will diplay tasks on gulpfile.js
      * @param {*} cb 

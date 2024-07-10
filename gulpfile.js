@@ -11,7 +11,6 @@ const GulpIconTasks = require('./func/gulp/classes/GulpIconTasks');
 const GulpResourceHandler = require('./func/gulp/classes/GulpResourceHandler');
 
 
-
 /** Utils Tasks */
 
 exports.default = utils.defaultSync.bind();

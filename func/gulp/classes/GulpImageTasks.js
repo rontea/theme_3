@@ -57,8 +57,8 @@ class GulpImageTasks {
 
         return stream.on("end", () => {
             console.log("... Image build completed.");
-        }).on('error' , (error) => {
-            console.log(error);
+        }).on('error' , (err) => {
+            console.log("Error on Image Tasks " , err);
         });
 
     }

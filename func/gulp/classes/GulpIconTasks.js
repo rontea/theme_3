@@ -167,7 +167,10 @@ class GulpIconTasks {
                 console.log("Source Path :", item);
                 console.log("Destination Path :", tempDest);
                     
-                src(item, {encoding:false}).pipe(dest(tempDest));
+                src(item, {encoding:false}).pipe(dest(tempDest))
+                .on('end' , () => {
+                    console.log("... Icons build completed." , index);
+                });
                    
             });
 
@@ -207,9 +210,9 @@ class GulpIconTasks {
         stream = stream.pipe(dest(this.#dest));
 
         return stream.on('end' , () => {
-            console.log("... Build completed.");
-        }).on('error', (error) => {
-            console.log(error);
+            console.log("... Icons build completed.");
+        }).on('error', (err) => {
+            console.log(err);
         });
     }
 }

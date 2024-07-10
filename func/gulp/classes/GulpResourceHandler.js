@@ -96,7 +96,7 @@ class GulpResourceHandler {
                 output: process.stdout
             });
     
-            rl.question(`Are you sure to move "${this.#src}" to "${this.#dest}" "y/n"? : `,
+            rl.question(`Are you sure to move files it my override existing "${this.#src}" to "${this.#dest}" "y/n"? : `,
                 (answer) => {
                     rl.close();
                     if(answer.toLowerCase() === 'y') {
@@ -150,7 +150,7 @@ class GulpResourceHandler {
             const userConfirmed = await this.#checkMoveSync();
 
             if (!userConfirmed) {
-                console.log("Move Cancelled.");
+                console.log("... Move Cancelled");
                 return;
             }
 
@@ -168,7 +168,7 @@ class GulpResourceHandler {
             stream = stream.pipe(dest(this.#dest));
             
             return stream.on('end', () => {
-                console.log("Move Completed ...");
+                console.log("... Move Completed");
             })
             .on('error' , (error) => {
                 console.log(error);
