@@ -6,11 +6,21 @@ const fs = require('fs');
 const urlPathMaker = require('../func/utils/utils');
 
 class SymLink {
+
+
+    #src;
+
+    #dest;
+
+    #gulpFile;
+    
+
     /**
      * This will create symbolic link for gulp.
      * @param {src: string , dest : string, gulpFile: string } options 
     */
-    
+
+   
     constructor(options = {}) {
 
         const makeSrc = urlPathMaker.twhUrlPathMaker({topFolder: 'node_modules' 
@@ -18,9 +28,9 @@ class SymLink {
 
         const makeDest = urlPathMaker.twhUrlPathMaker();
 
-        this.src = options.src || makeSrc; 
-        this.dest = options.dest || makeDest;
-        this.gulpFile = options.gulpFile || "gulpfile.js";
+        this.#src = options.src || makeSrc; 
+        this.#dest = options.dest || makeDest;
+        this.#gulpFile = options.gulpFile || "gulpfile.js";
     
     }
 
@@ -32,12 +42,12 @@ class SymLink {
     displayInfo(info = "Creating gulp symlink.") {
 
         console.log(info)
-        console.log("Source : ", this.src);
-        console.log("Destination :" , this.dest);
+        console.log("Source : ", this.#src);
+        console.log("Destination :" , this.#dest);
         console.log("Path creation");
 
-        let srcPath = path.join(this.src , this.gulpFile);        
-        let destPath = path.join(this.dest, this.gulpFile);
+        let srcPath = path.join(this.#src , this.#gulpFile);        
+        let destPath = path.join(this.#dest, this.#gulpFile);
 
         console.log("Gulp link src " , srcPath);
         console.log("Gulp link dest " , destPath);
@@ -48,16 +58,24 @@ class SymLink {
      * @param {string} gulpFile 
      */
 
-    createSymLink(gulpFile = this.gulpFile) {
+    async createSymLinkSync(gulpFile = this.#gulpFile) {
 
-        this.gulpFile = gulpFile;
+        this.#gulpFile = gulpFile;
 
-        const srcPath = path.join(this.src , this.gulpFile);        
-        const destPath = path.join(this.dest, this.gulpFile);
+        const srcPath = path.join(this.#src , this.#gulpFile);        
+        const destPath = path.join(this.#dest, this.#gulpFile);
 
         try {
             if(!fs.existsSync(destPath)){
                 
+
+                const confirm = await urlPathMaker.readLineYesNoSync();
+                
+                if(!confirm) {
+                    console.log("Abort Operation");
+                    return;
+                }
+
                 fs.symlink(srcPath, destPath, 'file', (err) => {
                     
                     if(err) {
@@ -86,13 +104,20 @@ class SymLink {
      * This will remove the symbolic link of gulp. 
     */
 
-    removeSymLink() {
+    async removeSymLinkSync() {
 
-        const destPath = path.join(this.dest , this.gulpFile);
+        const destPath = path.join(this.#dest , this.#gulpFile);
 
         try {
 
             if (fs.existsSync(destPath)) {
+
+                const confirm = await urlPathMaker.readLineYesNoSync();
+                
+                if(!confirm) {
+                    console.log("Abort Operation");
+                    return;
+                }
        
                 fs.unlink(destPath, (err) => {
                     if (err) {

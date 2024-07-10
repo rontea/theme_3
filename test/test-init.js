@@ -35,7 +35,7 @@ const optionCallbacks = {
         
         const symlink = new SymLink({ src : src , dest: dest});
         symlink.displayInfo();
-        symlink.createSymLink();
+        symlink.createSymLinkSync();
     },
     '3': () => {
         
@@ -44,7 +44,7 @@ const optionCallbacks = {
 
         const symlink = new SymLink({ src : src , dest: dest });
         symlink.displayInfo();
-        symlink.removeSymLink();
+        symlink.removeSymLinkSync();
     },
     '4': () => {
         console.log("Exit");

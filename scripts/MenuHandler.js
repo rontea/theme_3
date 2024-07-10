@@ -1,13 +1,9 @@
 'use strict';
 
 const readline = require('readline');
-const { option } = require('yargs');
-
-
 
 class MenuBuilder {
 
-    
     #menu;
 
     #displayTitle;

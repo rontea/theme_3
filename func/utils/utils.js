@@ -69,4 +69,12 @@ async function readLineYesNoSync(){
 
 }
 
-module.exports = {twhUrlPathMaker , test , writeLine, readLineYesNoSync};
+function joinPath(path,file){
+
+  const joinedPath = path.join(path,file);
+
+  return joinedPath;
+
+}
+
+module.exports = {twhUrlPathMaker , test , writeLine, readLineYesNoSync, joinPath};
