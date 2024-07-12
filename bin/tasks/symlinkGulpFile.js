@@ -1,6 +1,6 @@
 'use strict';
 const urlPathMaker = require('../../func/utils/utils');
-const SymLink = require('../../scripts/SymLink');
+const SymLink = require('../../func/scripts/SymLink');
 
 
 

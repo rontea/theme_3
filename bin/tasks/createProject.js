@@ -1,6 +1,6 @@
 'use strict';
 
-const ProjectMaker = require('../../scripts/ProjectMaker');
+const ProjectMaker = require('../../func/scripts/ProjectMaker');
 const urlPathMaker = require('../../func/utils/utils');
 
 const projectFolders = () => {

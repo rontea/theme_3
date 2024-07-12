@@ -25,7 +25,6 @@ yargs
 .help()
 .alias('help', 'h')
 .demandCommand(1 , "You need to specify at least one command")
-.strict()
 .wrap(null)
 .command('version', "Check current version", () => {}, () => {
   console.log("2.0.0");

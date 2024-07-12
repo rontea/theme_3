@@ -1,10 +1,10 @@
 'use strict';
 
 const timeLogger = require('../func/utils/TimeLogger');
-const MenuBuilder = require('../scripts/MenuHandler');
-const SymLink = require('../scripts/SymLink');
-const ProjectMaker = require('../scripts/ProjectMaker');
-const FileLister = require('../scripts/FileLister');
+const MenuBuilder = require('../func/scripts/MenuHandler');
+const SymLink = require('../func/scripts/SymLink');
+const ProjectMaker = require('../func/scripts/ProjectMaker');
+const FileLister = require('../func/scripts/FileLister');
 const urlPathMaker = require('../func/utils/utils');
 
 

@@ -2,9 +2,9 @@
 
 
 const timeLogger = require('../func/utils/TimeLogger');
-const MenuBuilder = require('../scripts/MenuHandler');
-const SymLink = require('../scripts/SymLink');
-const ProjectMaker = require('../scripts/ProjectMaker');
+const MenuBuilder = require('../func/scripts/MenuHandler');
+const SymLink = require('../func/scripts/SymLink');
+const ProjectMaker = require('../func/scripts/ProjectMaker');
 const urlPathMaker = require('../func/utils/utils');
 
 const menuBuilder = new MenuBuilder( 

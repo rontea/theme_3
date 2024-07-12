@@ -1,10 +1,10 @@
 "use strict";
 
 const path = require("path");
-const urlPathMaker  = require("../func/utils/utils");
+const urlPathMaker  = require("../utils/utils");
 const fs = require("fs");
 const { src, dest } = require("gulp");
-const config = require("../func/config/configLoader");
+const config = require("../config/configLoader");
 const readline = require('readline');
 
 class ProjectMaker {

@@ -3,7 +3,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const urlPathMaker = require('../func/utils/utils');
+const urlPathMaker = require('../utils/utils');
 
 class SymLink {
 

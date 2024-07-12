@@ -3,7 +3,7 @@
 const { dir } = require("console");
 const fs = require("fs");
 const path = require("path");
-const urlPathMaker = require("../func/utils/utils");
+const urlPathMaker = require("../utils/utils");
 
 class FileLister {
 

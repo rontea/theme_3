@@ -31,3 +31,7 @@
 11. Move 2.0 Dev to main - Done
 
 12. Key Check options
+
+13. test system
+
+14. work on github action and semantic release automation
