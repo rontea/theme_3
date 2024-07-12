@@ -170,6 +170,8 @@ class GulpIconTasks {
                 src(item, {encoding:false}).pipe(dest(tempDest))
                 .on('end' , () => {
                     console.log("... Icons build completed." , index);
+                }).on('error' , (err) => {
+                    console.log("Error on Icon move " , err);
                 });
                    
             });

@@ -6,6 +6,9 @@ const path = require("path");
 const urlPathMaker = require("../func/utils/utils");
 
 class FileLister {
+
+  #dirs;
+  
   constructor(dirs = {}) {
     this.dirs = [];
 

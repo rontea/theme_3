@@ -67,6 +67,10 @@ class GulpJSTaskManager {
     return this.#options;
   }
 
+  getHelp() {
+    
+  }
+
   /**
    *  Accept argument on CLI , check config.js jspaths for keys
    *  gultTasks task --option --option
@@ -170,6 +174,8 @@ class GulpJSTaskManager {
 
     return stream.on("end", () => {
       console.log("... JS build completed.");
+    }).on('error' , (err) => {
+      console.log("Error on JS move " , err);
     });
   }
 

@@ -10,4 +10,8 @@ const checkJsKey = () => {
     gulpKeyCheck.checkJSKeySync();
 };
 
-module.exports = { checkCssKey , checkJsKey};
+const checkIconsKey = () => {
+    gulpKeyCheck.checkIconsKeySync();
+};
+
+module.exports = { checkCssKey , checkJsKey , checkIconsKey};

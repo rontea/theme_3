@@ -1,24 +1,26 @@
 #!/usr/bin/env node
 'use strict';
 const yargs = require('yargs');
+const {projectFolders , setConfig} = require('./tasks/createProject');
 const { compileCss , buildCss , buildScss 
     , buildFontawesomeCss, buildBootstrapIconsCss 
     , watchCss } = require('./tasks/cssTasks');
 const {  compileJs , buildJs , buildJsFontawesome
     , watchJs } = require('./tasks/jsTasks');
 const utils = require('../func/gulp/classes/Utils');
-const { checkCssKey , checkJsKey } = require('./tasks/keyCheck');
+const { checkCssKey , checkJsKey , checkIconsKey} = require('./tasks/keyCheck');
 const {  buildHtml , watchHtml } = require('./tasks/htmlTasks');
 const {  buildImages, watchImages } = require('./tasks/imageTasks');
 const { moveBootstrapIcons, moveFontawesomeIcons
     , compileIcons} = require('./tasks/iconTasks');
 const { moveResources } = require('./tasks/resourcesTasks');
+const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
 
 try {
 
     
 yargs
-.scriptName("th-3")
+.scriptName("th3")
 .usage('$0 <cmd> [args]')
 .help()
 .alias('help', 'h')
@@ -27,6 +29,35 @@ yargs
 .wrap(null)
 .command('version', "Check current version", () => {}, () => {
   console.log("2.0.0");
+})
+.command('new-project', "Create new Project folder [html , src]", async () => {
+   projectFolders();
+})
+.command('set-config', "Create config for edit [config/config.js]", async () => {
+   setConfig();
+ })
+ .command('gulplink' , "Check available Keys" , (yargs) => {
+    return yargs
+        .option('create' , {
+            alias: 'c',
+            type: 'boolean',
+            description: "Create symlink for Gulpfile"
+        })
+        .option('unlink' , {
+            alias: 'u',
+            type: 'boolean',
+            description: "Unlink symlink for Gulpfile"
+        })
+}, (argv) => {
+
+    if(argv.create) {
+       createGulpSymlink();
+    } else if(argv.unlink) {
+       unlinkGulpSymlink();
+    }else {
+        console.log("Command not available");
+    }
+
 })
 .command('clean-build', "Clean build folder", async () => {
     utils.utilsCleanSync();
@@ -46,12 +77,20 @@ yargs
             type: 'boolean',
             description: "Check available keys in JS"
         })
+        .option('icons' , {
+            alias: 'i',
+            type: 'boolean',
+            description: "Check available keys in Icons"
+        })
+
 }, (argv) => {
 
     if(argv.css) {
         checkCssKey();
     } else if(argv.js) {
         checkJsKey();
+    }else if(argv.js) {
+        checkIconsKey();
     }else {
         console.log("Command not available");
     }

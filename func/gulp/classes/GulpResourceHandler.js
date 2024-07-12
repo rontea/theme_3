@@ -170,8 +170,8 @@ class GulpResourceHandler {
             return stream.on('end', () => {
                 console.log("... Move Completed");
             })
-            .on('error' , (error) => {
-                console.log(error);
+            .on('error' , (err) => {
+                console.log("Error on resource move " , err);
             });
         
         }catch (err) {

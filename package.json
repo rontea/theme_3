@@ -4,8 +4,7 @@
   "description": "theme_3 2.0.0-dev.1 version",
   "main": "index.js",
   "bin": {
-    "th3": "./bin/cli.js",
-    "th-3": "./bin/cliGulp.js"
+    "th3": "./bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

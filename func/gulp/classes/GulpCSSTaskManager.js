@@ -195,7 +195,7 @@ class GulpCSSTaskManager {
 
             stream =  stream.pipe(postcss([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])) 
             .on('error' , err => {
-                console.log(err);
+                console.log("Error on CSS move " , err);
             })
             .on('end', () => {
                 console.log("... Autoprefixer completed last: " , numVersion);

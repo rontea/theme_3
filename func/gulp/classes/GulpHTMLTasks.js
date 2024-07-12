@@ -87,7 +87,8 @@ class GulpHTMLTasks {
        
         return  stream.on('end' , () => {
             console.log("... HTML build completed.");
-           
+        }).on('error' , (err) => {
+            console.log("Error on HTML move " , err);
         });
     }
     /**

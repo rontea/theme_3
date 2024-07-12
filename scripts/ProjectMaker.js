@@ -15,6 +15,8 @@ class ProjectMaker {
 
   #directories;
 
+  #files;
+
   /**
    *
    * @param {src : string , dest : string , directories : [strings]} options
@@ -33,6 +35,7 @@ class ProjectMaker {
   
       this.#src = options.src || makeSrc;
       this.#dest = options.dest || makeDest;
+      this.#files =  options.file ||  "/**/*";
   
       this.#directories = options.dir || [];
 
@@ -114,8 +117,17 @@ class ProjectMaker {
         console.log("src ", srcPath);
         console.log("dest ", destPath);
 
-       src(srcPath + "/**/*")
-          .pipe(dest(destPath));
+        let source = srcPath + this.#files;
+        console.log("file ", source);
+
+       src(source)
+          .pipe(dest(destPath))
+          .on('end' , () => {
+            console.log(" ... Operationg completed");
+          })
+          .on('error' , (err) => {
+            console.log("Error move on Project maker " , err);
+          });
         
         console.log("Copy completed ", directory);
 
