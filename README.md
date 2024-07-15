@@ -1,5 +1,7 @@
 # theme_3
 
+A command-line interface (CLI) tool to manage and build web projects efficiently.
+
 #### Version 2.0.0-dev.1 What's New
 
 ## Installation - Not yet publish on NPM
@@ -20,16 +22,35 @@ npm link
 th3 <cmd> [args]
 ```
 
-Command	Description
-- ```th3 version```	Check current version
-- ```th3 new-project```	  Create new Project folder [html, src]
-- ```th3 set-config```	  Create config for edit [config/config.js]
-- ```th3 gulplink```	    Link or Unlink Gulpfile
+Command	 - Description
+- ```th3 version```	 - Check current version
+- ```th3 new-project```	  - Create new Project folder [html, src]
+- ```th3 set-config```	  - Create config for edit [config/config.js]
+- ```th3 gulplink```	    - Link or Unlink Gulpfile
+  
+- ```th3 clean-build```	  - Clean build folder
+- ```th3 clean	Clean```  - build folder
+- ```th3 project-help```	- Check available Keys
+- ```th3 css-compile```	   - Compile list of CSS and SCSS
+  #### CSS 
+  ```th3 css-compile --list```
 
-- ```th3 clean-build```	  Clean build folder
-- ```th3 clean	Clean```  build folder
-- ```th3 project-help```	Check available Keys
-- ```th3 css-compile```	  Compile list of CSS and SCSS
+
+ - key              - descr
+ - ```css  ```             - compile CSS on [src/css]
+ - ```scss   ```           - compile SCSS [src/scss]
+ - ```bootstrap```         - compile boostrap to CSS
+ - ```bootstrapIcon```     - compile boostrap icon CSS
+ - ```fontawesome ```      -compile fontawesome icon CSS
+ - ```bulma ```             -compile bulma to CSS
+ - ```prism ```             -compile prism css
+
+- key -             descr
+- ``` dest     ```       - Alter Destination
+- ``` compress  ```       - Compress CSS
+- ``` autoprefixer  ```   - Add autoprefixer value (1-5)
+- ``` list    ```        - List available keys
+
 
 - ```th3 css-build```	    Build CSS
 - ```th3 scss-build```	  Build SCSS
