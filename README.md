@@ -4,6 +4,7 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 
 #### Version 2.0.0-dev.1 What's New
 
+- ** Under Development  Documentation **
 - CLI th3 
 - Gulpfile.js optional
 - extend list of keys in config.js
