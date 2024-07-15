@@ -4,6 +4,12 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 
 #### Version 2.0.0-dev.1 What's New
 
+- CLI th3 
+- Gulpfile.js optional
+- extend list of keys in config.js
+- manipulate config.js 
+- expand gulpfile for extend commands
+
 #### NPM
 - npm i theme_3_v1 
   -[npm](https://www.npmjs.com/package/theme_3_v1)
@@ -18,7 +24,7 @@ npm i theme_3 - test
 npm link
 ```
 
-## Updated Commands
+#### Updated Commands
 
 - Move to CLI and set gulpfiles optional for commands
 
@@ -49,7 +55,7 @@ Command	 - Description
  - ```bulma ```             - compile bulma to CSS
  - ```prism ```             - compile prism css
 
-key -  description
+##### key -  description
 - ``` dest     ```       - Alter Destination
 - ``` compress  ```       - Compress CSS
 - ``` autoprefixer  ```   - Add autoprefixer value (1-5)
@@ -90,7 +96,7 @@ Command	 - Description
 - ```th3 move-res	Compile```    icons
 
 
-- Samples
+##### Samples
 ```
 ```
 
