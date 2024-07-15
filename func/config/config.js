@@ -24,13 +24,13 @@ const config = {
                 mainscss: "src/scss/",
                 maindest: "build/css/",
                 paths: [
-                    { key : 'css' , path: 'src/css/**/*.css' },
-                    { key : 'scss' , path: 'src/scss/**/*.scss' },
-                    { key : 'bootstrap' , path: 'node_modules/bootstrap/scss/bootstrap.scss' },
-                    { key : 'bootstrapIcon' , path: 'node_modules/bootstrap-icons/font/bootstrap-icons.scss' },
-                    { key : 'fontawesome' , path: 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss' },
-                    { key : 'bulma' , path: 'node_modules/bulma/bulma.scss' },
-                    { key : 'prism' , path: 'node_modules/prismjs/themes/prism.min.css' },
+                    { key : 'css' , path: 'src/css/**/*.css' , descr: "compile CSS on [src/css]"  },
+                    { key : 'scss' , path: 'src/scss/**/*.scss', descr: "compile SCSS [src/scss]" },
+                    { key : 'bootstrap' , path: 'node_modules/bootstrap/scss/bootstrap.scss' , descr: "compile boostrap to CSS" },
+                    { key : 'bootstrapIcon' , path: 'node_modules/bootstrap-icons/font/bootstrap-icons.scss', descr: "compile boostrap icon CSS"  },
+                    { key : 'fontawesome' , path: 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss' , descr: "compile fontawesome icon CSS" },
+                    { key : 'bulma' , path: 'node_modules/bulma/bulma.scss', descr: "compile bulma to CSS"  },
+                    { key : 'prism' , path: 'node_modules/prismjs/themes/prism.min.css' , descr: "compile prism css" },
                 ],
                 settings: {
                     autoprefixer : 2,
@@ -48,12 +48,12 @@ const config = {
                 main: "src/js",
                 maindest: "build/js",
                 paths: [
-                    { key: 'js' , path: 'src/js/**/*.js'  },
-                    { key: 'jquery' , path: 'node_modules/jquery/dist/jquery.min.js' },
-                    { key: 'popper' , path: 'node_modules/@popperjs/core/dist/umd/popper.min.js'},
-                    { key: 'tether' , path: 'node_modules/tether/dist/js/tether.min.js'},
-                    { key: 'bootstrap', path: 'node_modules/bootstrap/dist/js/bootstrap.min.js'},
-                    { key: 'fontawesome', path: 'node_modules/@fortawesome/fontawesome-free/js/all.min.js' }
+                    { key: 'js' , path: 'src/js/**/*.js' , descr: "Compile JS on [src/js]"  },
+                    { key: 'jquery' , path: 'node_modules/jquery/dist/jquery.min.js' , descr: "Compile Jquery" },
+                    { key: 'popper' , path: 'node_modules/@popperjs/core/dist/umd/popper.min.js' , descr: "Compile Popper JS"},
+                    { key: 'tether' , path: 'node_modules/tether/dist/js/tether.min.js' , descr: "Compile Tether JS"} ,
+                    { key: 'bootstrap', path: 'node_modules/bootstrap/dist/js/bootstrap.min.js' , descr: "Compile Bootstrap JS"},
+                    { key: 'fontawesome', path: 'node_modules/@fortawesome/fontawesome-free/js/all.min.js' , descr: "Compile fontawesome icons JS" }
                 ],
                 
             },
@@ -90,8 +90,10 @@ const config = {
                 prefix: "/fonts",
                 destprefix: "fonts",
                 paths : [
-                    { key: 'fontawesome' , path: "node_modules/@fortawesome/fontawesome-free/webfonts/**/*" },
-                    { key: 'bootstrap' , path: "node_modules/bootstrap-icons/font/fonts/**/*" },
+                    { key: 'fontawesome' , path: "node_modules/@fortawesome/fontawesome-free/webfonts/**/*" 
+                        , descr: "compile fontawesome icons fonts" },
+                    { key: 'bootstrap' , path: "node_modules/bootstrap-icons/font/fonts/**/*" 
+                        , descr: "compile bootstrap icons fonts" },
                 ] 
             },
 

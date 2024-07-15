@@ -10,9 +10,9 @@ class GulpKeyCheck {
     static async checkJSKeySync(lang = "JS",type = "command") {
     
         console.log(`${lang} <cmd> [args]  $${type} :`);
-        let prefix = "--";  
+        let prefix = "       ";  
         config.jspaths.paths.forEach(item => {
-            console.log( ` ${prefix}${item.key}`);
+            console.log(` ${item.key}${prefix}`);
         });
 
         console.log(`${lang} Utilities $${type} :`);
@@ -25,18 +25,18 @@ class GulpKeyCheck {
      * Static method that will generate the keys coming from config file for CSS.
     */
 
-    static async checkCSSKeySync(lang = "CSS",type = "command") {
+    static async checkCSSKeySync(lang = "CSS",type = "command", additional = []) {
 
-        console.log(`${lang} <cmd> [args]  $${type} :`);
-        let prefix = "--"; 
+        console.log(`${lang} $${type} [args]:`);
+        
         config.csspaths.paths.forEach(item => {
-            console.log( ` ${prefix}${item.key}`);
+            console.log( ` ${item.key} : ${item.descr}`);
         });
 
         console.log(`${lang} Utilities $${type} :`);
-        console.log(`   ${prefix}compress `);
-        console.log(`   ${prefix}autoprefixer (1-5) `);
-        console.log(`   ${prefix}dest `);
+        console.log(`   compress `);
+        console.log(`   autoprefixer (1-5) `);
+        console.log(`   dest `);
         
     }
 
@@ -55,6 +55,56 @@ class GulpKeyCheck {
         console.log(`${lang} Utilities $${type} :`);
         console.log(`   ${prefix}dest `);
        
+    }
+
+    static async checkAll(
+        keysReference = [{ key: "undefined",  path: "undefined" , descr: "undefined"}]
+        ,lang = "undefined",type = "undefined"
+        , additional = [{ key : "undefined" , descr : "Some Description"}]) {
+        
+        console.log();
+        console.log(`${lang} $${type} [args]:`);
+        
+        this.displayTable(keysReference);
+
+        console.log(`${lang} Utilities $${type} :`);
+       
+        this.displayTable(additional);
+
+    }
+
+    static mapDescription(commands,descriptions) {
+
+        const transformedCommands = commands.map(command => ({
+            key: command,
+            descr: descriptions[command] || "default description"
+        }));
+
+        return transformedCommands;
+    }
+
+    static async displayTable(data, excludeKeys = ["path"]) {
+
+        console.log();
+        const filteredData = data.map(item => {
+            const newItem = { ...item };
+            excludeKeys.forEach(key => delete newItem[key]);
+            return newItem;
+        });
+
+        const headers = Object.keys(filteredData[0]);
+        const columnWidths = headers.map(header => Math.max(header.length, ...filteredData.map(row => row[header].length)));
+          
+        // Print headers
+        const headerRow = headers.map((header, i) => header.padEnd(columnWidths[i] + 5) ).join('');
+        console.log(headerRow);
+      
+        // Print rows
+        data.forEach(row => {
+          const rowString = headers.map((header, i) => row[header].padEnd(columnWidths[i] + 5)).join('');
+          console.log(rowString);
+        });
+        console.log();
     }
 
 }

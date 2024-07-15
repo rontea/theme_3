@@ -9,6 +9,7 @@ const path = require("path");
 const handler = require("./handler/Handler");
 const PathHandler = require("./handler/PathHandler");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
+const gulpKeyCheck = require('./GulpKeyCheck.js');
 
 class GulpJSTaskManager {
   
@@ -35,11 +36,9 @@ class GulpJSTaskManager {
   constructor(options = {}) {
 
     /** List */
-
     this.#src = options.src || [];
     this.#autoInit = options.autoInit || false;
     this.#baseDest = config.jspaths.maindest;
-    //this.#dest = argv.dest || config.jspaths.maindest;
     //this.#dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.#baseDest;
     
     const pathHandler = new PathHandler(argv.dest,this.#baseDest);
@@ -47,16 +46,55 @@ class GulpJSTaskManager {
     this.#dest = pathHandler.getDestPath();
     this.#options = options;
 
+    this.#options.getHelp = false || options.getHelp;
     this.#options.watch = options.watch || false;
+    
+    let commands = ['dest', 'uglify'];
+    const keysReference = config.jspaths.paths;
+
+    if(this.#options.getHelp,commands) {
+      commands.push('list');
+      const lang = "JS";
+      const command = options.command || "command";
+      this.#help(keysReference,lang,command,commands);  
+    }
+
+   
 
     this.#invalidArgsHandler = new 
-      InvalidArgsHandler(argv,config.jspaths.paths,
-        ['dest', 'uglify']);
+      InvalidArgsHandler(argv,keysReference
+        ,commands);
 
-    if (this.#autoInit !== false && this.#invalidArgsHandler.checkInvalidArgs()) {
+    if (this.#autoInit !== false && 
+        this.#invalidArgsHandler.checkInvalidArgs()) {
       this.#checkFlags();
     }
+
   }
+
+      /**
+     * List the available keys with descriptions
+     * @param {string} lang 
+     * @param {string} command 
+     * @param {Array} commands 
+     */
+      async #help(keysReference,lang,command,commands) {
+        try{    
+            if(argv.list){
+                const descriptions = {
+                    dest: "Alter Destination",
+                    uglify: "Uglify JS",
+                    list : "List available keys"
+                }
+
+                commands = gulpKeyCheck.mapDescription(commands, descriptions)
+                gulpKeyCheck.checkAll(keysReference,lang,command,commands);
+            }
+
+        }catch(err){
+            console.log("Help error " , err);
+        }
+    }
   
   /**
    * This will return all options
@@ -65,10 +103,6 @@ class GulpJSTaskManager {
 
   getOptions() {
     return this.#options;
-  }
-
-  getHelp() {
-    
   }
 
   /**
@@ -84,7 +118,7 @@ class GulpJSTaskManager {
       }
     });
 
-    if (this.#src.length === 0) {
+    if (this.#src.length === 0 && !this.#options.getHelp) {
       console.log("Option not available");
     }
   }
@@ -136,6 +170,10 @@ class GulpJSTaskManager {
    */
 
   async compileJsSync() {
+
+    if(argv.list){
+      return;
+    }
     
     if (this.#options.build === true) {
       let typeBuild = this.#options.key;

@@ -16,7 +16,8 @@ const moveFontawesomeIcons = () => {
 }
 
 const compileIcons = () => {
-    const gulpIconTasks = new GulpIconTasks({ autoInit: true , build : false});
+    const gulpIconTasks = new GulpIconTasks({ autoInit: true , build : false
+        , getHelp : true , command : "icons-compile"});
     gulpIconTasks.compileMultiDest();
 }
 

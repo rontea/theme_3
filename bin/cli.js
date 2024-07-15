@@ -25,7 +25,6 @@ yargs
 .help()
 .alias('help', 'h')
 .demandCommand(1 , "You need to specify at least one command")
-.wrap(null)
 .command('version', "Check current version", () => {}, () => {
   console.log("2.0.0");
 })
@@ -35,7 +34,7 @@ yargs
 .command('set-config', "Create config for edit [config/config.js]", async () => {
    setConfig();
  })
- .command('gulplink' , "Check available Keys" , (yargs) => {
+ .command('gulplink' , "Link or Unlink Gulpfile" , (yargs) => {
     return yargs
         .option('create' , {
             alias: 'c',
@@ -64,7 +63,7 @@ yargs
 .command('clean', "Clean build folder", async () => {
     utils.utilsCleanSync();
 })
-.command('key-help' , "Check available Keys" , (yargs) => {
+.command('project-help' , "Check available Keys" , (yargs) => {
     return yargs
         .option('css' , {
             alias: 'c',
@@ -85,11 +84,11 @@ yargs
 }, (argv) => {
 
     if(argv.css) {
-        checkCssKey();
+        console.log("checking");
     } else if(argv.js) {
-        checkJsKey();
+        console.log("checking");
     }else if(argv.js) {
-        checkIconsKey();
+        console.log("checking");
     }else {
         console.log("Command not available");
     }
@@ -125,7 +124,7 @@ yargs
 .command('img-build' , "Build images", () => {
     buildImages();    
 })
-.command('img-watch' , "Build images", () => {
+.command('img-watch' , "Watch images", () => {
     watchImages();    
 })
 .command('icons-compile' , "Compile icons", () => {

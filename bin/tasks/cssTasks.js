@@ -1,11 +1,11 @@
 'use strict';
 
-
 const GulpCSSTaskManager = require('../../func/gulp/classes/GulpCSSTaskManager');
 
 const compileCss = () => {
     const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , 
-        watch: false });
+        watch: false, getHelp : true , command : "css-compile" });
+    
     gulpCSSTaskManager.compileCssSync();
 };
 

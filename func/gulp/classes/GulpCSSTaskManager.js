@@ -10,6 +10,7 @@ const handler = require("./handler/Handler.js");
 const postcss = require("gulp-postcss");
 const PathHandler = require("./handler/PathHandler");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
+const gulpKeyCheck = require('./GulpKeyCheck.js');
 
 
 class GulpCSSTaskManager {
@@ -37,6 +38,7 @@ class GulpCSSTaskManager {
 
     #pathHandler;
 
+
     constructor(options = {}) {
 
         /** List */
@@ -44,19 +46,28 @@ class GulpCSSTaskManager {
         this.#autoInit = options.autoInit || false;
         this.#baseDest = config.csspaths.maindest;
 
-
         this.#pathHandler = new PathHandler(argv.dest,this.#baseDest);
 
         this.#dest = this.#pathHandler.getDestPath();
         this.#options = options;
         
+        this.#options.getHelp = false || options.getHelp;
         this.#options.watch = options.watch || false;
         this.#options.autoprefixer = options.autoprefixer || false;
         this.#numVersion = argv.autoprefixer || options.numVersion || 0;
 
+        let commands = ['dest', 'compress' , 'autoprefixer'];
+        const keysReference = config.csspaths.paths;
+
+        if(this.#options.getHelp,commands) {
+            commands.push('list');
+            const lang = "CSS";
+            const command = options.command || "command";
+            this.#help(keysReference,lang,command,commands);  
+        }
+
         this.#invalidArgsHandler = new 
-            InvalidArgsHandler(argv,config.csspaths.paths,
-                ['dest', 'compress' , 'autoprefixer']);
+            InvalidArgsHandler(argv,keysReference,commands);
 
         if(this.#numVersion === true){
             this.#numVersion = 2;
@@ -67,6 +78,30 @@ class GulpCSSTaskManager {
             this.#checkFlags();
         }
 
+    }
+    /**
+     * List the available keys with descriptions
+     * @param {string} lang 
+     * @param {string} command 
+     * @param {Array} commands 
+     */
+    async #help(keysReference,lang,command,commands) {
+        try{    
+            if(argv.list){
+                const descriptions = {
+                    dest: "Alter Destination",
+                    compress: "Compress CSS",
+                    autoprefixer: "Add autoprefixer value (1-5)",
+                    list : "List available keys"
+                }
+
+                commands = gulpKeyCheck.mapDescription(commands, descriptions)
+                gulpKeyCheck.checkAll(keysReference,lang,command,commands);
+            }
+
+        }catch(err){
+            console.log("Help error " , err);
+        }
     }
 
     /**
@@ -90,9 +125,8 @@ class GulpCSSTaskManager {
             }
           });
       
-          if (this.#src.length === 0) {
-            console.log("Option not available compiling CSS ...");
-            console.log("Please check Input for valid key.");
+          if (this.#src.length === 0 && !this.#options.getHelp) {
+            console.log("Option not available");
           }
     }
 
@@ -144,6 +178,10 @@ class GulpCSSTaskManager {
     */
 
     async compileCssSync() {
+
+        if(argv.list){
+            return;
+        }
 
         /** Build by key */
         if (this.#options.build === true) {

@@ -1,14 +1,16 @@
 'use strict';
+const { watch } = require('browser-sync');
 const GulpJSTaskManager = require('../../func/gulp/classes/GulpJSTaskManager');
 
 const compileJs = () => {
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true });
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: true, watch: false 
+        ,  getHelp : true , command : "js-compile" });
     gulpJSTaskManager.compileJsSync();
 };
 
 const buildJs = () => {
-    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , 
-        build: true, key: 'js'});
+    const gulpJSTaskManager = new GulpJSTaskManager({ autoInit: false , watch : false 
+        , build: true, key: 'js'});
     gulpJSTaskManager.compileJsSync();
 };
 

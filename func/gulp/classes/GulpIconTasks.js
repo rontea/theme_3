@@ -5,6 +5,7 @@ const { argv } = require("yargs");
 const { src, dest } = require("gulp");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 const PathHandler = require("./handler/PathHandler");
+const gulpKeyCheck = require('./GulpKeyCheck.js');
 
 
 class GulpIconTasks {
@@ -38,6 +39,7 @@ class GulpIconTasks {
         /** List */
         this.#options = options;
 
+        this.#options.getHelp = false || options.getHelp;
         this.#src = options.src || [];
         this.#autoInit = options.autoInit || false;
         this.#baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
@@ -48,13 +50,52 @@ class GulpIconTasks {
   
         this.#pathHandler = new PathHandler('',this.#defaultDest);
 
-        this.#invalidArgsHandler = new 
-        InvalidArgsHandler(argv, config.icons.paths,
-            ['dest']);
+        let commands = ['dest'];
+        const keysReference = config.icons.paths;
 
-        if (this.#autoInit !== false && this.#invalidArgsHandler.checkInvalidArgs()) {
+        if(this.#options.getHelp,commands) {
+            commands.push('list');
+            const lang = "Icons";
+            const command = options.command || "command";
+            this.#help(keysReference,lang,command,commands);
+        }
+
+        if(argv.list){
+            return;
+        }
+
+        this.#invalidArgsHandler = new 
+        InvalidArgsHandler(argv, keysReference,
+            commands);
+
+        if (this.#autoInit !== false 
+            && this.#invalidArgsHandler.checkInvalidArgs()) {
+                
             this.#prefixDest = config.icons.prefix;
             this.#compileSet();
+        }
+    }
+
+    /**
+     * List the available keys with descriptions
+     * @param {string} lang 
+     * @param {string} command 
+     * @param {Array} commands 
+     */
+    async #help(keysReference,lang,command,commands) {
+        try{    
+            if(argv.list){
+                const descriptions = {
+                    dest: "Alter Destination",
+                    list : "List available keys"
+                }
+
+                commands = gulpKeyCheck.mapDescription(commands, descriptions)
+                gulpKeyCheck.checkAll(keysReference,lang,command,commands);
+            }
+
+        }catch(err){
+            console.log("Help error " , err);
         }
     }
 
@@ -148,6 +189,10 @@ class GulpIconTasks {
      */
 
     compileMultiDest() {
+        
+        if(argv.list){
+            return;
+        }
 
         if (this.#src.length === 0 ||  this.#invalidArgsHandler.checkInvalidArgs() === false) {
             console.log("No valid option provided ending process ...");
@@ -187,6 +232,11 @@ class GulpIconTasks {
 
 
     compileIconSets() {
+
+        
+        if(argv.list){
+            return;
+        }
 
         if (this.#options.build === true) {
             
