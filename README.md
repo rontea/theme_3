@@ -4,7 +4,11 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 
 #### Version 2.0.0-dev.1 What's New
 
-## Installation - Not yet publish on NPM
+#### NPM
+- npm i theme_3_v1 
+  -[npm](https://www.npmjs.com/package/theme_3_v1)
+
+#### Installation - "Not yet publish on NPM!"
 
 ```node
 npm i theme_3 - test
@@ -32,37 +36,52 @@ Command	 - Description
 - ```th3 clean	Clean```  - build folder
 - ```th3 project-help```	- Check available Keys
 - ```th3 css-compile```	   - Compile list of CSS and SCSS
-  #### CSS 
-  ```th3 css-compile --list```
-
-
- - key              - descr
+##### CSS 
+```
+  th3 css-compile --list
+```
+##### css-compile key             - description
  - ```css  ```             - compile CSS on [src/css]
  - ```scss   ```           - compile SCSS [src/scss]
  - ```bootstrap```         - compile boostrap to CSS
  - ```bootstrapIcon```     - compile boostrap icon CSS
- - ```fontawesome ```      -compile fontawesome icon CSS
- - ```bulma ```             -compile bulma to CSS
- - ```prism ```             -compile prism css
+ - ```fontawesome ```      - compile fontawesome icon CSS
+ - ```bulma ```             - compile bulma to CSS
+ - ```prism ```             - compile prism css
 
-- key -             descr
+key -  description
 - ``` dest     ```       - Alter Destination
 - ``` compress  ```       - Compress CSS
 - ``` autoprefixer  ```   - Add autoprefixer value (1-5)
 - ``` list    ```        - List available keys
 
+Command	 - Description
 
 - ```th3 css-build```	    Build CSS
 - ```th3 scss-build```	  Build SCSS
 - ```th3 css-watch```	    Watch CSS
 - ```th3 js-compile```	  Compile list of JS
 
+```
+  th3 js-compile --list
+```
+##### js-compile key - description
+
+Command	 - Description
 - ```th3 js-build```	    Build JS
 - ```th3 js-watch```	    Watch JS
 - ```th3 html-build```	  Build HTML
 - ```th3 html-watch```	  Watch HTML
 - ```th3 img-build```	    Build images
 - ```th3 img-watch```	    Watch images
+
+```
+  th3 icon-compile --list
+```
+##### icon-compile key  - description
+
+Command	 - Description
+
 - ```th3 icons-compile```	Compile icons
 - ```th3 build-init```	  Build HTML, SCSS, CSS, JS, and Images
 - ```th3 watch```	        Watch HTML, Images, CSS, and JS
@@ -75,30 +94,10 @@ Command	 - Description
 ```
 ```
 
-#### NPM
-- npm i theme_3_v1 
-  -[npm](https://www.npmjs.com/package/theme_3_v1)
-
-#### installation 
-- npm init
-  - node node_modules/theme_3_v1/init-package.js
-  - npm i theme_3_v1
-  - npm install
-  - select option [1]New Project [2] [3] [4]
-
-#### Check update
-  - $npm outdated 
-  - $npm update or $npm  <packagename>@latest
-
-
 ### Getting Started
 
-  - $gulp
-  - $gulp 
-  - $gulp 
-  - $gulp 
-  - $gulp 
-  - $gulp 
+  - th3
+  
 
 ## Build Folder
   - This folder will be created once compile has been made
@@ -117,61 +116,6 @@ Command	 - Description
   - pages (body): resides the index.html and other pages
   - partials : blocks of your page
     - Panini Syntax ["Link"](https://get.foundation/sites/docs/panini.html)
-
-### Commands Available
-
-#### $gulp 'cmd'
-```
-  $gulp --tasks
-```
-
-#### cmd
-- hello
-- 
-#### JS
-```
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-```
-#### Fontawesome
-```
-  - 
-  - 
-```
-#### CSS
-```
-  - 
-  - 
-  - 
-  -
-  - 
-```
-- Under SCSS > Styles uncomment the css framework that you want to use or include it
-
-#### HTML
-  - compile
-
-#### watch real time update
-  - watch
-
-#### Add Prefix CSS
-  - compile-prefixscss [last 5 version default]
-  - gulp compile-compscss --num-version=2 [set to last 2 version]
-
-#### Compress CSS
-  - compile
-
-### Pipe to Production
-  - 
-
-### Uglify/Compress JS
-  - 
-  
-- see more function on $gulp --tasks
 
 ## Link to Coding Standards
 
