@@ -1,20 +1,58 @@
-# theme_3_V1 Template
+# theme_3
 
-#### Version 1.3.0-dev.1 Development for 2.0
+#### Version 2.0.0-dev.1 What's New
 
-- Simple and easy to use theme template creator for small scale project
-- Documentation 
-- This build will be created using Gulp version 5.0
-- This build will be for 2.0 
+## Installation - Not yet publish on NPM
 
-### Change Logs
-- Seperation of tasks under ./func/gulp
-- Configuration file set
-- Recreated the gulpfile.js
-- Build will be set not only to Panini but for Eleventy
-- Camel Case for commands
-- Development for new options
+```node
+npm i theme_3 - test
+```
 
+```node
+npm link
+```
+
+## Updated Commands
+
+- Move to CLI and set gulpfiles optional for commands
+
+```node
+th3 <cmd> [args]
+```
+
+Command	Description
+- ```th3 version```	Check current version
+- ```th3 new-project```	  Create new Project folder [html, src]
+- ```th3 set-config```	  Create config for edit [config/config.js]
+- ```th3 gulplink```	    Link or Unlink Gulpfile
+
+- ```th3 clean-build```	  Clean build folder
+- ```th3 clean	Clean```  build folder
+- ```th3 project-help```	Check available Keys
+- ```th3 css-compile```	  Compile list of CSS and SCSS
+
+- ```th3 css-build```	    Build CSS
+- ```th3 scss-build```	  Build SCSS
+- ```th3 css-watch```	    Watch CSS
+- ```th3 js-compile```	  Compile list of JS
+
+- ```th3 js-build```	    Build JS
+- ```th3 js-watch```	    Watch JS
+- ```th3 html-build```	  Build HTML
+- ```th3 html-watch```	  Watch HTML
+- ```th3 img-build```	    Build images
+- ```th3 img-watch```	    Watch images
+- ```th3 icons-compile```	Compile icons
+- ```th3 build-init```	  Build HTML, SCSS, CSS, JS, and Images
+- ```th3 watch```	        Watch HTML, Images, CSS, and JS
+- ```th3 icons-fontawesome```	  Compile icons fontawesome
+- ```th3 icons-bootstrap```	    Compile icons bootstrap
+- ```th3 move-res	Compile```    icons
+
+
+- Samples
+```
+```
 
 #### NPM
 - npm i theme_3_v1 
