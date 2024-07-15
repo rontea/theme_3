@@ -12,7 +12,7 @@ const fileLister = new FileLister( ["../theme_3_v1/src" , "test/src"] );
 //fileLister.compareDirs();
 fileLister.createListTree();
 
-
+console.log('test commit changes');
 /*
 console.log(timeLogger.getTime());
 timeLogger.writeLog("test message");
