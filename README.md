@@ -2,6 +2,9 @@
 
 A command-line interface (CLI) tool to manage and build web projects efficiently.
 
+> **Warning**
+> This build is currently on development.
+
 #### Version 2.0.0-dev.1 What's New
 
 - ** Under Development  Documentation **
@@ -11,16 +14,15 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 - manipulate config.js 
 - expand gulpfile for extend commands
 
-#### NPM
-- npm i theme_3_v1 
-  -[npm](https://www.npmjs.com/package/theme_3_v1)
+#### NPM : 
+- [npm](https://www.npmjs.com/package/theme_3_v1)
 
 #### Installation - "Not yet publish on NPM!"
 
 ```node
-npm i theme_3 - test
+npm i theme_3 
 ```
-
+#### Link CLI
 ```node
 npm link
 ```
@@ -32,79 +34,124 @@ npm link
 ```node
 th3 <cmd> [args]
 ```
+### Commands
 
-Command	 - Description
-- ```th3 version```	 - Check current version
-- ```th3 new-project```	  - Create new Project folder [html, src]
-- ```th3 set-config```	  - Create config for edit [config/config.js]
-- ```th3 gulplink```	    - Link or Unlink Gulpfile
-  
-- ```th3 clean-build```	  - Clean build folder
-- ```th3 clean	Clean```  - build folder
-- ```th3 project-help```	- Check available Keys
-- ```th3 css-compile```	   - Compile list of CSS and SCSS
-##### CSS 
+| Command                | Description                                    |
+|------------------------|------------------------------------------------|
+| `th3 version`          | Check current version                          |
+| `th3 new-project`      | Create new Project folder [html, src]          |
+| `th3 set-config`       | Create config for edit [config/config.js]      |
+| `th3 gulplink`         | Link or Unlink Gulpfile                        |
+| `th3 clean-build`      | Clean build folder                             |
+| `th3 clean`            | Clean build folder                             |
+| `th3 project-help`     | Check available Keys                           |
+| `th3 css-compile`      | Compile list of CSS and SCSS                   |
+| `th3 css-build`        | Build CSS                                      |
+| `th3 scss-build`       | Build SCSS                                     |
+| `th3 css-watch`        | Watch CSS                                      |
+| `th3 js-compile`       | Compile list of JS                             |
+| `th3 js-build`         | Build JS                                       |
+| `th3 js-watch`         | Watch JS                                       |
+| `th3 html-build`       | Build HTML                                     |
+| `th3 html-watch`       | Watch HTML                                     |
+| `th3 img-build`        | Build images                                   |
+| `th3 img-watch`        | Watch images                                   |
+| `th3 icons-compile`    | Compile icons                                  |
+| `th3 build-init`       | Build HTML, SCSS, CSS, JS, and Images          |
+| `th3 watch`            | Watch HTML, Images, CSS, and JS                |
+| `th3 icons-fontawesome`| Compile icons fontawesome                      |
+| `th3 icons-bootstrap`  | Compile icons bootstrap                        |
+| `th3 move-res`         | Compile icons  
+
+##### Samples
 ```
-  th3 css-compile --list
 ```
-##### css-compile key             - description
- - ```css  ```             - compile CSS on [src/css]
- - ```scss   ```           - compile SCSS [src/scss]
- - ```bootstrap```         - compile boostrap to CSS
- - ```bootstrapIcon```     - compile boostrap icon CSS
- - ```fontawesome ```      - compile fontawesome icon CSS
- - ```bulma ```             - compile bulma to CSS
- - ```prism ```             - compile prism css
 
-##### key -  description
-- ``` dest     ```       - Alter Destination
-- ``` compress  ```       - Compress CSS
-- ``` autoprefixer  ```   - Add autoprefixer value (1-5)
-- ``` list    ```        - List available keys
+### CSS Compilation Commands
 
-Command	 - Description
+#### `th3 css-compile [args]`
 
-- ```th3 css-build```	    Build CSS
-- ```th3 scss-build```	  Build SCSS
-- ```th3 css-watch```	    Watch CSS
-- ```th3 js-compile```	  Compile list of JS
+| Key              | Description                          |
+|------------------|--------------------------------------|
+| `css`            | Compile CSS on `[src/css]`           |
+| `scss`           | Compile SCSS on `[src/scss]`         |
+| `bootstrap`      | Compile Bootstrap to CSS             |
+| `bootstrapIcon`  | Compile Bootstrap Icon CSS           |
+| `fontawesome`    | Compile FontAwesome Icon CSS         |
+| `bulma`          | Compile Bulma to CSS                 |
+| `prism`          | Compile Prism CSS                    |
 
+### CSS Utilities
+
+#### `th3 css-compile [args] [utilities] [value]`
+
+| Key            | Description                          |
+|----------------|--------------------------------------|
+| `dest`         | Alter Destination                    |
+| `compress`     | Compress CSS                         |
+| `autoprefixer` | Add autoprefixer value (1-5)         |
+| `list`         | List available keys                  |
+
+##### Samples
 ```
-  th3 js-compile --list
 ```
-##### js-compile key - description
+### JS Compilation Commands
 
-Command	 - Description
-- ```th3 js-build```	    Build JS
-- ```th3 js-watch```	    Watch JS
-- ```th3 html-build```	  Build HTML
-- ```th3 html-watch```	  Watch HTML
-- ```th3 img-build```	    Build images
-- ```th3 img-watch```	    Watch images
+#### `th3 js-compile [args]`
 
+| Key            | Description                          |
+|----------------|--------------------------------------|
+| `js`           | Compile JS on `[src/js]`             |
+| `jquery`       | Compile jQuery                       |
+| `popper`       | Compile Popper JS                    |
+| `tether`       | Compile Tether JS                    |
+| `bootstrap`    | Compile Bootstrap JS                 |
+| `fontawesome`  | Compile FontAwesome icons JS         |
+
+### JS Utilities
+
+#### `th3 js-compile [args] [utilities] [value]`
+
+| Key        | Description                          |
+|------------|--------------------------------------|
+| `dest`     | Alter Destination                    |
+| `uglify`   | Uglify JS                            |
+| `list`     | List available keys                  |
+
+##### Samples
 ```
-  th3 icon-compile --list
 ```
-##### icon-compile key  - description
+### Icons Compilation Commands
 
-Command	 - Description
+#### `th3 icons-compile [args]`
 
-- ```th3 icons-compile```	Compile icons
-- ```th3 build-init```	  Build HTML, SCSS, CSS, JS, and Images
-- ```th3 watch```	        Watch HTML, Images, CSS, and JS
-- ```th3 icons-fontawesome```	  Compile icons fontawesome
-- ```th3 icons-bootstrap```	    Compile icons bootstrap
-- ```th3 move-res	Compile```    icons
+| Key            | Description                           |
+|----------------|---------------------------------------|
+| `fontawesome`  | Compile FontAwesome icons fonts       |
+| `bootstrap`    | Compile Bootstrap icons fonts         |
 
+### Icons Utilities
 
+#### `th3 icons-compile [args] [utilities] [value]`
+
+| Key        | Description                           |
+|------------|---------------------------------------|
+| `dest`     | Alter Destination                     |
+| `list`     | List available keys                   |
+
+##### Samples
+```
+```
 ##### Samples
 ```
 ```
 
 ### Getting Started
 
-  - th3
-  
+##### Samples
+```
+
+```
 
 ## Build Folder
   - This folder will be created once compile has been made
@@ -147,3 +194,5 @@ Command	 - Description
 
 - Readme.md Guide Template [Readme.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 - Readme.md Format [https://guides.github.com/features/mastering-markdown/](https://guides.github.com/features/mastering-markdown/)
+
+
