@@ -81,7 +81,7 @@ yargs
         .option('dircomp' , {
             alias: 'i',
             type: 'boolean',
-            description: "Compare your scr vs th3 scr"
+            description: "Compare your scr vs th3 scr **inprogress"
         })
 
 }, (argv) => {

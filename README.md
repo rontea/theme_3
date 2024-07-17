@@ -44,7 +44,7 @@ th3 <cmd> [args]
 | `th3 gulplink`         | Link or Unlink Gulpfile                        |
 | `th3 clean-build`      | Clean build folder                             |
 | `th3 clean`            | Clean build folder                             |
-| `th3 project-help`     | Check available Keys                           |
+| `th3 dir-check`        | Check DIR's Enviroment                         |
 | `th3 css-compile`      | Compile list of CSS and SCSS                   |
 | `th3 css-build`        | Build CSS                                      |
 | `th3 scss-build`       | Build SCSS                                     |
@@ -62,6 +62,35 @@ th3 <cmd> [args]
 | `th3 icons-fontawesome`| Compile icons fontawesome                      |
 | `th3 icons-bootstrap`  | Compile icons bootstrap                        |
 | `th3 move-res`         | Compile icons  
+
+##### Samples
+```
+```
+
+
+### Check DIR's Environment
+
+#### `th3 dir-check [args]`
+
+| Option         | Description                                    |
+|----------------|------------------------------------------------|
+| `-e`, `--env`  | Check Environment                              |
+| `-c`, `--config`| Check config                                  |
+| `-d`, `--dirchk`| Check your `src` directory                    |
+| `-i`, `--dircomp`| Compare your `src` vs `th3` `src` **in progress** |
+
+##### Samples
+```
+```
+
+### Link or Unlink Gulpfile
+
+#### `th3 gulplink [args]`
+
+| Option         | Description                                    |
+|----------------|------------------------------------------------|
+| `-c`, `--create`| Create symlink for Gulpfile                   |
+| `-u`, `--unlink`| Unlink symlink for Gulpfile                   |
 
 ##### Samples
 ```
@@ -142,6 +171,17 @@ th3 <cmd> [args]
 ##### Samples
 ```
 ```
+
+##### Help options
+
+#### `th3 [args]`
+#### `th3 <cmd> [args]`
+
+| Option         | Description                                    |
+|----------------|------------------------------------------------|
+| `--version`    | Show version number                            |
+| `-h`, `--help` | Show help                                      |
+
 ##### Samples
 ```
 ```
@@ -150,7 +190,6 @@ th3 <cmd> [args]
 
 ##### Samples
 ```
-
 ```
 
 ## Build Folder
