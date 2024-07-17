@@ -25,7 +25,7 @@ class GulpKeyCheck {
      * Static method that will generate the keys coming from config file for CSS.
     */
 
-    static async checkCSSKeySync(lang = "CSS",type = "command", additional = []) {
+    static async checkCSSKeySync(lang = "CSS",type = "command") {
 
         console.log(`${lang} $${type} [args]:`);
         
@@ -60,7 +60,7 @@ class GulpKeyCheck {
     static async checkAll(
         keysReference = [{ key: "undefined",  path: "undefined" , descr: "undefined"}]
         ,lang = "undefined",type = "undefined"
-        , additional = [{ key : "undefined" , descr : "Some Description"}]) {
+        , additional = [{ key : "undefined" , descr : "undefined"}]) {
         
         console.log();
         console.log(`${lang} $${type} [args]:`);

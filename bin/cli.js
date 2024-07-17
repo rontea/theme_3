@@ -15,10 +15,11 @@ const { moveBootstrapIcons, moveFontawesomeIcons
     , compileIcons} = require('./tasks/iconTasks');
 const { moveResources } = require('./tasks/resourcesTasks');
 const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
+const {fileLister , checkEnv ,  checkConfigSync} = require('./tasks/projectHelper');
 
 try {
+/**npx git-cz */
 
-    
 yargs
 .scriptName("th3")
 .usage('$0 <cmd> [args]')
@@ -63,31 +64,40 @@ yargs
 .command('clean', "Clean build folder", async () => {
     utils.utilsCleanSync();
 })
-.command('project-help' , "Check available Keys" , (yargs) => {
+.command('dir-check' , "Check DIR's Enviroment" , (yargs) => {
     return yargs
-        .option('css' , {
+        .option('env' , {
+            alias: 'e',
+            type: 'boolean',
+            description: "Check Enviroment"
+        })
+        .option('config' , {
             alias: 'c',
             type: 'boolean',
-            description: "Check available keys in CSS"
+            description: "Check config"
         })
-        .option('js' , {
-            alias: 'j',
+        .option('dirchk' , {
+            alias: 'd',
             type: 'boolean',
-            description: "Check available keys in JS"
+            description: "Check your scr directory"
         })
-        .option('icons' , {
+        .option('dircomp' , {
             alias: 'i',
             type: 'boolean',
-            description: "Check available keys in Icons"
+            description: "Compare your scr vs th3 scr"
         })
 
 }, (argv) => {
 
-    if(argv.css) {
-        console.log("checking");
-    } else if(argv.js) {
-        console.log("checking");
-    }else if(argv.js) {
+    if(argv.env) {
+       
+      checkEnv();
+    }
+    else if(argv.config) {
+       checkConfigSync();
+    } else if(argv.dirchk) {
+        fileLister();
+    }else if(argv.dircomp) {
         console.log("checking");
     }else {
         console.log("Command not available");
@@ -145,7 +155,7 @@ yargs
     buildBootstrapIconsCss();
     moveBootstrapIcons();
 })
-.command('move-res' , "Compile icons", async () => {
+.command('move-res' , "Move resources folder or file to build based on dest", async () => {
     moveResources();    
 })
 .fail((msg, err, yargs) => {
@@ -156,7 +166,6 @@ yargs
     process.exit(1);
 })
 .argv;
-
 
 }catch(err){
     console.log(err);

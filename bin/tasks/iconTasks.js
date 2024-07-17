@@ -1,6 +1,5 @@
 'use strict';
 
-const { watch } = require('browser-sync');
 const GulpIconTasks = require('../../func/gulp/classes/GulpIconTasks');
 
 const moveBootstrapIcons = () => {

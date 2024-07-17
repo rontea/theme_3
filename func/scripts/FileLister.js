@@ -1,6 +1,5 @@
 "use strict";
 
-const { dir } = require("console");
 const fs = require("fs");
 const path = require("path");
 const urlPathMaker = require("../utils/utils");
@@ -18,8 +17,14 @@ class FileLister {
         this.dirs.push(temp);
       });
     } else {
-      this.dirs = urlPathMaker.twhUrlPathMaker({ topFolder: dirs });
+      let temp = urlPathMaker.twhUrlPathMaker({ topFolder: dirs });
+      this.dirs.push(temp);
+
     }
+  }
+
+  getDirs(){
+    return this.dirs;
   }
 
   #getFilesAndDirs(dir) {
@@ -131,8 +136,6 @@ class FileLister {
   createListTree(index = 0) {
 
     const dir = this.dirs[index] || this.dirs;
-
-    console.log(dir);
 
     this.#listTreeDirectory(dir);
 
