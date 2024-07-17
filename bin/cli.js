@@ -23,8 +23,6 @@ try {
 yargs
 .scriptName("th3")
 .usage('$0 <cmd> [args]')
-.help()
-.alias('help', 'h')
 .demandCommand(1 , "You need to specify at least one command")
 .command('version', "Check current version", () => {}, () => {
   console.log("2.0.0");
@@ -56,7 +54,6 @@ yargs
     }else {
         console.log("Command not available");
     }
-
 })
 .command('clean-build', "Clean build folder", async () => {
     utils.utilsCleanSync();
@@ -90,7 +87,6 @@ yargs
 }, (argv) => {
 
     if(argv.env) {
-       
       checkEnv();
     }
     else if(argv.config) {
@@ -102,11 +98,10 @@ yargs
     }else {
         console.log("Command not available");
     }
-
 })
 .command('css-compile' , "Compile list of CSS and SCSS", () => {
   compileCss();
-})
+}).help().alias('help', 'h')
 .command('css-build' , "Build CSS", () => {
   buildCss();
 })
@@ -158,6 +153,7 @@ yargs
 .command('move-res' , "Move resources folder or file to build based on dest", async () => {
     moveResources();    
 })
+.help().alias('help', 'h')
 .fail((msg, err, yargs) => {
 
     if (err) throw err; 
