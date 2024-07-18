@@ -1,5 +1,9 @@
 # theme_3
 
+> **Warning**
+> This is a test deploy on NPM under 2.0.0-development.
+> Do not use this release.
+
 A command-line interface (CLI) tool to manage and build web projects efficiently.
 
 > **Warning**
