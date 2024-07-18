@@ -7,7 +7,7 @@ module.exports = {
       '@semantic-release/commit-analyzer',
       '@semantic-release/release-notes-generator',
       '@semantic-release/changelog',
-      ...(process.env.NPM_PUBLISH === 'true' ? ['@semantic-release/npm'] : []),
+      ...(process.env.NPM_PUBLISH === 'false' ? ['@semantic-release/npm'] : []),
       '@semantic-release/github',
       '@semantic-release/git'
     ]
