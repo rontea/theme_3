@@ -10,9 +10,9 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 - ** Under Development  Documentation **
 - CLI th3 
 - Gulpfile.js optional
-- extend list of keys in config.js
-- manipulate config.js 
-- expand gulpfile for extend commands
+- Extend list of keys in config.js
+- Manipulate config.js 
+- Expand gulpfile for extend commands
 
 #### NPM : 
 - [npm](https://www.npmjs.com/package/theme_3_v1)
