@@ -19,13 +19,20 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 - Expand gulpfile for extend commands
 
 #### NPM : 
-- [npm](https://www.npmjs.com/package/theme_3_v1)
+- [npm](https://www.npmjs.com/package/theme_3)
+#### GitHub : 
+- [git](https://github.com/rontea/theme_3)
 
-#### Installation - "Not yet publish on NPM!"
+
+#### Installation
 
 ```node
-npm i theme_3 
+npm init
+npm i theme_3
+npm install
+th3 - List all commands
 ```
+
 #### Link CLI
 ```node
 npm link
@@ -45,7 +52,6 @@ th3 <cmd> [args]
 | `th3 version`          | Check current version                          |
 | `th3 new-project`      | Create new Project folder [html, src]          |
 | `th3 set-config`       | Create config for edit [config/config.js]      |
-| `th3 gulplink`         | Link or Unlink Gulpfile                        |
 | `th3 clean-build`      | Clean build folder                             |
 | `th3 clean`            | Clean build folder                             |
 | `th3 dir-check`        | Check DIR's Enviroment                         |
@@ -82,19 +88,6 @@ th3 <cmd> [args]
 | `-c`, `--config`| Check config                                  |
 | `-d`, `--dirchk`| Check your `src` directory                    |
 | `-i`, `--dircomp`| Compare your `src` vs `th3` `src` **in progress** |
-
-##### Samples
-```
-```
-
-### Link or Unlink Gulpfile
-
-#### `th3 gulplink [args]`
-
-| Option         | Description                                    |
-|----------------|------------------------------------------------|
-| `-c`, `--create`| Create symlink for Gulpfile                   |
-| `-u`, `--unlink`| Unlink symlink for Gulpfile                   |
 
 ##### Samples
 ```
@@ -238,4 +231,4 @@ th3 <cmd> [args]
 - Readme.md Guide Template [Readme.md](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
 - Readme.md Format [https://guides.github.com/features/mastering-markdown/](https://guides.github.com/features/mastering-markdown/)
 
-
+## Bugs and feature requests

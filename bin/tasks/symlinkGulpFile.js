@@ -7,7 +7,7 @@ const SymLink = require('../../func/scripts/SymLink');
 const createGulpSymlink = () => {
 
     let src = urlPathMaker.twhUrlPathMaker();
-    let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
+    let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3", folder: "test"});
     
     const symlink = new SymLink({ src : src , dest: dest});
     symlink.displayInfo();
@@ -17,7 +17,7 @@ const createGulpSymlink = () => {
 
 const unlinkGulpSymlink = () => {
     let src = urlPathMaker.twhUrlPathMaker();
-    let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3_v1", folder: "test"});
+    let dest = urlPathMaker.twhUrlPathMaker({ topFolder: "../theme_3", folder: "test"});
 
     const symlink = new SymLink({ src : src , dest: dest });
     symlink.displayInfo();

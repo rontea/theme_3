@@ -33,6 +33,7 @@ yargs
 .command('set-config', "Create config for edit [config/config.js]", async () => {
    setConfig();
  })
+ /*
  .command('gulplink' , "Link or Unlink Gulpfile" , (yargs) => {
     return yargs
         .option('create' , {
@@ -54,7 +55,7 @@ yargs
     }else {
         console.log("Command not available");
     }
-})
+}) */
 .command('clean-build', "Clean build folder", async () => {
     utils.utilsCleanSync();
 })

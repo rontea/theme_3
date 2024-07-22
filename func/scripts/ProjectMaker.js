@@ -33,8 +33,8 @@ class ProjectMaker {
   
       const makeDest = urlPathMaker.twhUrlPathMaker();
   
-      this.#src = options.src || makeSrc;
-      this.#dest = options.dest || makeDest;
+      this.#src = makeSrc || options.src;
+      this.#dest =  makeDest || options.dest;
       this.#files =  options.file ||  "/**/*";
   
       this.#directories = options.dir || [];
@@ -57,6 +57,7 @@ class ProjectMaker {
     console.log("Source : ", this.#src);
     console.log("Destination :", this.#dest);
     console.log("Folders: ", this.#directories);
+    console.log("Files: ", this.#files);
 
   }
 
@@ -66,6 +67,11 @@ class ProjectMaker {
 
   async createNewProjectSync() {
     try {
+      fs.readdir(this.#src, async (err, files) => {
+        if (err) {
+          console.error(`Error reading directory source: ${err}`);
+        }
+      });
       
       fs.readdir(this.#dest, async (err, files) => {
         if (err) {
