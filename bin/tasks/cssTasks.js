@@ -1,42 +1,77 @@
 'use strict';
 
 const GulpCSSTaskManager = require('../../func/gulp/classes/GulpCSSTaskManager');
+const logErr = require('../../func/utils/TimeLogger');
 
 const compileCss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , 
-        watch: false, getHelp : true , command : "css-compile" });
-    
-    gulpCSSTaskManager.compileCssSync();
+
+    try {
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: true , 
+            watch: false, getHelp : true , command : "css-compile" });
+        gulpCSSTaskManager.compileCssSync();
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
+   
 };
 
 const buildCss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'css' });
-    gulpCSSTaskManager.compileCssSync();
+
+    try{
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+            autoInit: false, build: true, key: 'css' });
+        gulpCSSTaskManager.compileCssSync();
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
+
 }
 
 const buildScss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, watch:false, build: true, key: 'scss' });
-    gulpCSSTaskManager.compileCssSync();
+
+    try{
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+            autoInit: false, watch:false, build: true, key: 'scss' });
+        gulpCSSTaskManager.compileCssSync();
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
+
+
 }
 
 const buildFontawesomeCss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'fontawesome' });
-    gulpCSSTaskManager.compileCssSync(); 
+
+    try {
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+            autoInit: false, build: true, key: 'fontawesome' });
+        gulpCSSTaskManager.compileCssSync(); 
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
 
 }
 
 const buildBootstrapIconsCss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ 
-        autoInit: false, build: true, key: 'bootstrapIcon'  });
-    gulpCSSTaskManager.compileCssSync(); 
+
+    try {
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ 
+            autoInit: false, build: true, key: 'bootstrapIcon'  });
+        gulpCSSTaskManager.compileCssSync(); 
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
+
 }
 
 const watchCss = () => {
-    const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false , build: true});
-    gulpCSSTaskManager.watchCSS();
+    try {
+        const gulpCSSTaskManager = new GulpCSSTaskManager({ autoInit: false , build: true});
+        gulpCSSTaskManager.watchCSS();
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
+
 }
 
 module.exports = { compileCss , buildCss, buildScss , buildFontawesomeCss

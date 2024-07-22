@@ -30,3 +30,7 @@ coverage/
 tmp/
 *.tmp
 *.swp
+
+#error
+
+logs/

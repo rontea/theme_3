@@ -34,4 +34,8 @@ const checkConfigSync = async () => {
     console.log();
 }
 
-module.exports = {fileLister , checkEnv , checkConfigSync , compareDir};
+const checkDirCurrentSync = async () => {
+    console.log(configLoader.settings.mainfolder);
+}
+
+module.exports = {fileLister , checkEnv , checkConfigSync , compareDir , checkDirCurrentSync};

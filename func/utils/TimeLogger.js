@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const currentTime = require('./CreateTime');
-const { time } = require('console');
 
 class TimeLogger {
 
@@ -15,9 +14,18 @@ class TimeLogger {
      * Write to file specified in logFile and create DIR specified in logDir
      * @param {string} logMessage 
      */
-    writeLog(logMessage) {
+    writeLog(logMessage , metadata = {}) {
 
-        const formattedLog = `${currentTime.getTime()} ${logMessage}\n`;
+        const errorDetails = {
+            name: logMessage.name,
+            message: logMessage.message,
+            stack: logMessage.stack,
+            cwd: process.cwd(),
+            nodeVersion: process.version,
+            metadata
+        }
+
+        const formattedLog = `${currentTime.getTime()} ${JSON.stringify(errorDetails, null, 2)}\n`;
 
         try {
 
@@ -30,7 +38,7 @@ class TimeLogger {
                 if (err) {
                     console.error('Error writing to log file:', err);
                 }else {
-                    console.log("Writeline new entry " , this.logFile);
+                    console.log("Error catch writeline new entry " , this.logFile);
                 }
             });
 
@@ -72,7 +80,7 @@ class TimeLogger {
 
 } 
 
-const timeLogger = new TimeLogger();
-Object.freeze(timeLogger);
+const logErr = new TimeLogger();
+Object.freeze(logErr);
 
-module.exports = timeLogger;
+module.exports = logErr;

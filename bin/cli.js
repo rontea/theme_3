@@ -15,7 +15,9 @@ const { moveBootstrapIcons, moveFontawesomeIcons
     , compileIcons} = require('./tasks/iconTasks');
 const { moveResources } = require('./tasks/resourcesTasks');
 const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
-const {fileLister , checkEnv ,  checkConfigSync} = require('./tasks/projectHelper');
+const {fileLister , checkEnv ,  checkConfigSync 
+    , checkDirCurrentSync} = require('./tasks/projectHelper');
+const logErr = require('../func/utils/TimeLogger');
 
 try {
 /**npx git-cz */
@@ -77,12 +79,12 @@ yargs
         .option('dirchk' , {
             alias: 'd',
             type: 'boolean',
-            description: "Check your scr directory"
+            description: "Check filelister dir set in config"
         })
-        .option('dircomp' , {
+        .option('dir' , {
             alias: 'i',
             type: 'boolean',
-            description: "Compare your scr vs th3 scr **inprogress"
+            description: "Check DIR of current project"
         })
 
 }, (argv) => {
@@ -94,15 +96,15 @@ yargs
        checkConfigSync();
     } else if(argv.dirchk) {
         fileLister();
-    }else if(argv.dircomp) {
-        console.log("checking");
+    }else if(argv.dir) {
+      checkDirCurrentSync();
     }else {
         console.log("Command not available");
     }
 })
 .command('css-compile' , "Compile list of CSS and SCSS", () => {
   compileCss();
-}).help().alias('help', 'h')
+})
 .command('css-build' , "Build CSS", () => {
   buildCss();
 })
@@ -165,5 +167,5 @@ yargs
 .argv;
 
 }catch(err){
-    console.log(err);
+    logErr.writeLog(err , {customKey: 'CLI Issue detected'});
 }

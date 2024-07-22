@@ -4,7 +4,7 @@ const path = require("path");
 const urlPathMaker  = require("../utils/utils");
 const fs = require("fs");
 const { src, dest } = require("gulp");
-const config = require("../config/configLoader");
+const configLoader = require("../config/configLoader");
 const readline = require('readline');
 
 class ProjectMaker {
@@ -26,15 +26,13 @@ class ProjectMaker {
 
     try {
 
-      const makeSrc = urlPathMaker.twhUrlPathMaker({
-        topFolder: config.settings.mainfolder,
-        folder: config.settings.projectfolder,
-      });
+      const makeSrc =  path.join(configLoader.settings.mainfolder
+        , configLoader.settings.dependency);
   
-      const makeDest = urlPathMaker.twhUrlPathMaker();
+      const makeDest = configLoader.settings.mainfolder;
   
-      this.#src = makeSrc || options.src;
-      this.#dest =  makeDest || options.dest;
+      this.#src =  options.src ||  makeSrc;
+      this.#dest =   options.dest || makeDest;
       this.#files =  options.file ||  "/**/*";
   
       this.#directories = options.dir || [];
@@ -112,6 +110,11 @@ class ProjectMaker {
   async #copyDirectorySync(directory) {
     /** issue of file copy  */
     try {
+      
+      let pathFilesDest = path.join(this.#dest,directory);
+      let pathFilesSrc = path.join(this.#src,directory);
+      console.log("Path Destination ", path.join(pathFilesDest,this.#files));
+      console.log("Path Source ", path.join(pathFilesSrc,this.#files));
 
       const userConfirmed = await this.#confirmationCopySync();
 
@@ -124,13 +127,12 @@ class ProjectMaker {
         console.log("dest ", destPath);
 
         let source = srcPath + this.#files;
+       
         console.log("file ", source);
+        
 
        src(source)
           .pipe(dest(destPath))
-          .on('end' , () => {
-            console.log(" ... Operationg completed");
-          })
           .on('error' , (err) => {
             console.log("Error move on Project maker " , err);
           });

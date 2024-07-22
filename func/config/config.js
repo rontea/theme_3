@@ -1,6 +1,7 @@
 /** 
     Configuration files
 */
+const path = require('path');
 
 'use strict';
 
@@ -11,9 +12,11 @@ const config = {
         development : {
             env: env,
             settings: {
-                mainfolder: "node_modules",
-                projectfolder: "theme_3",
-                filelister: "../theme_3_v1/src"
+                /** current working directory */
+                mainfolder: process.cwd(),
+                filelister:  path.resolve( process.cwd() , 'src'),
+                dependency: '/node_modules/theme_3',
+                projectfolder: [ 'html' , 'src']
             } ,
 
             mainbuild : "build", 
@@ -111,9 +114,11 @@ const config = {
         production: {
             env: env,
             settings: {
-                mainfolder: "node_modules",
-                projectfolder: "theme_3",
-                filelister: "../theme_3_v1/src"
+                /** current working directory */
+                mainfolder: process.cwd(),
+                filelister:  path.resolve( process.cwd() , 'src'),
+                dependency: '/node_modules/theme_3',
+                projectfolder: [ 'html' , 'src']
             } ,
 
             mainbuild : "build", 
@@ -122,7 +127,7 @@ const config = {
 
                 maincss: "src/css/",
                 mainscss: "src/scss/",
-                maindest: "dist/css/",
+                maindest: "build/css/",
                 paths: [
                     { key : 'css' , path: 'src/css/**/*.css' , descr: "compile CSS on [src/css]"  },
                     { key : 'scss' , path: 'src/scss/**/*.scss', descr: "compile SCSS [src/scss]" },
@@ -205,7 +210,7 @@ const config = {
             
             info : {
                 compileJS : "$gulp compileJS --options[] --uglify --dest url",
-            }
+            } 
         }
         
 };

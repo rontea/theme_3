@@ -11,6 +11,7 @@ const postcss = require("gulp-postcss");
 const PathHandler = require("./handler/PathHandler");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 const gulpKeyCheck = require('./GulpKeyCheck.js');
+const logErr = require('../../utils/TimeLogger.js');
 
 
 class GulpCSSTaskManager {
@@ -41,42 +42,49 @@ class GulpCSSTaskManager {
 
     constructor(options = {}) {
 
-        /** List */
-        this.#src = options.src || [];
-        this.#autoInit = options.autoInit || false;
-        this.#baseDest = config.csspaths.maindest;
+        try {
 
-        this.#pathHandler = new PathHandler(argv.dest,this.#baseDest);
+            /** List */
+            this.#src = options.src || [];
+            this.#autoInit = options.autoInit || false;
+            this.#baseDest = config.csspaths.maindest;
 
-        this.#dest = this.#pathHandler.getDestPath();
-        this.#options = options;
+            this.#pathHandler = new PathHandler(argv.dest,this.#baseDest);
+
+            this.#dest = this.#pathHandler.getDestPath();
+            this.#options = options;
+            
+            this.#options.getHelp = false || options.getHelp;
+            this.#options.watch = options.watch || false;
+            this.#options.autoprefixer = options.autoprefixer || false;
+            this.#numVersion = argv.autoprefixer || options.numVersion || 0;
+
+            let commands = ['dest', 'compress' , 'autoprefixer'];
+            const keysReference = config.csspaths.paths;
+
+            if(this.#options.getHelp,commands) {
+                commands.push('list');
+                const lang = "CSS";
+                const command = options.command || "command";
+                this.#help(keysReference,lang,command,commands);  
+            }
+
+            this.#invalidArgsHandler = new 
+                InvalidArgsHandler(argv,keysReference,commands);
+
+            if(this.#numVersion === true){
+                this.#numVersion = 2;
+            }
+
+            if (this.#autoInit !== false && 
+                    this.#invalidArgsHandler.checkInvalidArgs()) {
+                this.#checkFlags();
+            }
+
+        }catch(err) {
+            logErr.writeLog(err , {customKey: 'customValue'});
+        }
         
-        this.#options.getHelp = false || options.getHelp;
-        this.#options.watch = options.watch || false;
-        this.#options.autoprefixer = options.autoprefixer || false;
-        this.#numVersion = argv.autoprefixer || options.numVersion || 0;
-
-        let commands = ['dest', 'compress' , 'autoprefixer'];
-        const keysReference = config.csspaths.paths;
-
-        if(this.#options.getHelp,commands) {
-            commands.push('list');
-            const lang = "CSS";
-            const command = options.command || "command";
-            this.#help(keysReference,lang,command,commands);  
-        }
-
-        this.#invalidArgsHandler = new 
-            InvalidArgsHandler(argv,keysReference,commands);
-
-        if(this.#numVersion === true){
-            this.#numVersion = 2;
-        }
-
-        if (this.#autoInit !== false && 
-                this.#invalidArgsHandler.checkInvalidArgs()) {
-            this.#checkFlags();
-        }
 
     }
     /**
@@ -100,7 +108,7 @@ class GulpCSSTaskManager {
             }
 
         }catch(err){
-            console.log("Help error " , err);
+            logErr.writeLog(err , {customKey: 'Help error'});
         }
     }
 
@@ -233,7 +241,7 @@ class GulpCSSTaskManager {
 
             stream =  stream.pipe(postcss([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])) 
             .on('error' , err => {
-                console.log("Error on CSS move " , err);
+                logErr.writeLog(err , {customKey: 'Error on CSS move'});
             })
             .on('end', () => {
                 console.log("... Autoprefixer completed last: " , numVersion);

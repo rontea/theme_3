@@ -31,7 +31,7 @@ const FileLister = require('./scripts/FileLister');
 const ProjectMaker = require('./scripts/ProjectMaker');
 
 const CreateTime = require('./utils/CreateTime');
-const TimeLogger = require('./utils/TimeLogger');
+const logErr = require('./utils/TimeLogger');
 const utils = require('./utils/utils');
 
 /** Config */
@@ -58,5 +58,5 @@ exports.FileLister = FileLister;
 exports.ProjectMaker = ProjectMaker;
 
 exports.CreateTime = CreateTime;
-exports.TimeLogger = TimeLogger;
+exports.logErr = logErr;
 exports.utils = utils;

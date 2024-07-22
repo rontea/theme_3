@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const urlPathMaker = require("../utils/utils");
-
+const logErr = require('../utils/TimeLogger');
 class FileLister {
 
   #dirs;
@@ -11,16 +11,21 @@ class FileLister {
   constructor(dirs = {}) {
     this.dirs = [];
 
-    if (Array.isArray(dirs)) {
-      dirs.forEach((dir) => {
-        let temp = urlPathMaker.twhUrlPathMaker({ topFolder: dir });
+    try {
+      if (Array.isArray(dirs)) {
+        dirs.forEach((dir) => {
+          let temp = urlPathMaker.twhUrlPathMaker({ topFolder: dir });
+          this.dirs.push(temp);
+        });
+      } else {
+        let temp = urlPathMaker.twhUrlPathMaker({ topFolder: dirs });
         this.dirs.push(temp);
-      });
-    } else {
-      let temp = urlPathMaker.twhUrlPathMaker({ topFolder: dirs });
-      this.dirs.push(temp);
-
+  
+      }
+    }catch(err) {
+      logErr.writeLog(err , {customKey: 'Contructor failed FileLister'});
     }
+
   }
 
   getDirs(){
@@ -48,25 +53,43 @@ class FileLister {
       return results;
 
     } catch (err) {
-      console.log("Get Files and Directory :", err);
+      
+      logErr.writeLog(err , {customKey: '"Get Files and Directory'});
     }
 
     
   }
+  /**
+   * 
+   * @returns 
+  */
 
   compareDirs() {
-    if (this.dirs.length < 2) {
-      console.log("At least two directories are required to compare.");
-      return;
+    try {
+      if (this.dirs.length < 2) {
+        console.log("At least two directories are required to compare.");
+        return;
+      }
+  
+      const dirA = this.dirs[0];
+      const dirB = this.dirs[1];
+  
+      console.log(`Comparing directories:\n${dirA}\n${dirB}\n`);
+  
+      this.#compareDirectories(dirA, dirB);
+
+    }catch(err) {
+      logErr.writeLog(err , {customKey: 'CompareDirs issue'});
     }
-
-    const dirA = this.dirs[0];
-    const dirB = this.dirs[1];
-
-    console.log(`Comparing directories:\n${dirA}\n${dirB}\n`);
-
-    this.#compareDirectories(dirA, dirB);
+    
   }
+
+  /**
+   * 
+   * @param {*} dirA 
+   * @param {*} dirB 
+   * @param {*} depth 
+  */
 
   #compareDirectories(dirA, dirB, depth = 0) {
 
@@ -129,6 +152,7 @@ class FileLister {
         console.log(`${prefix}${iconTypes.iconWarn} Type mismatch:${key}`);
       }
     });
+
   }
 
   listFileDirectory() {}
@@ -165,7 +189,7 @@ class FileLister {
       });
 
     }catch(err){
-      console.log("Error in Tree dir creation : ", err);
+      logErr.writeLog(err , {customKey: 'Error in Tree dir creation'});
     }
 
   }

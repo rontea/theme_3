@@ -13,7 +13,7 @@ A command-line interface (CLI) tool to manage and build web projects efficiently
 
 - ** Under Development  Documentation **
 - CLI th3 
-- Gulpfile.js optional
+- Gulpfile.js removed
 - Extend list of keys in config.js
 - Manipulate config.js 
 - Expand gulpfile for extend commands
@@ -86,8 +86,8 @@ th3 <cmd> [args]
 |----------------|------------------------------------------------|
 | `-e`, `--env`  | Check Environment                              |
 | `-c`, `--config`| Check config                                  |
-| `-d`, `--dirchk`| Check your `src` directory                    |
-| `-i`, `--dircomp`| Compare your `src` vs `th3` `src` **in progress** |
+| `-d`, `--dirchk`| Check `filelister` dir set in config                    |
+| `-i`, `--dir`|   Check DIR of current project             |
 
 ##### Samples
 ```
@@ -232,3 +232,4 @@ th3 <cmd> [args]
 - Readme.md Format [https://guides.github.com/features/mastering-markdown/](https://guides.github.com/features/mastering-markdown/)
 
 ## Bugs and feature requests
+- Error logs are created under logs/log.log

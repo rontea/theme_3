@@ -1,23 +1,44 @@
 'use strict';
 
 const ProjectMaker = require('../../func/scripts/ProjectMaker');
-const urlPathMaker = require('../../func/utils/utils');
 const configLoader = require('../../func/config/configLoader');
 const path = require('path');
+const logErr = require('../../func/utils/TimeLogger');
 
 const projectFolders = () => {
-    const projectMaker = new ProjectMaker({ dir: [ 'html' , 'src']});
-    projectMaker.displayInfo();
-    projectMaker.createNewProjectSync();
+
+    try{
+        const dest =  configLoader.settings.mainfolder;
+
+        const src =  path.join(configLoader.settings.mainfolder
+            , configLoader.settings.dependency);
+
+        console.log(src);
+        
+        const projectMaker = new ProjectMaker({ src: src, dest: dest
+            , dir: configLoader.settings.projectfolder});
+    
+        projectMaker.createNewProjectSync();
+        projectMaker.displayInfo();
+    }catch(err){
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
 };
 
 const setConfig = () => {
 
-    let src = urlPathMaker.twhUrlPathMaker({ topfolder:"node_modules" ,folder: "func"});
+    try{
+        const dest = configLoader.settings.mainfolder;
+        const src = path.resolve(__dirname , '..' , '..', 'func');
 
-    const projectMaker = new ProjectMaker({src : src, dir: ['config'], file: '/config.js'});
-    projectMaker.displayInfo();
-    projectMaker.createNewProjectSync();
+
+        const projectMaker = new ProjectMaker({dest: dest, src : src, dir: ['config'], file: '/config.js'});
+        
+        projectMaker.createNewProjectSync();
+        projectMaker.displayInfo();
+    }catch(err) {
+        logErr.writeLog(err , {customKey: 'customValue'});
+    }
 };
 
 module.exports = {projectFolders ,  setConfig}
