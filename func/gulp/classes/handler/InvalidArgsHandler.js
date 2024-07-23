@@ -1,6 +1,7 @@
 'use strict';
 
 const EventEmitter = require('events');
+const logErr = require('../../../utils/TimeLogger.js');
 
 class InvalidArgsHandler extends EventEmitter {
 
@@ -11,12 +12,18 @@ class InvalidArgsHandler extends EventEmitter {
     #validKeys;
 
     constructor(argv, configKeys , validKeys = [] ) {
+
+        try{
+
+            super();
+            this.#argv = argv;
+            this.#configKeys = configKeys || "";
+            this.#validKeys = validKeys;
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Invalid args handler error'});
+        }
         
-        super();
-        this.#argv = argv;
-        this.#configKeys = configKeys || "";
-        this.#validKeys = validKeys;
-    
     }
 
     /**
@@ -54,6 +61,7 @@ class InvalidArgsHandler extends EventEmitter {
         }catch(err) {
             
             this.#handleError(err);
+            logErr.writeLog(err , {customKey: 'Args Handle Error'});
             return false;
 
         }

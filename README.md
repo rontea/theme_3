@@ -33,7 +33,7 @@ npm install
 th3 - List all commands
 ```
 
-#### Link CLI
+#### Link CLI if needed
 ```node
 npm link
 ```
@@ -232,4 +232,4 @@ th3 <cmd> [args]
 - Readme.md Format [https://guides.github.com/features/mastering-markdown/](https://guides.github.com/features/mastering-markdown/)
 
 ## Bugs and feature requests
-- Error logs are created under logs/log.log
+Error logs are created under logs/log.log , you can report error/bugs [here](https://github.com/rontea/theme_3/issues)

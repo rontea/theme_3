@@ -8,13 +8,12 @@ const { compileCss , buildCss , buildScss
 const {  compileJs , buildJs , buildJsFontawesome
     , watchJs } = require('./tasks/jsTasks');
 const utils = require('../func/gulp/classes/Utils');
-const { checkCssKey , checkJsKey , checkIconsKey} = require('./tasks/keyCheck');
 const {  buildHtml , watchHtml } = require('./tasks/htmlTasks');
 const {  buildImages, watchImages } = require('./tasks/imageTasks');
 const { moveBootstrapIcons, moveFontawesomeIcons
     , compileIcons} = require('./tasks/iconTasks');
 const { moveResources } = require('./tasks/resourcesTasks');
-const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
+//const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
 const {fileLister , checkEnv ,  checkConfigSync 
     , checkDirCurrentSync} = require('./tasks/projectHelper');
 const logErr = require('../func/utils/TimeLogger');

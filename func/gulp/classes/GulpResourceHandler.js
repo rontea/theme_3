@@ -8,7 +8,7 @@ const fs = require('fs');
 const {dest , src } = require('gulp');
 const path = require('path');
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
-const { exit } = require("process");
+const logErr = require('../../utils/TimeLogger.js');
 
 class GulpResourceHandler {
 
@@ -34,44 +34,58 @@ class GulpResourceHandler {
 
     constructor (options = {}) {
 
-        /** List */
-        this.#src = options.src || argv.src;
-        this.#dest = options.dest || argv.dest;
+        try{
 
-        this.#invalidArgsHandler = new InvalidArgsHandler(argv,"",['src', 'dest']);
-        this.#setLock = config.resources.setlock || options.setLock;
+            /** List */
+            this.#src = options.src || argv.src;
+            this.#dest = options.dest || argv.dest;
 
-        this.#srcDef = config.resources.mainsrc;
-        this.#destDef = config.resources.destdef;
+            this.#invalidArgsHandler = new InvalidArgsHandler(argv,"",['src', 'dest']);
 
-        this.#options = options;
+            this.#invalidArgsHandler.on('invalidArgs' , (invalidKeys,validKeys) => {
+                console.error(`Invalid options provided: ${invalidKeys.join(', ')}`);
+                console.error(`Please check the available options: ${validKeys.join(', ')}`);
+                process.exit(1);
+            });
 
-        /** Lock */
-        if(this.#setLock) {
-            
-            this.#src = this.#srcDef + this.#src;
+            this.#setLock = config.resources.setlock || options.setLock;
 
-            if(this.#dest === true){
+            this.#srcDef = config.resources.mainsrc;
+            this.#destDef = config.resources.destdef;
+
+            this.#options = options;
+
+            /** Lock */
+            if(this.#setLock) {
                 
-                this.#dest = this.#destDef;
-                console.log("Empty denstation default to:" , this.#dest);
+                this.#src = this.#srcDef + this.#src;
+
+                if(this.#dest === true){
+                    
+                    this.#dest = this.#destDef;
+                    console.log("Empty denstation default to:" , this.#dest);
+                }else {
+                    this.#dest = this.#destDef + this.#dest;
+                }
+
+                console.log("Note : Option Lock for folder source:" , this.#src);
+                console.log("Note : Option Lock for folder destination:" , this.#dest);
+            
+            /** Move All */    
             }else {
-                this.#dest = this.#destDef + this.#dest;
+                this.#src = '/' + this.#src;
+                this.#dest = "build/" + this.#dest;
+                console.log("Note : Option Unlock for folder move item anyware.");
             }
 
-            console.log("Note : Option Lock for folder source:" , this.#src);
-            console.log("Note : Option Lock for folder destination:" , this.#dest);
-        
-        /** Move All */    
-        }else {
-            this.#src = '/' + this.#src;
-            this.#dest = "build/" + this.#dest;
-            console.log("Note : Option Unlock for folder move item anyware.");
-        }
+            if(this.#invalidArgsHandler.checkInvalidArgs()) {
+                this.#moveFilesSync();
+            }
 
-        if(this.#invalidArgsHandler.checkInvalidArgs()) {
-            this.#moveFilesSync();
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Gulp resource handler error'});
         }
+        
     }
 
     /**
@@ -80,7 +94,11 @@ class GulpResourceHandler {
     */
 
     getOptions() {
-        return this.#options;
+        try{
+            return this.#options;
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Return options error'});
+        }
     }
     
     /**
@@ -175,7 +193,7 @@ class GulpResourceHandler {
             });
         
         }catch (err) {
-            console.log(err);
+            logErr.writeLog(err , {customKey: 'Move file async error'});
         }
 
     }

@@ -10,6 +10,7 @@ const handler = require("./handler/Handler");
 const PathHandler = require("./handler/PathHandler");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 const gulpKeyCheck = require('./GulpKeyCheck.js');
+const logErr = require('../../utils/TimeLogger.js');
 
 class GulpJSTaskManager {
   
@@ -35,39 +36,49 @@ class GulpJSTaskManager {
 
   constructor(options = {}) {
 
-    /** List */
-    this.#src = options.src || [];
-    this.#autoInit = options.autoInit || false;
-    this.#baseDest = config.jspaths.maindest;
-    //this.#dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.#baseDest;
-    
-    const pathHandler = new PathHandler(argv.dest,this.#baseDest);
-    
-    this.#dest = pathHandler.getDestPath();
-    this.#options = options;
+    try{
 
-    this.#options.getHelp = false || options.getHelp;
-    this.#options.watch = options.watch || false;
-    
-    let commands = ['dest', 'uglify'];
-    const keysReference = config.jspaths.paths;
+      /** List */
+      this.#src = options.src || [];
+      this.#autoInit = options.autoInit || false;
+      this.#baseDest = config.jspaths.maindest;
+      //this.#dest = argv.dest ? `${this.baseDest}/${argv.dest}` : this.#baseDest;
+      
+      const pathHandler = new PathHandler(argv.dest,this.#baseDest);
+      
+      this.#dest = pathHandler.getDestPath();
+      this.#options = options;
 
-    if(this.#options.getHelp,commands) {
-      commands.push('list');
-      const lang = "JS";
-      const command = options.command || "command";
-      this.#help(keysReference,lang,command,commands);  
-    }
+      this.#options.getHelp = false || options.getHelp;
+      this.#options.watch = options.watch || false;
+      
+      let commands = ['dest', 'uglify'];
+      const keysReference = config.jspaths.paths;
 
-   
+      if(this.#options.getHelp,commands) {
+        commands.push('list');
+        const lang = "JS";
+        const command = options.command || "command";
+        this.#help(keysReference,lang,command,commands);  
+      }
+      
+      this.#invalidArgsHandler = new 
+        InvalidArgsHandler(argv,keysReference
+          ,commands);
+      
+        this.#invalidArgsHandler.on('invalidArgs' , (invalidKeys,validKeys) => {
+          console.error(`Invalid options provided: ${invalidKeys.join(', ')}`);
+          console.error(`Please check the available options: ${validKeys.join(', ')}`);
+          process.exit(1);
+        });
 
-    this.#invalidArgsHandler = new 
-      InvalidArgsHandler(argv,keysReference
-        ,commands);
+      if (this.#autoInit !== false && 
+          this.#invalidArgsHandler.checkInvalidArgs()) {
+        this.#checkFlags();
+      }
 
-    if (this.#autoInit !== false && 
-        this.#invalidArgsHandler.checkInvalidArgs()) {
-      this.#checkFlags();
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'GulpJSTaskManager construct failed'});
     }
 
   }
@@ -92,7 +103,7 @@ class GulpJSTaskManager {
             }
 
         }catch(err){
-            console.log("Help error " , err);
+           logErr.writeLog(err , {customKey: 'Help Error'});
         }
     }
   
@@ -102,7 +113,12 @@ class GulpJSTaskManager {
   */
 
   getOptions() {
-    return this.#options;
+    try{
+      return this.#options;
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'Getting options error'});
+    }
+    
   }
 
   /**
@@ -112,15 +128,23 @@ class GulpJSTaskManager {
   */
 
   #checkFlags() {
-    config.jspaths.paths.forEach((item) => {
-      if (argv[item.key]) {
-        this.#src.push(item.path);
-      }
-    });
 
-    if (this.#src.length === 0 && !this.#options.getHelp) {
-      console.log("Option not available");
+    try{
+
+      config.jspaths.paths.forEach((item) => {
+        if (argv[item.key]) {
+          this.#src.push(item.path);
+        }
+      });
+  
+      if (this.#src.length === 0 && !this.#options.getHelp) {
+        console.log("Option not available");
+      }
+
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'Check flags error'});
     }
+
   }
   
     /**
@@ -130,38 +154,45 @@ class GulpJSTaskManager {
 
   #buildSet(typeBuild) {
 
-    let checkAvailable = false;
+    try{
 
-    if(Array.isArray(typeBuild)) {
+      let checkAvailable = false;
 
-        typeBuild.forEach(key => {
-            config.jspaths.paths.forEach((item) => {
-         
-                if (item.key === key) {
-                  this.#src.push(item.path);
-                  checkAvailable = true;
-                  console.log("Type Build " , key);
-                }
-            });
-        });
+      if(Array.isArray(typeBuild)) {
 
-    }else {
-        config.jspaths.paths.forEach((item) => {
-         
-            if (item.key === typeBuild) {
-              this.#src.push(item.path);
-              checkAvailable = true;
-              console.log("Type Build " , typeBuild);
-            }
-        });
+          typeBuild.forEach(key => {
+              config.jspaths.paths.forEach((item) => {
+          
+                  if (item.key === key) {
+                    this.#src.push(item.path);
+                    checkAvailable = true;
+                    console.log("Type Build " , key);
+                  }
+              });
+          });
+
+      }else {
+          config.jspaths.paths.forEach((item) => {
+          
+              if (item.key === typeBuild) {
+                this.#src.push(item.path);
+                checkAvailable = true;
+                console.log("Type Build " , typeBuild);
+              }
+          });
+      }
+      
+      if (checkAvailable === false) {
+          console.log(
+            typeBuild,
+            "Not available please check config for available keys ..."
+          );
+      }
+
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'Build set error'});
     }
-    
-    if (checkAvailable === false) {
-        console.log(
-          typeBuild,
-          "Not available please check config for available keys ..."
-        );
-    }
+
   }
 
   /**
@@ -171,50 +202,57 @@ class GulpJSTaskManager {
 
   async compileJsSync() {
 
-    if(argv.list){
-      return;
+    try{
+
+      if(argv.list){
+        return;
+      }
+      
+      if (this.#options.build === true) {
+        let typeBuild = this.#options.key;
+        console.log("Building invoke for...", typeBuild);
+  
+        this.#buildSet(typeBuild);
+      }
+  
+      console.log("Source Path :", this.#src);
+      console.log("Destination Path :", this.#dest);
+  
+      /** Input and Command Checker */
+      if (this.#src.length === 0 || this.#invalidArgsHandler.checkInvalidArgs() === false) {
+        console.log("No valid option provided ending process ...");
+        return;
+      }
+  
+      let stream = src(this.#src);
+  
+      if (argv.uglify || this.#options.uglify) {
+       
+        stream = stream.pipe(uglify()
+          .on('error', (err) => {
+            console.error("Uglify error :", err.toString());
+          })
+          .on('end' , () => { 
+            console.log("... Uglify completed.");
+          }));
+      }
+  
+      stream = stream.pipe(dest(this.#dest));
+  
+      if(this.#options.watch === true) {
+        stream = stream.pipe(browserSync.stream());
+      }
+  
+      return stream.on("end", () => {
+        console.log("... JS build completed.");
+      }).on('error' , (err) => {
+        console.log("Error on JS move " , err);
+      });
+
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'Compile JS error'});
     }
-    
-    if (this.#options.build === true) {
-      let typeBuild = this.#options.key;
-      console.log("Building invoke for...", typeBuild);
 
-      this.#buildSet(typeBuild);
-    }
-
-    console.log("Source Path :", this.#src);
-    console.log("Destination Path :", this.#dest);
-
-    /** Input and Command Checker */
-    if (this.#src.length === 0 || this.#invalidArgsHandler.checkInvalidArgs() === false) {
-      console.log("No valid option provided ending process ...");
-      return;
-    }
-
-    let stream = src(this.#src);
-
-    if (argv.uglify || this.#options.uglify) {
-     
-      stream = stream.pipe(uglify()
-        .on('error', (err) => {
-          console.error("Uglify error :", err.toString());
-        })
-        .on('end' , () => { 
-          console.log("... Uglify completed.");
-        }));
-    }
-
-    stream = stream.pipe(dest(this.#dest));
-
-    if(this.#options.watch === true) {
-      stream = stream.pipe(browserSync.stream());
-    }
-
-    return stream.on("end", () => {
-      console.log("... JS build completed.");
-    }).on('error' , (err) => {
-      console.log("Error on JS move " , err);
-    });
   }
 
   /**
@@ -224,25 +262,32 @@ class GulpJSTaskManager {
    */
 
   watchJsSync() {
-    this.#src = config.jspaths.main + "/**/*.js";
-    this.#dest = config.jspaths.maindest;
-    console.log("Start JS watching ... ");
 
-    /** Development ENV where file can be deleted on changes */
+    try{
 
-    /**  new file created will overwrite the old one */
-    return watch(this.#src, { ignoreInitial: false })
-      .on("change", this.compileJsSync.bind(this))
-      .on("add", this.compileJsSync.bind(this))
-      .on("unlink", (file) => {
-       
-        handler.handlerOnDeleteFile(file,config.jspaths.main,this.#dest);
+      this.#src = config.jspaths.main + "/**/*.js";
+      this.#dest = config.jspaths.maindest;
+      console.log("Start JS watching ... ");
+  
+      /** Development ENV where file can be deleted on changes */
+  
+      /**  new file created will overwrite the old one */
+      return watch(this.#src, { ignoreInitial: false })
+        .on("change", this.compileJsSync.bind(this))
+        .on("add", this.compileJsSync.bind(this))
+        .on("unlink", (file) => {
+         
+          handler.handlerOnDeleteFile(file,config.jspaths.main,this.#dest);
+  
+        }).on('error' , (error) => {
+          
+          handler.handlerError(error);
+  
+        });
 
-      }).on('error' , (error) => {
-        
-        handler.handlerError(error);
-
-      });
+    }catch(err){
+      logErr.writeLog(err , {customKey: 'Watch JS error'});
+    }
   }
 }
 

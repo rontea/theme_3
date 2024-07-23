@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require("path");
+const logErr = require('../../../utils/TimeLogger.js');
 
 class PathHandler {
 
@@ -10,17 +11,33 @@ class PathHandler {
 
     constructor(destArgv,baseDest) {
 
+      try{
+
         this.#destArgv = destArgv || '';
         this.#baseDest = baseDest || '';
+
+      }catch(err){
+        logErr.writeLog(err , {customKey: 'Path handler error'});
+      }
 
     }
 
     setDestArgv(destArgv) {
+      try{
         this.#destArgv = destArgv;
+      }catch(err){
+        logErr.writeLog(err , {customKey: 'Set destination error'});
+      }
+        
     }
 
     setBaseDest(baseDest){
+      try{
         this.#baseDest = baseDest;
+      }catch(err){
+        logErr.writeLog(err , {customKey: 'Set base destination error'});
+      }
+        
     }
   
   /**
@@ -30,6 +47,9 @@ class PathHandler {
    */
 
     getDestPath() {
+
+      try{
+
         if (this.#destArgv === true || this.#destArgv === undefined || typeof this.#destArgv !== 'string') {
          
           if(typeof this.#destArgv !== 'string') {
@@ -43,6 +63,11 @@ class PathHandler {
         }
     
         return path.join(this.#baseDest, this.#destArgv);
+
+      }catch(err){
+        logErr.writeLog(err , {customKey: 'Get path error'});
+      }
+
     }
 
 }

@@ -6,6 +6,7 @@ const fs = require("fs");
 const { src, dest } = require("gulp");
 const configLoader = require("../config/configLoader");
 const readline = require('readline');
+const logErr = require('../utils/TimeLogger');
 
 class ProjectMaker {
 
@@ -38,7 +39,7 @@ class ProjectMaker {
       this.#directories = options.dir || [];
 
     }catch(err) {
-      console.log("Project builder construct failed :", err);
+      logErr.writeLog(err , {customKey: 'Project builder construct failed'});
     }
     
   }
@@ -50,12 +51,18 @@ class ProjectMaker {
 
   displayInfo(info = "Dir and File Information: ") {
     
-    console.log(info);
+    try {
 
-    console.log("Source : ", this.#src);
-    console.log("Destination :", this.#dest);
-    console.log("Folders: ", this.#directories);
-    console.log("Files: ", this.#files);
+      console.log(info);
+      console.log("Source : ", this.#src);
+      console.log("Destination :", this.#dest);
+      console.log("Folders: ", this.#directories);
+      console.log("Files: ", this.#files);
+
+    }catch(err) {
+      logErr.writeLog(err , {customKey: 
+        'Display information on project create failed'});
+    }
 
   }
 
@@ -98,7 +105,7 @@ class ProjectMaker {
       });
 
     } catch (err) {
-      console.log("Destination check error :", err);
+      logErr.writeLog(err , {customKey: 'Destination check error'});
     }
   }
 
@@ -144,7 +151,7 @@ class ProjectMaker {
       }
       
     } catch (err) {
-      console.log("Copy Dir error : ", err);
+      logErr.writeLog(err , {customKey: 'Copy Dir error'});
     }
   }
 
@@ -182,7 +189,7 @@ class ProjectMaker {
       });
 
     }catch(err) {
-      console.lof("Confirmation error :" , err);
+      logErr.writeLog(err , {customKey: 'Confirmation error on project maker'});
     }
   }
   

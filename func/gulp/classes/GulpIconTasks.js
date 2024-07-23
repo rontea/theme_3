@@ -6,6 +6,7 @@ const { src, dest } = require("gulp");
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
 const PathHandler = require("./handler/PathHandler");
 const gulpKeyCheck = require('./GulpKeyCheck.js');
+const logErr = require('../../utils/TimeLogger.js');
 
 
 class GulpIconTasks {
@@ -36,44 +37,57 @@ class GulpIconTasks {
 
     constructor(options = {}){
 
-        /** List */
-        this.#options = options;
+        try{
 
-        this.#options.getHelp = false || options.getHelp;
-        this.#src = options.src || [];
-        this.#autoInit = options.autoInit || false;
-        this.#baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
-        this.#dest = [] || options.dest;
-        this.#options.build = false || options.build;
+            /** List */
+            this.#options = options;
 
-        this.#defaultDest = config.icons.maindest;
-  
-        this.#pathHandler = new PathHandler('',this.#defaultDest);
+            this.#options.getHelp = false || options.getHelp;
+            this.#src = options.src || [];
+            this.#autoInit = options.autoInit || false;
+            this.#baseDest = Array.isArray(argv.dest) ? argv.dest : [argv.dest];
+            this.#dest = [] || options.dest;
+            this.#options.build = false || options.build;
 
-        let commands = ['dest'];
-        const keysReference = config.icons.paths;
+            this.#defaultDest = config.icons.maindest;
+    
+            this.#pathHandler = new PathHandler('',this.#defaultDest);
 
-        if(this.#options.getHelp,commands) {
-            commands.push('list');
-            const lang = "Icons";
-            const command = options.command || "command";
-            this.#help(keysReference,lang,command,commands);
+            let commands = ['dest'];
+            const keysReference = config.icons.paths;
+
+            if(this.#options.getHelp,commands) {
+                commands.push('list');
+                const lang = "Icons";
+                const command = options.command || "command";
+                this.#help(keysReference,lang,command,commands);
+            }
+
+            if(argv.list){
+                return;
+            }
+
+            this.#invalidArgsHandler = new 
+            InvalidArgsHandler(argv, keysReference,
+                commands);
+            
+            this.#invalidArgsHandler.on('invalidArgs' , (invalidKeys,validKeys) => {
+                console.error(`Invalid options provided: ${invalidKeys.join(', ')}`);
+                console.error(`Please check the available options: ${validKeys.join(', ')}`);
+                process.exit(1);
+            });
+
+            if (this.#autoInit !== false 
+                && this.#invalidArgsHandler.checkInvalidArgs()) {
+                    
+                this.#prefixDest = config.icons.prefix;
+                this.#compileSet();
+            }
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Gulp Icon construct failed'});
         }
-
-        if(argv.list){
-            return;
-        }
-
-        this.#invalidArgsHandler = new 
-        InvalidArgsHandler(argv, keysReference,
-            commands);
-
-        if (this.#autoInit !== false 
-            && this.#invalidArgsHandler.checkInvalidArgs()) {
-                
-            this.#prefixDest = config.icons.prefix;
-            this.#compileSet();
-        }
+        
     }
 
     /**
@@ -95,7 +109,7 @@ class GulpIconTasks {
             }
 
         }catch(err){
-            console.log("Help error " , err);
+            logErr.writeLog(err , {customKey: 'Help error'});
         }
     }
 
@@ -105,7 +119,13 @@ class GulpIconTasks {
     */
 
     getOptions() {
-        return this.#options;
+
+        try{
+            return this.#options;
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Return options error'});
+        }
+        
     }
 
     /**
@@ -119,19 +139,26 @@ class GulpIconTasks {
     /** still working on 1 on 1 mapping */
      #compileSet() {
        
-        config.icons.paths.forEach( (item)=> {
+        try{
+
+            config.icons.paths.forEach( (item)=> {
             
-            if (argv[item.key]) {
-                /** Get argv index */
-                let argvArray = Object.keys(argv).map(key => ({ key, value: argv[key]}));
-                let index = argvArray.findIndex(argv => argv.key === item.key);
-                this.#src[index] = item.path; 
-            }
-              
-        });
-        /** Clean array empty index */
-        this.#src = this.#src.filter(item => !(Array.isArray(item) && item.length === 0));
-        console.log("Destination Mapping for each :" , this.#src);
+                if (argv[item.key]) {
+                    /** Get argv index */
+                    let argvArray = Object.keys(argv).map(key => ({ key, value: argv[key]}));
+                    let index = argvArray.findIndex(argv => argv.key === item.key);
+                    this.#src[index] = item.path; 
+                }
+                  
+            });
+            /** Clean array empty index */
+            this.#src = this.#src.filter(item => !(Array.isArray(item) && item.length === 0));
+            console.log("Destination Mapping for each :" , this.#src);
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Compile set'});
+        }
+
     
     }
 
@@ -141,45 +168,51 @@ class GulpIconTasks {
     */
 
     #buildSet(srcTypeBuild) {
-        
-        let checkAvailable = false;
-        let tempDest = "";
-        if(Array.isArray(srcTypeBuild)) {
 
-            srcTypeBuild.forEach(key => {
+        try{
+
+            let checkAvailable = false;
+            let tempDest = "";
+            if(Array.isArray(srcTypeBuild)) {
+    
+                srcTypeBuild.forEach(key => {
+                    config.icons.paths.forEach((item) => {
+                
+                        if (item.key === key) {
+                            this.#src.push(item.path);
+                            tempDest = config.icons.maindest + config.icons.prefix;
+                            this.#dest.push(tempDest);
+                            checkAvailable = true;
+                            console.log("Type Build " , key);
+                        }
+                    });
+                });
+    
+                
+            }else {
                 config.icons.paths.forEach((item) => {
-            
-                    if (item.key === key) {
+                
+                    if (item.key === srcTypeBuild) {
                         this.#src.push(item.path);
                         tempDest = config.icons.maindest + config.icons.prefix;
                         this.#dest.push(tempDest);
                         checkAvailable = true;
-                        console.log("Type Build " , key);
+                        console.log("Type Build " , srcTypeBuild);
                     }
                 });
-            });
+            }
+    
+            if (checkAvailable === false) {
+                console.log(
+                typeBuild,
+                "Not available please check config for available keys ..."
+                );
+            }
 
-            
-        }else {
-            config.icons.paths.forEach((item) => {
-            
-                if (item.key === srcTypeBuild) {
-                    this.#src.push(item.path);
-                    tempDest = config.icons.maindest + config.icons.prefix;
-                    this.#dest.push(tempDest);
-                    checkAvailable = true;
-                    console.log("Type Build " , srcTypeBuild);
-                }
-            });
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Build set error'});
         }
-
-        if (checkAvailable === false) {
-            console.log(
-            typeBuild,
-            "Not available please check config for available keys ..."
-            );
-        }
-
+        
     }
 
     /**
@@ -189,40 +222,46 @@ class GulpIconTasks {
      */
 
     compileMultiDest() {
-        
-        if(argv.list){
-            return;
-        }
 
-        if (this.#src.length === 0 ||  this.#invalidArgsHandler.checkInvalidArgs() === false) {
-            console.log("No valid option provided ending process ...");
-            return "error";
-        }
+        try{
 
-        let tempDest = "";
-
-        if(Array.isArray(this.#dest)){
-
-            this.#src.forEach((item , index)=> {
-                
-                
-                this.#pathHandler.setDestArgv(this.#baseDest[index]);
-                tempDest = this.#pathHandler.getDestPath() +  this.#prefixDest;
-               
-                console.log("Source Path :", item);
-                console.log("Destination Path :", tempDest);
+            if(argv.list){
+                return;
+            }
+    
+            if (this.#src.length === 0 ||  this.#invalidArgsHandler.checkInvalidArgs() === false) {
+                console.log("No valid option provided ending process ...");
+                return "error";
+            }
+    
+            let tempDest = "";
+    
+            if(Array.isArray(this.#dest)){
+    
+                this.#src.forEach((item , index)=> {
                     
-                src(item, {encoding:false}).pipe(dest(tempDest))
-                .on('end' , () => {
-                    console.log("... Icons build completed." , index);
-                }).on('error' , (err) => {
-                    console.log("Error on Icon move " , err);
-                });
+                    
+                    this.#pathHandler.setDestArgv(this.#baseDest[index]);
+                    tempDest = this.#pathHandler.getDestPath() +  this.#prefixDest;
                    
-            });
+                    console.log("Source Path :", item);
+                    console.log("Destination Path :", tempDest);
+                        
+                    src(item, {encoding:false}).pipe(dest(tempDest))
+                    .on('end' , () => {
+                        console.log("... Icons build completed." , index);
+                    }).on('error' , (err) => {
+                        console.log("Error on Icon move " , err);
+                    });
+                       
+                });
+    
+            }
 
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Compile multiple destination error'});
         }
-
+        
     }
 
     /**
@@ -233,39 +272,46 @@ class GulpIconTasks {
 
     compileIconSets() {
 
+        try{
+            
+            if(argv.list){
+                return;
+            }
+    
+            if (this.#options.build === true) {
+                
+                let typeBuild = this.#options.key;
+                
+                console.log("Building invoke for...", typeBuild);
+          
+                this.#buildSet(typeBuild);
+            }
+    
+            console.log("Source Path :", this.#src);
+            console.log("Destination Path :", this.#dest);
+    
+                /** Input and Command Checker */
+            if (this.#src.length === 0 || this.checkInvalidArgs === false) {
+                console.log("No valid option provided ending process ...");
+                return;
+            }
+    
+    
+            let stream = src(this.#src, {encoding:false});
+    
+            stream = stream.pipe(dest(this.#dest));
+    
+            return stream.on('end' , () => {
+                console.log("... Icons build completed.");
+            }).on('error', (err) => {
+                console.log(err);
+            });
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Compile icon sets error'});
+        }
         
-        if(argv.list){
-            return;
-        }
-
-        if (this.#options.build === true) {
-            
-            let typeBuild = this.#options.key;
-            
-            console.log("Building invoke for...", typeBuild);
-      
-            this.#buildSet(typeBuild);
-        }
-
-        console.log("Source Path :", this.#src);
-        console.log("Destination Path :", this.#dest);
-
-            /** Input and Command Checker */
-        if (this.#src.length === 0 || this.checkInvalidArgs === false) {
-            console.log("No valid option provided ending process ...");
-            return;
-        }
-
-
-        let stream = src(this.#src, {encoding:false});
-
-        stream = stream.pipe(dest(this.#dest));
-
-        return stream.on('end' , () => {
-            console.log("... Icons build completed.");
-        }).on('error', (err) => {
-            console.log(err);
-        });
+        
     }
 }
 

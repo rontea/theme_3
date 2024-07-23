@@ -69,8 +69,15 @@ class GulpCSSTaskManager {
                 this.#help(keysReference,lang,command,commands);  
             }
 
+            
             this.#invalidArgsHandler = new 
                 InvalidArgsHandler(argv,keysReference,commands);
+            
+            this.#invalidArgsHandler.on('invalidArgs' , (invalidKeys,validKeys) => {
+                console.error(`Invalid options provided: ${invalidKeys.join(', ')}`);
+                console.error(`Please check the available options: ${validKeys.join(', ')}`);
+                process.exit(1);
+            });
 
             if(this.#numVersion === true){
                 this.#numVersion = 2;
@@ -82,7 +89,7 @@ class GulpCSSTaskManager {
             }
 
         }catch(err) {
-            logErr.writeLog(err , {customKey: 'customValue'});
+            logErr.writeLog(err , {customKey: 'GulpCSSTaskManager construct failed'});
         }
         
 
@@ -118,7 +125,12 @@ class GulpCSSTaskManager {
     */
 
     getOptions() {
-        return this.#options;
+        try{
+            return this.#options;
+        }catch(err) {
+            logErr.writeLog(err , {customKey: 'Return options error'});
+        }
+        
     }
 
     /**
@@ -127,15 +139,23 @@ class GulpCSSTaskManager {
     */
 
     #checkFlags() {
-        config.csspaths.paths.forEach((item) => {
-            if (argv[item.key]) {
-              this.#src.push(item.path);
-            }
-          });
-      
-          if (this.#src.length === 0 && !this.#options.getHelp) {
+
+        try {
+
+            config.csspaths.paths.forEach((item) => {
+                if (argv[item.key]) {
+                  this.#src.push(item.path);
+                }
+            });
+          
+            if (this.#src.length === 0 && !this.#options.getHelp) {
             console.log("Option not available");
-          }
+            }
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Key checking error'});
+        }
+
     }
 
     /**
@@ -145,135 +165,159 @@ class GulpCSSTaskManager {
 
     #buildSet(typeBuild) {
 
-        let checkAvailable = false;
+        try{
 
-        if(Array.isArray(typeBuild)) {
+            let checkAvailable = false;
 
-            typeBuild.forEach(key => {
+            if(Array.isArray(typeBuild)) {
+
+                typeBuild.forEach(key => {
+                    config.csspaths.paths.forEach((item) => {
+                
+                        if (item.key === key) {
+                        this.#src.push(item.path);
+                        checkAvailable = true;
+                        console.log("Type Build " , key);
+                        }
+                    });
+                });
+
+
+            }else {
                 config.csspaths.paths.forEach((item) => {
-             
-                    if (item.key === key) {
-                      this.#src.push(item.path);
-                      checkAvailable = true;
-                      console.log("Type Build " , key);
+                
+                    if (item.key === typeBuild) {
+                    this.#src.push(item.path);
+                    checkAvailable = true;
+                    console.log("Type Build " , typeBuild);
                     }
                 });
-            });
+            }
 
+            if (checkAvailable === false) {
+                console.log(
+                typeBuild,
+                "Not available please check config for available keys ..."
+                );
+            }
 
-        }else {
-            config.csspaths.paths.forEach((item) => {
-             
-                if (item.key === typeBuild) {
-                  this.#src.push(item.path);
-                  checkAvailable = true;
-                  console.log("Type Build " , typeBuild);
-                }
-            });
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Type build checking error'});
         }
 
-        if (checkAvailable === false) {
-            console.log(
-              typeBuild,
-              "Not available please check config for available keys ..."
-            );
-        }
+        
     }
 
     /**
-     * This will build the JS to the destination
+     * This will build the CSS to the destination
      * @returns gulp task
     */
 
     async compileCssSync() {
 
-        if(argv.list){
-            return;
-        }
-
-        /** Build by key */
-        if (this.#options.build === true) {
-            let typeBuild = this.#options.key;
-           
-            console.log("... Building for :", typeBuild);
-
-            this.#buildSet(typeBuild);
-
-        }
-
-        console.log("Source Path :", this.#src);
-        console.log("Destination Path :", this.#dest);
-
-        /** Input and Command Checker */
-        if (this.#src.length === 0 || 
-            this.#invalidArgsHandler.checkInvalidArgs() === false) 
-        {
+        try{
             
-            console.log("No valid option provided ending process ...");
-            return;
-        }
+            if(argv.list){
+                return;
+            }
 
-        let stream = src(this.#src);
-
-        stream = stream.pipe(sass()
-            .on('error' , sass.logError)
-            .on('end' , () => {
-                console.log("... SASS compile completed.");
-            }));
-
-        if(argv.compress || this.#options.compress) {
+            /** Build by key */
+            if (this.#options.build === true) {
+                let typeBuild = this.#options.key;
             
-            stream = stream.pipe(sass({outputStyle : 'compressed'})
-                .on('error' , sass.logError).on('end' , () => {
-                    console.log("... Compress completed.");
+                console.log("... Building for :", typeBuild);
+
+                this.#buildSet(typeBuild);
+
+            }
+
+            console.log("Source Path :", this.#src);
+            console.log("Destination Path :", this.#dest);
+
+            /** Input and Command Checker */
+            if (this.#src.length === 0 || 
+                this.#invalidArgsHandler.checkInvalidArgs() === false) 
+            {
+                
+                console.log("No valid option provided ending process ...");
+                return;
+            }
+
+            let stream = src(this.#src);
+
+            stream = stream.pipe(sass()
+                .on('error' , sass.logError , () => {
+                    logErr.writeLog(sass.logError , {customKey: 'Sass Error'});
+                })
+                .on('end' , () => {
+                    console.log("... SASS compile completed.");
                 }));
-        }
 
-        if(argv.autoprefixer || this.#options.autoprefixer){
+            if(argv.compress || this.#options.compress) {
+                
+                stream = stream.pipe(sass({outputStyle : 'compressed'})
+                    .on('error' , sass.logError, () => {
+                        logErr.writeLog(sass.logError , {customKey: 'Sass Error'});
+                    })
+                    .on('end' , () => {
+                        console.log("... Compress completed.");
+                    }));
+            }
 
-            console.log("Autoprefixer value: " , this.#numVersion);
-            let numVersion = 0;
-            numVersion = this.#numVersion;
-           
-            console.log("Starting Autoprefixer with last version request of " , this.#numVersion);
+            if(argv.autoprefixer || this.#options.autoprefixer){
+
+                console.log("Autoprefixer value: " , this.#numVersion);
+                let numVersion = 0;
+                numVersion = this.#numVersion;
             
-            numVersion = await this.#isValidValue(numVersion);
+                console.log("Starting Autoprefixer with last version request of " , this.#numVersion);
+                
+                numVersion = await this.#isValidValue(numVersion);
 
-            stream =  stream.pipe(postcss([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])) 
-            .on('error' , err => {
-                logErr.writeLog(err , {customKey: 'Error on CSS move'});
-            })
-            .on('end', () => {
-                console.log("... Autoprefixer completed last: " , numVersion);
+                stream =  stream.pipe(postcss([autoprefixer({ overrideBrowserslist: [`last ${numVersion} versions`]  })])) 
+                .on('error' , err => {
+                    logErr.writeLog(err , {customKey: 'Error on CSS/SASS move'});
+                })
+                .on('end', () => {
+                    console.log("... Autoprefixer completed last: " , numVersion);
+                });
+            }
+
+            stream = stream.pipe(dest(this.#dest));
+
+            /** Check fo watch option */
+            if(this.#options.watch === true) {
+                stream = stream.pipe(browserSync.stream());
+            }
+
+            return stream.on("end", () => {
+                console.log("... CSS build completed.");
             });
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Compile CSS/SCSS error'});
         }
-
-        stream = stream.pipe(dest(this.#dest));
-
-        /** Check fo watch option */
-        if(this.#options.watch === true) {
-            stream = stream.pipe(browserSync.stream());
-        }
-
-        return stream.on("end", () => {
-            console.log("... CSS build completed.");
-        });
-        
     }
 
     async #isValidValue(numVersion) {
 
-        if(numVersion > 0 && numVersion <= 5) {
-            console.log("Setting Value of :" , numVersion);
-            numVersion = numVersion;
-        }else {
-            
-            numVersion = config.csspaths.settings.autoprefixer;
-            console.log(`Only accepts 1-${config.csspaths.settings.limit} > Invalid last version request of ` , this.#numVersion);
-            console.log("Setting default on config.js ", numVersion )
-        }
+        try{
 
-        return numVersion;
+            if(numVersion > 0 && numVersion <= 5) {
+                console.log("Setting Value of :" , numVersion);
+                numVersion = numVersion;
+            }else {
+                
+                numVersion = config.csspaths.settings.autoprefixer;
+                console.log(`Only accepts 1-${config.csspaths.settings.limit} > Invalid last version request of ` , this.#numVersion);
+                console.log("Setting default on config.js ", numVersion )
+            }
+    
+            return numVersion;
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'isValid Value check error'});
+        }
     }
 
     /**
@@ -283,7 +327,8 @@ class GulpCSSTaskManager {
 
     async watchCSS() {
 
-        
+        try{
+
         let cssPath = config.csspaths.watch.css;
         let sassPath = config.csspaths.watch.scss;
 
@@ -336,15 +381,16 @@ class GulpCSSTaskManager {
                     destFile = destFile.replace(/\.scss$/, '.css');
           
                 }
-                
                 handler.handlerSetOnDeleteFile(destFile);
-
             })
             .on('error' , (error) => {
-        
                 handler.handlerError(error);
-        
             });
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'CSS/SASS watch error'});
+        }
+        
     }
 
 }

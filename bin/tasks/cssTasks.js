@@ -10,7 +10,7 @@ const compileCss = () => {
             watch: false, getHelp : true , command : "css-compile" });
         gulpCSSTaskManager.compileCssSync();
     }catch(err) {
-        logErr.writeLog(err , {customKey: 'customValue'});
+        logErr.writeLog(err , {customKey: 'Task CSS compile failed'});
     }
    
 };
@@ -22,7 +22,7 @@ const buildCss = () => {
             autoInit: false, build: true, key: 'css' });
         gulpCSSTaskManager.compileCssSync();
     }catch(err) {
-        logErr.writeLog(err , {customKey: 'customValue'});
+        logErr.writeLog(err , {customKey: 'Task CSS build failed'});
     }
 
 }
@@ -34,7 +34,7 @@ const buildScss = () => {
             autoInit: false, watch:false, build: true, key: 'scss' });
         gulpCSSTaskManager.compileCssSync();
     }catch(err) {
-        logErr.writeLog(err , {customKey: 'customValue'});
+        logErr.writeLog(err , {customKey: 'Task CSS build scss'});
     }
 
 
@@ -47,7 +47,7 @@ const buildFontawesomeCss = () => {
             autoInit: false, build: true, key: 'fontawesome' });
         gulpCSSTaskManager.compileCssSync(); 
     }catch(err) {
-        logErr.writeLog(err , {customKey: 'customValue'});
+        logErr.writeLog(err , {customKey: 'Task fontawesome build scss'});
     }
 
 }

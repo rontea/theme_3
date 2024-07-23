@@ -1,5 +1,6 @@
 'use strict';
 const config = require('../../config/configLoader');
+const logErr = require('../../utils/TimeLogger.js');
 
 class GulpKeyCheck {
 
@@ -62,28 +63,44 @@ class GulpKeyCheck {
         ,lang = "undefined",type = "undefined"
         , additional = [{ key : "undefined" , descr : "undefined"}]) {
         
-        console.log();
-        console.log(`${lang} $${type} [args]:`);
-        
-        this.displayTable(keysReference);
+        try{
 
-        console.log(`${lang} Utilities $${type} :`);
-       
-        this.displayTable(additional);
+            console.log();
+            console.log(`${lang} $${type} [args]:`);
+            
+            this.displayTable(keysReference);
+    
+            console.log(`${lang} Utilities $${type} :`);
+           
+            this.displayTable(additional);
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Check all error'});
+        }
+
 
     }
 
     static mapDescription(commands,descriptions) {
 
-        const transformedCommands = commands.map(command => ({
-            key: command,
-            descr: descriptions[command] || "default description"
-        }));
+        try{
 
-        return transformedCommands;
+            const transformedCommands = commands.map(command => ({
+                key: command,
+                descr: descriptions[command] || "default description"
+            }));
+    
+            return transformedCommands;
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Map destription error'});
+        }
+
     }
 
     static async displayTable(data, excludeKeys = ["path"]) {
+
+        try{
 
         console.log();
         const filteredData = data.map(item => {
@@ -105,6 +122,11 @@ class GulpKeyCheck {
           console.log(rowString);
         });
         console.log();
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'diplay table error'});
+        }
+        
     }
 
 }

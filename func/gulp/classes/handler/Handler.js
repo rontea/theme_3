@@ -1,6 +1,7 @@
 'use strict';
 const path = require("path");
 const fs = require("fs-extra");
+const logErr = require('../../../utils/TimeLogger');
 
 /**
  * Event Handler
@@ -17,16 +18,21 @@ class Handler {
 
     handlerOnDeleteFile(file,src,dest) {
 
-        console.log("... On Delete > ", file);
-        const relativePath = path.relative(src, file);
-        const destFile = path.join(dest, relativePath);
+        try{
+            console.log("... On Delete > ", file);
+            const relativePath = path.relative(src, file);
+            const destFile = path.join(dest, relativePath);
 
-        fs.remove(destFile)
-        .then( () => {
-            console.log("Removed File Success , Path", destFile);
-        }).catch(err => {
-            console.error(err);
-        });
+            fs.remove(destFile)
+            .then( () => {
+                console.log("Removed File Success , Path", destFile);
+            }).catch(err => {
+                console.error(err);
+            });
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Handler delete file failed'});
+        }
+
     }
 
     /**
@@ -35,12 +41,21 @@ class Handler {
      */
 
     handlerSetOnDeleteFile(destFile){
-        fs.remove(destFile)
-        .then( () => {
-            console.log("Removed File Success , Path", destFile);
-        }).catch(err => {
-            console.error(err);
-        });
+
+        try{
+
+            fs.remove(destFile)
+            .then( () => {
+                console.log("Removed File Success , Path", destFile);
+            }).catch(err => {
+                console.error(err);
+                logErr.writeLog(err , {customKey: 'fse remove error'});
+            });
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Handler set on delete file failed'});
+        }
+
     }
 
     /**
@@ -52,17 +67,22 @@ class Handler {
 
     handlerOnDirAdd(dir,src,dest) {
         
-        console.log("... On Dir Created > ", dir);
-        
-        const relativePath = path.relative(src, dir);
-        const destFile = path.join(dest, relativePath);
+        try {
+            console.log("... On Dir Created > ", dir);
+            
+            const relativePath = path.relative(src, dir);
+            const destFile = path.join(dest, relativePath);
 
-        fs.ensureDir(destFile)
-        .then( () => {
-            console.log(".... Dir Created >" , destFile);
-        }).catch(err => {
-            console.error(err);
-        });
+            fs.ensureDir(destFile)
+            .then( () => {
+                console.log(".... Dir Created >" , destFile);
+            }).catch(err => {
+                console.error(err);
+            });
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Handler on DIR add error'});
+        }
+        
         
     }
 
@@ -83,12 +103,14 @@ class Handler {
      * @param {*} error 
      */
 
-    handlerError(error) {
+    handlerError(err) {
 
         if (err.code === 'EPERM') {
-            console.error('Permission error:', err);
+            
+            logErr.writeLog(err , {customKey: 'Permission error'});
         } else {
-            console.error('Error watching files:', err);
+            
+            logErr.writeLog(err , {customKey: 'Error watching files'});
         }
 
     }
