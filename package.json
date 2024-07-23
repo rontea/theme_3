@@ -1,7 +1,7 @@
 {
   "name": "theme_3",
-  "version": "0.0.0-development.1",
-  "description": "theme_3 2.0.0-dev.1 version",
+  "version": "0.0.0-beta",
+  "description": "theme_3 2.0.0-beta version",
   "main": "./func/index.js",
   "bin": {
     "th3": "./bin/cli.js"

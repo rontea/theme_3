@@ -1,13 +1,13 @@
 # theme_3
 
 > **Warning**
-> This is a test deploy on NPM under 2.0.0-development.
-> Do not use this release.
+> This is a Beta version 0.0.0-beta version
+> You can test this release.
 
 A command-line interface (CLI) tool to manage and build web projects efficiently.
 
 > **Warning**
-> This build is currently on development.
+> This build is currently on Beta.
 
 #### Version 2.0.0-dev.1 What's New
 
