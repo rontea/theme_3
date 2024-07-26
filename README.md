@@ -99,13 +99,13 @@ th3 <cmd> [args]
 
 | Key              | Description                          |
 |------------------|--------------------------------------|
-| `css`            | Compile CSS on `[src/css]`           |
-| `scss`           | Compile SCSS on `[src/scss]`         |
-| `bootstrap`      | Compile Bootstrap to CSS             |
-| `bootstrapIcon`  | Compile Bootstrap Icon CSS           |
-| `fontawesome`    | Compile FontAwesome Icon CSS         |
-| `bulma`          | Compile Bulma to CSS                 |
-| `prism`          | Compile Prism CSS                    |
+| `--css`            | Compile CSS on `[src/css]`           |
+| `--scss`           | Compile SCSS on `[src/scss]`         |
+| `--bootstrap`      | Compile Bootstrap to CSS             |
+| `--bootstrapIcon`  | Compile Bootstrap Icon CSS           |
+| `--fontawesome`    | Compile FontAwesome Icon CSS         |
+| `--bulma`          | Compile Bulma to CSS                 |
+| `--prism`          | Compile Prism CSS                    |
 
 ### CSS Utilities
 
@@ -113,10 +113,10 @@ th3 <cmd> [args]
 
 | Key            | Description                          |
 |----------------|--------------------------------------|
-| `dest`         | Alter Destination                    |
-| `compress`     | Compress CSS                         |
-| `autoprefixer` | Add autoprefixer value (1-5)         |
-| `list`         | List available keys                  |
+| `--dest`         | Alter Destination                    |
+| `--compress`     | Compress CSS                         |
+| `--autoprefixer` | Add autoprefixer value (1-5)         |
+| `--list`         | List available keys                  |
 
 ##### Samples
 ```
@@ -127,12 +127,12 @@ th3 <cmd> [args]
 
 | Key            | Description                          |
 |----------------|--------------------------------------|
-| `js`           | Compile JS on `[src/js]`             |
-| `jquery`       | Compile jQuery                       |
-| `popper`       | Compile Popper JS                    |
-| `tether`       | Compile Tether JS                    |
-| `bootstrap`    | Compile Bootstrap JS                 |
-| `fontawesome`  | Compile FontAwesome icons JS         |
+| `--js`           | Compile JS on `[src/js]`             |
+| `--jquery`       | Compile jQuery                       |
+| `--popper`       | Compile Popper JS                    |
+| `--tether`       | Compile Tether JS                    |
+| `--bootstrap`    | Compile Bootstrap JS                 |
+| `--fontawesome`  | Compile FontAwesome icons JS         |
 
 ### JS Utilities
 
@@ -140,9 +140,9 @@ th3 <cmd> [args]
 
 | Key        | Description                          |
 |------------|--------------------------------------|
-| `dest`     | Alter Destination                    |
-| `uglify`   | Uglify JS                            |
-| `list`     | List available keys                  |
+| `--dest`     | Alter Destination                    |
+| `--uglify`   | Uglify JS                            |
+| `--list`     | List available keys                  |
 
 ##### Samples
 ```
@@ -153,8 +153,8 @@ th3 <cmd> [args]
 
 | Key            | Description                           |
 |----------------|---------------------------------------|
-| `fontawesome`  | Compile FontAwesome icons fonts       |
-| `bootstrap`    | Compile Bootstrap icons fonts         |
+| `--fontawesome`  | Compile FontAwesome icons fonts       |
+| `--bootstrap`    | Compile Bootstrap icons fonts         |
 
 ### Icons Utilities
 
@@ -162,8 +162,8 @@ th3 <cmd> [args]
 
 | Key        | Description                           |
 |------------|---------------------------------------|
-| `dest`     | Alter Destination                     |
-| `list`     | List available keys                   |
+| `--dest`     | Alter Destination                     |
+| `--list`     | List available keys                   |
 
 ##### Samples
 ```

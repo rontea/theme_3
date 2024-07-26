@@ -2,6 +2,8 @@
 const path = require("path");
 const fs = require("fs-extra");
 const logErr = require('../../../utils/TimeLogger');
+const config = require('../../../config/configLoader');
+
 
 /**
  * Event Handler
@@ -114,6 +116,68 @@ class Handler {
         }
 
     }
+
+    /**
+     * This method checks if a file exists.
+     * @param {string} filePath - The path to the file.
+     * @returns {boolean}
+    */
+
+    async fileExistsSync(filePath) {
+
+        try {
+
+            let isExist = true;
+
+            if(Array.isArray(filePath)){
+                filePath.forEach( (file) => {
+
+                    let fileSrc = path.join(config.settings.mainfolder, file);
+                    
+                    let fileExist = fs.existsSync(fileSrc);
+                    
+                    if(!fileExist){
+                        isExist = false;
+                        return isExist;
+                    }
+                });
+            }else {
+                let fileExist = fs.existsSync(filePath);
+                
+
+                if(!fileExist) {
+                    isExist = false;
+                }else{
+                    isExist = true;
+                }
+
+            }  
+            
+            return isExist;
+
+
+        }catch (err) {
+            logErr.writeLog(err , {customKey: ` File exist checker error `});   
+        }
+    
+    }
+
+    /**
+     * This method checks if a directory exists.
+     * @param {string} dirPath - The path to the directory.
+     * @returns {boolean}
+    */
+
+    directoryExists(dirPath) {
+        try {
+            return fs.existsSync(dirPath) && fs.lstatSync(dirPath).isDirectory();
+        } catch (err) {
+            console.error("Error checking directory existence:", err);
+            return false;
+        }
+    }
+    
+
 }
 
 const handler = new Handler();

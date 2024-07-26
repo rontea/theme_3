@@ -85,7 +85,7 @@ class GulpCSSTaskManager {
 
             if (this.#autoInit !== false && 
                     this.#invalidArgsHandler.checkInvalidArgs()) {
-                this.#checkFlags();
+                 this.#checkFlags();
             }
 
         }catch(err) {
@@ -141,10 +141,9 @@ class GulpCSSTaskManager {
     #checkFlags() {
 
         try {
-
-            config.csspaths.paths.forEach((item) => {
+            config.csspaths.paths.forEach( (item) => {
                 if (argv[item.key]) {
-                  this.#src.push(item.path);
+                    this.#src.push(item.path);
                 }
             });
           
@@ -153,7 +152,7 @@ class GulpCSSTaskManager {
             }
 
         }catch(err){
-            logErr.writeLog(err , {customKey: 'Key checking error'});
+            logErr.writeLog(err , {customKey: 'CSS Key checking error'});
         }
 
     }
@@ -216,10 +215,6 @@ class GulpCSSTaskManager {
     async compileCssSync() {
 
         try{
-            
-            if(argv.list){
-                return;
-            }
 
             /** Build by key */
             if (this.#options.build === true) {
@@ -243,7 +238,7 @@ class GulpCSSTaskManager {
                 return;
             }
 
-            let stream = src(this.#src);
+            let stream = src(this.#src , {allowEmpty : true});
 
             stream = stream.pipe(sass()
                 .on('error' , sass.logError , () => {
@@ -292,6 +287,8 @@ class GulpCSSTaskManager {
 
             return stream.on("end", () => {
                 console.log("... CSS build completed.");
+            }).on('error', () => {
+                console.log("found it");
             });
 
         }catch(err){

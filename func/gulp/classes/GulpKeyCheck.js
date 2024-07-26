@@ -102,6 +102,8 @@ class GulpKeyCheck {
 
         try{
 
+        let prefix = "--";
+
         console.log();
         const filteredData = data.map(item => {
             const newItem = { ...item };
@@ -119,7 +121,7 @@ class GulpKeyCheck {
         // Print rows
         data.forEach(row => {
           const rowString = headers.map((header, i) => row[header].padEnd(columnWidths[i] + 5)).join('');
-          console.log(rowString);
+          console.log(`${prefix}${rowString}`);
         });
         console.log();
 

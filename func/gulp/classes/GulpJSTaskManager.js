@@ -224,7 +224,7 @@ class GulpJSTaskManager {
         return;
       }
   
-      let stream = src(this.#src);
+      let stream = src(this.#src , {allowEmpty : true});
   
       if (argv.uglify || this.#options.uglify) {
        

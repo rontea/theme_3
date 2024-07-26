@@ -295,9 +295,9 @@ class GulpIconTasks {
                 console.log("No valid option provided ending process ...");
                 return;
             }
+        
     
-    
-            let stream = src(this.#src, {encoding:false});
+            let stream = src(this.#src, {encoding:false , allowEmpty : true});
     
             stream = stream.pipe(dest(this.#dest));
     
