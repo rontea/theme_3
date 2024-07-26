@@ -8,11 +8,10 @@ const FileLister = require('../func/scripts/FileLister');
 const urlPathMaker = require('../func/utils/utils');
 
 
-const fileLister = new FileLister( ["../theme_3_v1/src" , "test/src"] );
-//fileLister.compareDirs();
-fileLister.createListTree();
+const fileLister = new FileLister( ["../theme_3/src" , "test/src"] );
+fileLister.compareDirsSync();
+//fileLister.createListTree();
 
-console.log('test commit changes');
 /*
 console.log(timeLogger.getTime());
 timeLogger.writeLog("test message");
