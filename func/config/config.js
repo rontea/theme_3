@@ -30,7 +30,7 @@ const config = {
                     { key : 'css' , path: 'src/css/**/*.css' , descr: "compile CSS on [src/css]"  },
                     { key : 'scss' , path: 'src/scss/**/*.scss', descr: "compile SCSS [src/scss]" },
                     { key : 'bootstrap' , path: 'node_modules/bootstrap/scss/bootstrap.scss' , descr: "compile boostrap to CSS" },
-                    { key : 'bootstrapIcon' , path: 'node_modules/bootstrap-icons/font/bootstrap-icons.scs', descr: "compile boostrap icon CSS"  },
+                    { key : 'bootstrapIcon' , path: 'node_modules/bootstrap-icons/font/bootstrap-icons.scss', descr: "compile boostrap icon CSS"  },
                     { key : 'fontawesome' , path: 'node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss' , descr: "compile fontawesome icon CSS" },
                     { key : 'bulma' , path: 'node_modules/bulma/bulma.scss', descr: "compile bulma to CSS"  },
                     { key : 'prism' , path: 'node_modules/prismjs/themes/prism.min.css' , descr: "compile prism css" },

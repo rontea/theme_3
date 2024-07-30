@@ -1,6 +1,6 @@
 {
   "name": "theme_3",
-  "version": "0.0.0-beta.1",
+  "version": "0.0.0-beta.3",
   "description": "theme_3 0.0.0-beta version",
   "main": "./func/index.js",
   "bin": {

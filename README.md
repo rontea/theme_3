@@ -71,7 +71,7 @@ th3 <cmd> [args]
 | `th3 watch`            | Watch HTML, Images, CSS, and JS                |
 | `th3 icons-fontawesome`| Compile icons fontawesome                      |
 | `th3 icons-bootstrap`  | Compile icons bootstrap                        |
-| `th3 move-res`         | Compile icons  
+| `th3 move-res`         | Move resources folder or file to build based on dest |  
 
 ##### Samples
 ```
@@ -86,8 +86,9 @@ th3 <cmd> [args]
 |----------------|------------------------------------------------|
 | `-e`, `--env`  | Check Environment                              |
 | `-c`, `--config`| Check config                                  |
-| `-d`, `--dirchk`| Check `filelister` dir set in config                    |
-| `-i`, `--dir`|   Check DIR of current project             |
+| `-d`, `--dirchk`| Check `filelister` dir set in config          |
+| `-i`, `--dir`   | Check DIR of current project                  |
+| `-r`, `--dircomp`| Compare Dir's from source A and B            |
 
 ##### Samples
 ```
@@ -168,6 +169,17 @@ th3 <cmd> [args]
 ##### Samples
 ```
 ```
+
+##### More Resources 
+
+#### `th3 move-res [args]`
+
+| Key        | Description                           |
+|------------|---------------------------------------|
+| `--dest`   | Source of file or folder            |
+| `--src`    | Destination of file or folder       |
+| `--list`   | List available keys                 |
+
 
 ##### Help options
 

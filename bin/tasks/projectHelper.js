@@ -21,10 +21,16 @@ const fileLister = () => {
 
 const compareDir = () => {
 
-    /** Work inProgress */
-    const listUpdates = [];
+    try{
 
-    console.log("New : ", listUpdates);
+        const dependency = configLoader.settings.mainfolder + configLoader.settings.dependency + "/src";
+        const fileLister = new FileLister( [configLoader.settings.filelister ,   dependency] );
+        fileLister.compareDirsSync();
+        console.log();
+
+    }catch(err){
+        logErr.writeLog(err , {customKey: 'Compare dirs error'});
+    }
 
 }
 

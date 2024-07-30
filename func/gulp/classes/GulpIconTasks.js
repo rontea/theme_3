@@ -106,6 +106,7 @@ class GulpIconTasks {
 
                 commands = gulpKeyCheck.mapDescription(commands, descriptions)
                 gulpKeyCheck.checkAll(keysReference,lang,command,commands);
+                process.exit();
             }
 
         }catch(err){

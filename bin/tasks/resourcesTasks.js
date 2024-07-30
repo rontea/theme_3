@@ -6,7 +6,8 @@ const logErr = require('../../func/utils/TimeLogger');
 const moveResources = () => {
 
     try{
-        const gulpResourceHandler = new GulpResourceHandler();
+        const gulpResourceHandler = new GulpResourceHandler({ getHelp : true 
+            , command : "move-res" });
     }catch(err){
         logErr.writeLog(err , {customKey: 'Task resources error'});
     }

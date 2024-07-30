@@ -8,6 +8,7 @@ const fs = require('fs');
 const {dest , src } = require('gulp');
 const path = require('path');
 const InvalidArgsHandler = require("./handler/InvalidArgsHandler");
+const gulpKeyCheck = require('./GulpKeyCheck.js');
 const logErr = require('../../utils/TimeLogger.js');
 
 class GulpResourceHandler {
@@ -36,11 +37,24 @@ class GulpResourceHandler {
 
         try{
 
+            this.#options = options;
             /** List */
             this.#src = options.src || argv.src;
             this.#dest = options.dest || argv.dest;
+            this.#options.getHelp = false || options.getHelp;
 
-            this.#invalidArgsHandler = new InvalidArgsHandler(argv,"",['src', 'dest']);
+            let commands = ['src', 'dest'];
+            const keysReference = "";
+
+            if(this.#options.getHelp,commands) {
+                commands.push('list');
+                const lang = "Move Resources";
+                const command = options.command || "command";
+                this.#help(keysReference,lang,command,commands);  
+            }
+
+            this.#invalidArgsHandler = new 
+                InvalidArgsHandler(argv,keysReference,commands);
 
             this.#invalidArgsHandler.on('invalidArgs' , (invalidKeys,validKeys) => {
                 console.error(`Invalid options provided: ${invalidKeys.join(', ')}`);
@@ -86,6 +100,31 @@ class GulpResourceHandler {
             logErr.writeLog(err , {customKey: 'Gulp resource handler error'});
         }
         
+    }
+
+    /**
+     * List the available keys with descriptions
+     * @param {string} lang 
+     * @param {string} command 
+     * @param {Array} commands 
+     */
+    async #help(keysReference,lang,command,commands) {
+        try{    
+            if(argv.list){
+                const descriptions = {
+                    dest: "Destination of file or folder",
+                    src: "Source of file or folder",
+                    list : "List available keys"
+                }
+
+                commands = gulpKeyCheck.mapDescription(commands, descriptions)
+                gulpKeyCheck.checkAll(keysReference,lang,command,commands);
+                process.exit();
+            }
+
+        }catch(err){
+            logErr.writeLog(err , {customKey: 'Help error'});
+        }
     }
 
     /**

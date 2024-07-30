@@ -15,7 +15,7 @@ const { moveBootstrapIcons, moveFontawesomeIcons
 const { moveResources } = require('./tasks/resourcesTasks');
 //const { createGulpSymlink , unlinkGulpSymlink } = require('./tasks/symlinkGulpFile');
 const {fileLister , checkEnv ,  checkConfigSync 
-    , checkDirCurrentSync} = require('./tasks/projectHelper');
+    , checkDirCurrentSync, compareDir} = require('./tasks/projectHelper');
 const logErr = require('../func/utils/TimeLogger');
 
 try {
@@ -84,6 +84,10 @@ yargs
             alias: 'i',
             type: 'boolean',
             description: "Check DIR of current project"
+        }).option('dircomp' , {
+            alias: 'r',
+            type: 'boolean',
+            description: "Compare Dir's from source A and B"
         })
 
 }, (argv) => {
@@ -97,7 +101,10 @@ yargs
         fileLister();
     }else if(argv.dir) {
       checkDirCurrentSync();
-    }else {
+    }else if(argv.dircomp){
+        compareDir();
+    }
+    else {
         console.log("Command not available");
     }
 })

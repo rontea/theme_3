@@ -68,8 +68,10 @@ class GulpKeyCheck {
             console.log();
             console.log(`${lang} $${type} [args]:`);
             
-            this.displayTable(keysReference);
-    
+            if(keysReference != ""){
+                this.displayTable(keysReference);
+            }
+           
             console.log(`${lang} Utilities $${type} :`);
            
             this.displayTable(additional);
