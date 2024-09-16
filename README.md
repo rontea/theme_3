@@ -34,6 +34,15 @@ th3 - List all commands
 ```
 
 #### Link CLI if needed
+
+Add bin of theme_3 on package.json so that the CLI will work
+
+```json
+  "bin": {
+    "th3": "./node_modules/theme_3/bin/cli.js"
+  }
+```
+
 ```node
 npm link
 ```
