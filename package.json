@@ -1,6 +1,6 @@
 {
   "name": "theme_3",
-  "version": "0.0.0-beta.4",
+  "version": "0.0.0-beta.4.1",
   "description": "theme_3 0.0.0-beta version",
   "main": "./func/index.js",
   "bin": {
@@ -42,7 +42,7 @@
     "gulp-imagemin": "^9.1.0",
     "gulp-postcss": "^10.0.0",
     "gulp-sass": "^6.0.1",
-    "gulp-sourcemaps": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2",
     "iconv-lite": "^0.6.3",
     "jquery": "^3.7.1",
@@ -51,7 +51,7 @@
     "prismjs": "^1.30.0",
     "sass": "^1.89.0",
     "tether": "^2.0.0",
-    "yargs": "^18.0.0"
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
