@@ -26,4 +26,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_PUBLISH: 'true' # set to false if you only want GitHub release
-        run: npx semantic-release --debug
+        run: npx semantic-release

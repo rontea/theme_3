@@ -1,15 +1,8 @@
 # theme_3
 
-> **Warning**
-> This is a Beta version 0.0.0-beta version
-> You can test this release.
-
 A command-line interface (CLI) tool to manage and build web projects efficiently.
 
-> **Warning**
-> This build is currently on Beta.
-
-#### Version 2.0.0-dev.1 What's New
+#### Version 1.0.0 What's New
 
 - ** Under Development  Documentation **
 - CLI th3 
