@@ -40,10 +40,7 @@ Text Domain:
 */
 
 /** Test */
-@import "theme_3/theme_3-styles";
-
-
-
+@use "theme_3/theme_3-styles";
 
 .autoPrefixSample {
    user-select: auto;

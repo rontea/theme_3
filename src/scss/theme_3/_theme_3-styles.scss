@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 $link-color: yellow;
 $link-color-hover: pink;
 $link-color-visited: red;
@@ -108,7 +110,7 @@ $link-color-visited: red;
       }
 
       &.bg-active {
-        background-color: darken($link-color-hover, 40%);
+        background-color: color.adjust($link-color-hover, $lightness: -40%);
       }
 
       &.bg-visited {
@@ -128,7 +130,7 @@ $link-color-visited: red;
       }
 
       &:active {
-        color: darken($link-color-hover, 40%);
+         color: color.adjust($link-color-hover, $lightness: -40%);
       }
     
 
